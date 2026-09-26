@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lobster&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  /* Screens */
+  --breakpoint-sm: 30rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 80rem;
+  --breakpoint-xl: 87.5rem;
+  --breakpoint-2xl: 96rem;
+
+  /* Fonts */
+  --font-inter: "Inter", sans-serif;
+  --font-lobster: "Lobster", sans-serif;
+
+  /* Primary Colors */
+  --color-p-50: #eef6f2; /* màu nền chính */
+  --color-p-100: #e0f4e8;
+  --color-p-500: #16834f; /* màu chủ đạo */
+  --color-p-700: #116b40;
+
+  /* Neutral Colors */
+  --color-n-50: #f9faf9;
+  --color-n-100: #eef2f0;
+  --color-n-200: #e0e7e3; /* border */
+  --color-n-500: #69756f; /* màu chữ phụ */
+  --color-n-800: #26362f; /* màu chữ chính */
+
+  /* Danger */
+  --color-danger-500: #d14b43;
+}
+
+@utility container {
+  @apply mx-auto px-4 w-full overflow-x-clip max-w-[1150px];
+}
+
+@layer base {
+  body {
+    @apply text-base font-inter overflow-x-clip;
+  }
+  p {
+    @apply text-sm leading-7 font-inter;
+  }
+}
+
+@layer components {
+  .text-gradient {
+    @apply bg-gradient-to-r from-p-500 to-p-700 text-transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .btn {
+    @apply font-inter text-base text-p-700 border border-p-500 px-2 py-1 rounded-lg hover:bg-n-200 transition-all duration-200 hover:font-semibold;
+  }
+  .btn-2 {
+    @apply flex items-center gap-2 rounded-lg bg-p-500 text-white w-fit px-4  py-3 uppercase font-bold hover:shadow-n-800 hover:shadow-sm transition-all duration-200 hover:bg-p-700 hover:text-n-100;
+  }
+}
+@layer utilities {
+}

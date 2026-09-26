@@ -1,0 +1,109 @@
+extends ../../layout/default.pug
+block main 
+
+    section#hero.mb-20
+        .bg-p-50
+            .container
+                div(class="grid grid-cols-2 min-h-[600px] items-center mx-auto")
+                    div(class="flex flex-col gap-4")
+                        p(class="text-p-500 text-sm uppercase font-bold") HomeUp &bull; Nhà Trọ Thông Minh 
+                        h2(class="font-lobster text-7xl") 
+                            span(class="text-n-800") Tìm một căn phòng 
+                            br
+                            span(class="text-p-700") phù hợp với bạn.
+                        p(class="text-n-500 text-base") Tìm kiếm phòng trọ, xem thông tin phòng, tiện ích, giá thuê và quản lý hóa đơn ngay trên một nền tảng.
+                        button.btn-2
+                            span Tìm Phòng Ngay
+                            i(class="fa-solid fa-arrow-right-long")
+                    div(class="flex items-center justify-center")
+                        div(class="w-[470px] rounded-2xl bg-white p-3 shadow-xl rotate-3")
+                            img(
+                                src="/image/hero.jpg"
+                                alt="hero"
+                                class="h-[340px] w-full rounded-xl object-cover"
+                            )
+
+    section#feature.mb-20
+        .container 
+            div(class="flex items-center justify-between")
+                .mb-4 
+                    h3(class="font-inter text-n-800 font-semibold text-4xl mb-2") Phòng nổi bật 
+                    p(class="text-n-500 text-base") Một số phòng đang được quan tâm 
+                div 
+                    a(href="#" class="btn text-lg") Xem tất cả 
+
+            div(class="grid grid-cols-3 gap-5")
+                div(class="border border-n-200 rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-n-200")
+                    div
+                        img(src="/image/hero.jpg" alt="hero" class="h-[250px] w-full object-cove rounded-t-2xl") 
+                    div(class="flex flex-col gap-3 p-4")
+                        h3(class="font-inter text-n-800 text-xl font-bold") Phòng Trọ đơn
+                        div(class="flex items-center gap-2 text-n-500") 
+                            i(class="fa-solid fa-house")
+                            span Nhà Trọ HPhuong
+                        div(class="flex items-center gap-2 text-n-500") 
+                            i(class="fa-solid fa-location-dot") 
+                            span Ninh Kiều, Cần Thơ
+                        div(class="flex items-center justify-between")  
+                            h2(class="font-inter text-p-700 text-lg font-bold") 1.800.000 VND/tháng
+                            button(class="btn") Chi tiết
+                        div(class="flex items-center justify-center mt-4") 
+                            button.btn-2  Thuê Phòng Ngay
+                
+                div(class="border border-n-200 rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-n-200")
+                    div
+                        img(src="/image/hero.jpg" alt="hero" class="h-[250px] w-full object-cove rounded-t-2xl") 
+                    div(class="flex flex-col gap-3 p-4")
+                        h3(class="font-inter text-n-800 text-xl font-bold") Phòng Trọ đơn
+                        div(class="flex items-center gap-2 text-n-500") 
+                            i(class="fa-solid fa-house")
+                            span Nhà Trọ HPhuong
+                        div(class="flex items-center gap-2 text-n-500") 
+                            i(class="fa-solid fa-location-dot") 
+                            span Ninh Kiều, Cần Thơ
+                        div(class="flex items-center justify-between")  
+                            h2(class="font-inter text-p-700 text-lg font-bold") 1.800.000 VND/tháng
+                            button(class="btn") Chi tiết
+                        div(class="flex items-center justify-center mt-4") 
+                            button.btn-2  Thuê Phòng Ngay
+                
+                div(class="border border-n-200 rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-n-200")
+                    div
+                        img(src="/image/hero.jpg" alt="hero" class="h-[250px] w-full object-cove rounded-t-2xl") 
+                    div(class="flex flex-col gap-3 p-4")
+                        h3(class="font-inter text-n-800 text-xl font-bold") Phòng Trọ đơn
+                        div(class="flex items-center gap-2 text-n-500") 
+                            i(class="fa-solid fa-house")
+                            span Nhà Trọ HPhuong
+                        div(class="flex items-center gap-2 text-n-500") 
+                            i(class="fa-solid fa-location-dot") 
+                            span Ninh Kiều, Cần Thơ
+                        div(class="flex items-center justify-between")  
+                            h2(class="font-inter text-p-700 text-lg font-bold") 1.800.000 VND/tháng
+                            button(class="btn") Chi tiết
+                        div(class="flex items-center justify-center mt-4") 
+                            button.btn-2  Thuê Phòng Ngay
+    section#promise.mb-20
+        .bg-p-50.py-8
+            .container 
+                div(class="flex items-center justify-between ")
+                    .mb-4 
+                        h3(class="font-inter text-n-800 font-semibold text-4xl mb-2") HomeUp giúp bạn 
+                        p(class="text-n-500 text-base") Những điều khách thuê quan tâm
+                div(class="grid grid-cols-3 gap-5") 
+                    div(class="flex flex-col justify-center bg-white rounded-lg px-8 py-4 min-h-[150px] border border-n-200")
+                        div(class="flex items-center gap-2 font-inter text-lg text-p-700 font-bold")
+                            i(class="fa-solid fa-magnifying-glass")
+                            h3 Tìm phòng dễ dàng
+                        p(class="text-n-500 leading-7") Lọc và xem thông tin phòng, giá thuê và vị trí trước khi lựa chọn.
+                    div(class="flex flex-col justify-center bg-white rounded-lg px-8 py-4 min-h-[150px] border border-n-200")
+                        div(class="flex items-center gap-2 font-inter text-lg text-p-700 font-bold")
+                            i(class="fa-solid fa-file-contract")
+                            h3 Thuê phòng nhanh chóng
+                        p(class="text-n-500 leading-7") Xem thông tin phòng và thời gian thuê trên một giao diện rõ ràng.
+                    div(class="flex flex-col justify-center bg-white rounded-lg px-8 py-4 min-h-[150px] border border-n-200")
+                        div(class="flex items-center gap-2 font-inter text-lg text-p-700 font-bold")
+                            i(class="fa-solid fa-receipt")
+                            h3 Quản lý hóa đơn
+                        p(class="text-n-500 leading-7") Theo dõi tiền phòng, điện nước và các khoản dịch vụ.
+                    

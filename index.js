@@ -15,7 +15,7 @@ const app = express();
 initData.initTables();
 
 // pug
-app.set("views", `${__dirname}/views`);
+app.set("views", `${__dirname}/view`);
 app.set("view engine", "pug");
 
 // statis file
@@ -33,7 +33,7 @@ app.use(flash());
 app.use(methodOverride("_method"));
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.render("client/page/home/index");
 });
 
 app.listen(port, () => {

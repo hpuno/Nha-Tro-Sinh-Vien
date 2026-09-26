@@ -1,0 +1,19 @@
+header#header 
+    .container 
+        div(class="flex items-center justify-around py-5")
+            div(class="flex items-center gap-20 ")
+                a(class="font-lobster text-3xl" href="/") 
+                    span.text-p-500 Home
+                    span.text-n-800 Up
+                nav(class="flex items-center gap-10 font-inter text-base text-n-500")
+                    a(href="#" class="hover:text-p-700 hover:font-semibold") Phòng 
+                    a(href="#" class="hover:text-p-700 hover:font-semibold") Dịch Vụ
+                    a(href="#" class="hover:text-p-700 hover:font-semibold") Về Chúng Tôi      
+            div(class="font-inter text-base text-n-500") 
+                if(0==1)
+                    div(class="hover:bg-p-100 p-3 rounded-full")
+                        i(class="fa-solid fa-user")
+                else 
+                    div(class="flex items-center gap-4") 
+                        button(class="btn") Đăng nhập 
+                        button(class="bg-p-100 btn hover:bg-n-200") Đăng ký
