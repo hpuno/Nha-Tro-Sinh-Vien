@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
 const methodOverride = require("method-override");
 const clientRouter = require("./router/client/index.router");
+const adminRouter = require("./router/admin/index.router");
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use(methodOverride("_method"));
 
 // router
 clientRouter(app);
+adminRouter(app);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
