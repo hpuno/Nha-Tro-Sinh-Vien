@@ -8,6 +8,7 @@ const flash = require("express-flash");
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
 const methodOverride = require("method-override");
+const clientRouter = require("./router/client/index.router");
 
 const app = express();
 
@@ -32,9 +33,8 @@ app.use(flash());
 // method-override
 app.use(methodOverride("_method"));
 
-app.get("/", (req, res) => {
-  res.render("client/page/home/index");
-});
+// router
+clientRouter(app);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
