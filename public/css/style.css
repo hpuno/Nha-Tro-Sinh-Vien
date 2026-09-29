@@ -29,6 +29,15 @@
 
   /* Danger */
   --color-danger-500: #d14b43;
+  --animate-error: error 0.3s ease-out;
+  @keyframes error {
+    from {
+      right: 15px;
+    }
+    to {
+      right: -100%;
+    }
+  }
 }
 
 @utility container {
@@ -41,6 +50,13 @@
   }
   p {
     @apply text-sm leading-7 font-inter;
+  }
+  select,
+  option {
+    @apply outline-none;
+  }
+  input {
+    @apply outline-0 border border-n-500 px-2 py-2 rounded-xl;
   }
 }
 
@@ -55,6 +71,38 @@
   }
   .btn-2 {
     @apply flex items-center gap-2 rounded-lg bg-p-500 text-white w-fit px-4  py-3 uppercase font-bold hover:shadow-n-800 hover:shadow-sm transition-all duration-200 hover:bg-p-700 hover:text-n-100;
+  }
+
+  /* admin */
+  .table-admin {
+    @apply w-full border-collapse;
+  }
+
+  .table-admin thead tr {
+    @apply border-b border-n-200;
+  }
+
+  .table-admin th {
+    @apply px-5 py-4  text-left text-xs font-semibold uppercase tracking-wide text-n-800;
+  }
+
+  .table-admin tbody tr {
+    @apply border-b border-n-100 transition-colors duration-200 hover:bg-n-100;
+  }
+
+  .table-admin td {
+    @apply px-5 py-4 text-sm text-p-700;
+  }
+
+  .form-control {
+    @apply flex flex-col gap-1 text-n-800 font-inter text-sm;
+  }
+
+  .form-group {
+    @apply flex flex-col gap-4;
+  }
+  [show-alert].hidden {
+    @apply animate-error invisible;
   }
 }
 @layer utilities {

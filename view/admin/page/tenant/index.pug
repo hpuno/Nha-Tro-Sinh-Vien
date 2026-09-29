@@ -1,0 +1,57 @@
+extends ../../layout/default.pug
+include ../../mixin/search.pug
+include ../../mixin/filter-status.pug
+
+
+block main-content
+    .container.mt-10
+
+        div(class="flex justify-end mb-5")
+            div(class="flex items-center gap-2 font-inter bg-n-500 px-4 py-2 rounded-2xl text-n-50 hover:bg-n-200 hover:text-n-500 trasition-all duration-200") 
+                span Thêm mới 
+                i(class="fa-solid fa-plus")
+        div(class="p-4 bg-n-50 rounded-2xl border border-n-200")
+            div(class="flex items-center justify-end mb-5")    
+                a(href="#" class="font-inter text-lg text-n-800 hover:bg-n-50 ")  
+                    i(class="fa-solid fa-download")
+            div(class="flex items-center justify-between mb-10")
+                h2(class="font-inter font-semibold text-xl text-n-800") Danh sách khách thuê
+                div(class="flex items-center gap-2") 
+                    +searchBox(search)
+                    +filterStatus()
+            table.table-admin
+                thead
+                    tr
+                        th Khách thuê
+                        th Số điện thoại
+                        th CCCD
+                        th Phòng
+                        th Nhà trọ
+                        th Trạng thái
+                        th Thao tác
+                        th
+
+                tbody
+                    tr  
+                        td
+                            div(class="flex items-center gap-2") 
+                                img(src="/image/avt.jpg" alt="avt" class="h-[40px] w-[40px] object-cover rounded-xl")
+                                p Lê Hoàng Phương
+
+                        td 0700974473
+                        td 7658564876486
+                        td P101
+                        td HPhuong
+                        td active
+                        td
+                            div(class="flex gap-4 text-lg ")
+                                // chi tiet
+                                a(href="#") 
+                                    i(class="fa-solid fa-circle-info text-n-500 hover:text-n-800")
+                                // chinh sua
+                                a(href="#") 
+                                    i(class="fa-solid fa-square-pen text-p-500 hover:text-p-700")
+                                // xoa
+                        td
+                            a(href="#") 
+                                i(class="fa-solid fa-trash text-red-700 hover:text-red-800 text-lg")

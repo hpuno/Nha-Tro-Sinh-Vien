@@ -10,6 +10,7 @@ const expressSession = require("express-session");
 const methodOverride = require("method-override");
 const clientRouter = require("./router/client/index.router");
 const adminRouter = require("./router/admin/index.router");
+const { keycloak, memoryStore } = require("./config/keycloak");
 
 const app = express();
 
@@ -28,11 +29,24 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // flash
 app.use(cookieParser(process.env.KEY));
-app.use(expressSession({ cookie: { maxAge: 60000 } }));
+
 app.use(flash());
 
 // method-override
 app.use(methodOverride("_method"));
+
+// keycloak
+app.use(
+  expressSession({
+    secret: "he-thong-nha-tro-secret",
+    resave: false,
+    saveUninitialized: true,
+    store: memoryStore,
+    cookie: { maxAge: 60000 },
+  }),
+);
+
+app.use(keycloak.middleware());
 
 // router
 clientRouter(app);
