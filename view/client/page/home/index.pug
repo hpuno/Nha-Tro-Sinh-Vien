@@ -1,6 +1,9 @@
 extends ../../layout/default.pug
-block main 
+include ../../mixin/alert.pug
 
+block main 
+    +errorAlert(3000)
+    +successAlert(3000)
     section#hero.mb-20
         .bg-p-50
             .container

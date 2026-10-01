@@ -1,0 +1,42 @@
+include ../../layout/defaultSign.pug
+include ../../mixin/alert.pug
+
+block main 
+    +errorAlert(3000)
+    section#signup 
+        div(class="container flex items-center justify-center h-screen")
+            div(class="grid grid-cols-2 h-[600px] w-[1000px]")
+                
+                div(class="py-8 px-16 bg-n-100 flex items-center")
+                    form(action="/auth/signin" method="post") 
+                        .form-group
+                            div(class="font-inter mb-2")
+                                h2(class="text-2xl ") Đăng nhập tài khoản 
+                                p(class="text-xs  text-n-500") Đăng nhập ngay để trãi nghiệm dịch vụ của chúng tôi.
+                            
+                            .form-control                         
+                                label(for="KT_EMAIL") #[span.text-red-500 * ]Email đăng nhập
+                                input(type="email" id="KT_EMAIL" name="KT_EMAIL" placeholder="Nhập email dùng để đăng nhập" require) 
+
+                            .form-control                     
+                                label(for="KT_MATKHAU") #[span.text-red-500 * ]Mật khẩu
+                                input(type="password" id="KT_MATKHAU" name="KT_MATKHAU" placeholder="Nhập mật khẩu" require) 
+
+                            .form-control 
+                                button(type="submit" class="btn-2 self-center ") Đăng nhập
+                                div(class="flex items-center gap-2 font-inter text-sm text-n-500") 
+                                    p Bạn chưa có tài khoản?
+                                    a(href="/auth/signup").text-black Đăng ký ngay 
+
+                div(class="bg-n-800 flex flex-col gap-20 p-8 ")
+                        a(class="font-lobster text-3xl bg-n-100 px-4 py-2 rounded-2xl w-fit" href="/") 
+                            span.text-p-500 Home
+                            span.text-n-800 Up
+                        div(class="flex flex-col justify-center gap-5")
+                            div(class="uppercase font-inter text-xs text-n-200 border border-n-200 rounded-2xl px-2  py-1 w-fit") Nhà trọ thông minh
+                            h2(class="font-lobster text-5xl") 
+                                    span(class="text-n-50") Tìm một căn phòng 
+                                    br
+                                    span(class="text-n-500") phù hợp với bạn.
+                            p(class="font-inter text-sm text-n-500") Đăng nhập tài khoản để tìm kiếm phòng trọ, xem thông tin phòng, tiện ích và quản lý việc thuê phòng của bạn một cách thuận tiện.
+                

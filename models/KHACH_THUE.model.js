@@ -25,3 +25,34 @@ module.exports.KHACH_THUE = async () => {
     console.log("Tao bang KHACH_THUE that bai");
   }
 };
+
+module.exports.INSERT = async (data) => {
+  let q = `
+  INSERT INTO KHACH_THUE(KT_TEN, KT_EMAIL, KT_MATKHAU, KT_TOKEN, KT_NGAYTAO) VALUES(?, ?, ?, ?, ?)`;
+  try {
+    await db.query(q, [
+      data.KT_TEN,
+      data.KT_EMAIL,
+      data.KT_MATKHAU,
+      data.KT_TOKEN,
+      data.KT_NGAYTAO,
+    ]);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+module.exports.findDuplication = async (arr, data) => {
+  const allowed = ["KT_EMAIL", "KT_SDT", "KT_CCCD"];
+  if (allowed.includes(arr)) {
+    let q = `SELECT * FROM KHACH_THUE WHERE ${arr}=?`;
+    try {
+      const row = await db.query(q, [data]);
+      return row[0];
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  } else throw new Error("Tên cột không hợp lệ");
+};

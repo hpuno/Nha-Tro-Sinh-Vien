@@ -1,7 +1,7 @@
 mixin errorAlert(time)
     - if (messages.error)
         .message.info
-            div(class="absolute z-50 bg-red-300 text-n-950 font-inter text-base py-4 px-3 w-fit rounded-l-lg min-w-3xs top-[50px] right-[15px]"
+            div(class="absolute z-50 bg-red-300 text-red-950 font-inter text-base py-4 px-3 w-fit rounded-l-lg min-w-3xs top-[50px] right-[15px]"
                 data-time=time
                 show-alert 
             ) #{messages.error}
@@ -9,7 +9,7 @@ mixin errorAlert(time)
 mixin successAlert(time)
     - if (messages.success)
         .message.info
-            div(class="absolute z-50 bg-p-300 text-n-950 font-inter text-base py-4 px-3 w-fit rounded-l-lg min-w-3xs top-[50px] right-[15px]"
+            div(class="absolute z-50 bg-green-300 text-shadow-green-950 font-inter text-base py-4 px-3 w-fit rounded-l-lg min-w-3xs top-[50px] right-[15px]"
                 data-time=time
                 show-alert 
             ) #{messages.success}
