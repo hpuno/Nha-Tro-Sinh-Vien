@@ -15,6 +15,9 @@
     --color-red-600: oklch(57.7% 0.245 27.325);
     --color-red-700: oklch(50.5% 0.213 27.518);
     --color-red-800: oklch(44.4% 0.177 26.899);
+    --color-red-950: oklch(25.8% 0.092 26.042);
+    --color-green-300: oklch(87.1% 0.15 154.449);
+    --color-green-950: oklch(26.6% 0.065 152.934);
     --color-black: #000;
     --color-white: #fff;
     --spacing: 0.25rem;
@@ -448,6 +451,9 @@
   .bg-danger-500 {
     background-color: var(--color-danger-500);
   }
+  .bg-green-300 {
+    background-color: var(--color-green-300);
+  }
   .bg-n-50 {
     background-color: var(--color-n-50);
   }
@@ -605,6 +611,9 @@
   .text-red-700 {
     color: var(--color-red-700);
   }
+  .text-red-950 {
+    color: var(--color-red-950);
+  }
   .uppercase {
     text-transform: uppercase;
   }
@@ -632,6 +641,12 @@
   .outline-none {
     --tw-outline-style: none;
     outline-style: none;
+  }
+  .text-shadow-green-950 {
+    --tw-text-shadow-color: oklch(26.6% 0.065 152.934);
+    @supports (color: color-mix(in lab, red, red)) {
+      --tw-text-shadow-color: color-mix(in oklab, var(--color-green-950) var(--tw-text-shadow-alpha), transparent);
+    }
   }
   @media (hover: hover) {
     .hover\:-translate-y-1:hover {
@@ -708,12 +723,6 @@
     outline-style: none;
   }
   input {
-    border-radius: var(--radius-xl);
-    border-style: var(--tw-border-style);
-    border-width: 1px;
-    border-color: var(--color-n-500);
-    padding-inline: calc(var(--spacing) * 2);
-    padding-block: calc(var(--spacing) * 2);
     outline-style: var(--tw-outline-style);
     outline-width: 0px;
   }
@@ -853,6 +862,14 @@
     line-height: var(--tw-leading, var(--text-sm--line-height));
     color: var(--color-n-800);
   }
+  .form-control input {
+    border-radius: var(--radius-xl);
+    border-style: var(--tw-border-style);
+    border-width: 1px;
+    border-color: var(--color-n-500);
+    padding-inline: calc(var(--spacing) * 2);
+    padding-block: calc(var(--spacing) * 2);
+  }
   .form-group {
     display: flex;
     flex-direction: column;
@@ -945,6 +962,15 @@
 @property --tw-duration {
   syntax: "*";
   inherits: false;
+}
+@property --tw-text-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-text-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
 }
 @property --tw-translate-x {
   syntax: "*";
@@ -1041,6 +1067,8 @@
       --tw-ring-offset-color: #fff;
       --tw-ring-offset-shadow: 0 0 #0000;
       --tw-duration: initial;
+      --tw-text-shadow-color: initial;
+      --tw-text-shadow-alpha: 100%;
       --tw-translate-x: 0;
       --tw-translate-y: 0;
       --tw-translate-z: 0;

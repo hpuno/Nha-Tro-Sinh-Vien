@@ -95,3 +95,45 @@ module.exports.login = async (email, password) => {
   );
   return res.data;
 };
+
+module.exports.statusToken = async (access_token) => {
+  try {
+    const token = await axios.post(
+      `${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/token/introspect`,
+      new URLSearchParams({
+        client_id: KEYCLOAK_CLIENT_ID,
+        client_secret: KEYCLOAK_CLIENT_SECRET,
+        token: access_token,
+        token_type_hint: "access_token",
+      }),
+      {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      },
+    );
+    return token.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports.refreshToken = async (refresh_token) => {
+  try {
+    const token = await axios.post(
+      `${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/token`,
+      new URLSearchParams({
+        grant_type: "refresh_token",
+        client_id: KEYCLOAK_CLIENT_ID,
+        client_secret: KEYCLOAK_CLIENT_SECRET,
+        refresh_token: refresh_token,
+      }),
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      },
+    );
+    return token;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -27,11 +27,6 @@ app.use(express.static(`${__dirname}/public`));
 // body parser
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// flash
-app.use(cookieParser(process.env.KEY));
-
-app.use(flash());
-
 // method-override
 app.use(methodOverride("_method"));
 
@@ -42,11 +37,14 @@ app.use(
     resave: false,
     saveUninitialized: true,
     store: memoryStore,
-    cookie: { maxAge: 60000 },
+    cookie: { maxAge: 1000 * 60 * 60 * 24 },
   }),
 );
-
 app.use(keycloak.middleware());
+
+// flash
+app.use(cookieParser(process.env.KEY));
+app.use(flash());
 
 // router
 clientRouter(app);

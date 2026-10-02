@@ -6,16 +6,14 @@ module.exports.KHACH_THUE = async () => {
   KT_ID INT AUTO_INCREMENT PRIMARY KEY,
   KT_TEN VARCHAR(255) NOT NULL,
   KT_PHAI VARCHAR(50),
-  KT_MATKHAU VARCHAR(255) NOT NULL,
-  KT_TOKEN VARCHAR(255) UNIQUE,
+  KT_KEYCOAK VARCHAR(255) UNIQUE,
   KT_SDT VARCHAR(10) UNIQUE,
   KT_CCCD VARCHAR(12) UNIQUE,
   KT_DIACHI VARCHAR(255), 
   KT_EMAIL VARCHAR(255) UNIQUE,
   KT_TRANGTHAI VARCHAR(50) DEFAULT "active",
   KT_ANH LONGTEXT,
-  KT_NGAYTAO DATE,
-  KT_OTP VARCHAR(6)
+  KT_NGAYTAO DATE
   )
   `;
   try {
@@ -28,13 +26,12 @@ module.exports.KHACH_THUE = async () => {
 
 module.exports.INSERT = async (data) => {
   let q = `
-  INSERT INTO KHACH_THUE(KT_TEN, KT_EMAIL, KT_MATKHAU, KT_TOKEN, KT_NGAYTAO) VALUES(?, ?, ?, ?, ?)`;
+  INSERT INTO KHACH_THUE(KT_TEN, KT_EMAIL, KT_KEYCOAK, KT_NGAYTAO) VALUES(?, ?, ?, ?)`;
   try {
     await db.query(q, [
       data.KT_TEN,
       data.KT_EMAIL,
-      data.KT_MATKHAU,
-      data.KT_TOKEN,
+      data.KT_KEYCOAK,
       data.KT_NGAYTAO,
     ]);
   } catch (error) {
@@ -55,4 +52,17 @@ module.exports.findDuplication = async (arr, data) => {
       throw error;
     }
   } else throw new Error("Tên cột không hợp lệ");
+};
+
+module.exports.SELECT_KT = async (key, value) => {
+  q = `
+  SELECT * FROM KHACH_THUE
+  WHERE ${key} = ?
+  `;
+  try {
+    const row = await db.query(q, [value]);
+    return row[0];
+  } catch (error) {
+    throw error;
+  }
 };

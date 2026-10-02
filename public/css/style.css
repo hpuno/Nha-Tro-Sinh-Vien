@@ -56,7 +56,7 @@
     @apply outline-none;
   }
   input {
-    @apply outline-0 border border-n-500 px-2 py-2 rounded-xl;
+    @apply outline-0;
   }
 }
 
@@ -96,6 +96,9 @@
 
   .form-control {
     @apply flex flex-col gap-1 text-n-800 font-inter text-sm;
+  }
+  .form-control input {
+    @apply border border-n-500 px-2 py-2 rounded-xl;
   }
 
   .form-group {

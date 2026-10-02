@@ -23,7 +23,7 @@ module.exports.signupPost = async (req, res) => {
       return;
     }
 
-    req.body.KT_TOKEN = await keycoack.createUser({
+    req.body.KT_KEYCOAK = await keycoack.createUser({
       name: KT_TEN,
       email: KT_EMAIL,
       password: KT_MATKHAU,
@@ -48,5 +48,23 @@ module.exports.signupPost = async (req, res) => {
 };
 
 module.exports.signin = async (req, res) => {
+  console.log("SIGNIN SESSION:", req.session);
+  console.log("ACCESS TOKEN:", req.session.accesstoken);
   res.render("client/page/auth/signin", { pageTitle: "Trang đăng nhập" });
+};
+
+module.exports.signinPost = async (req, res) => {
+  try {
+    const { KT_EMAIL, KT_MATKHAU } = req.body;
+    const token = await keycoack.login(KT_EMAIL, KT_MATKHAU);
+    req.session.accesstoken = token.access_token;
+    req.session.refreshtoken = token.refresh_token;
+    req.session.expiresAt = Date.now() + token.expires_in * 1000;
+
+    req.flash("success", "Đăng nhập thành công");
+    res.redirect("/");
+  } catch (error) {
+    req.flash("error", "Đăng nhập thất bại");
+    res.redirect(req.get("Referer"));
+  }
 };
