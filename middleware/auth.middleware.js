@@ -29,6 +29,10 @@ module.exports.authClientPrivate = async (req, res, next) => {
     let token = await keycoack.statusToken(access_token);
 
     if (!token || !token.active) {
+      console.log("===== TOKEN HẾT HẠN =====");
+      console.log("access_token:", access_token);
+      console.log("refresh_token:", req.session.refreshtoken);
+      console.log("token status:", token);
       const refresh_token = req.session.refreshtoken;
 
       if (!refresh_token) {

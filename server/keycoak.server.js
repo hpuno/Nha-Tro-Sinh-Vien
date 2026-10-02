@@ -132,7 +132,7 @@ module.exports.refreshToken = async (refresh_token) => {
         },
       },
     );
-    return token;
+    return token.data;
   } catch (error) {
     throw error;
   }

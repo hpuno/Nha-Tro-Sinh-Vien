@@ -1,6 +1,6 @@
 header#header(class="sticky top-0 right-0 z-50 bg-n-50")
     .container 
-        div #{khach_thue}
+        
         div(class="flex items-center justify-around py-2")
             div(class="flex items-center gap-20 ")
                 a(class="font-lobster text-3xl" href="/") 
@@ -11,9 +11,12 @@ header#header(class="sticky top-0 right-0 z-50 bg-n-50")
                     a(href="#" class="hover:text-p-700 hover:font-semibold") Dịch Vụ
                     a(href="#" class="hover:text-p-700 hover:font-semibold") Về Chúng Tôi      
             div(class="font-inter text-base text-n-500") 
-                if(0==1)
-                    div(class="hover:bg-p-100 p-3 rounded-full")
+                if(khach_thue.KT_TEN)
+                    div(class="hover:bg-p-100 p-3 rounded-full group relative")
                         i(class="fa-solid fa-user")
+                        div(class="flex flex-col gap-2 absolute top-[100%] left-0 font-inter w-50 bg-n-50 text-sm invisible group-hover:visible")
+                            a(href="" class="hover:text-n-800 hover:bg-n-200  py-1 px-2 rounded-xl") Thông tin cá nhân 
+                            a(href="" class="hover:text-n-800 hover:bg-n-200  py-1 px-2 rounded-xl") Đăng xuất 
                 else 
                     div(class="flex items-center gap-4") 
                         a(href="/auth/signin" class="btn") Đăng nhập 
