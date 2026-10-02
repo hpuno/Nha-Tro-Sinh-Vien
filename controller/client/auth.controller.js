@@ -1,3 +1,4 @@
+const { escape } = require("../../config/database");
 const KHACH_THUE = require("../../models/KHACH_THUE.model");
 const keycoack = require("../../server/keycoak.server");
 const dayjs = require("dayjs");
@@ -66,5 +67,21 @@ module.exports.signinPost = async (req, res) => {
   } catch (error) {
     req.flash("error", "Đăng nhập thất bại");
     res.redirect(req.get("Referer"));
+  }
+};
+
+module.exports.logout = async (req, res) => {
+  try {
+    await keycoack.logout(req.session.refreshtoken);
+    req.session.destroy((err) => {
+      if (err) {
+        res.redirect("/");
+      }
+      res.clearCookie("connect.sid");
+
+      res.redirect("/");
+    });
+  } catch (error) {
+    req.flash("error", "Đăng xuất thất bại");
   }
 };

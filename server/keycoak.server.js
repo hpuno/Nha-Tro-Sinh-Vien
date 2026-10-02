@@ -137,3 +137,23 @@ module.exports.refreshToken = async (refresh_token) => {
     throw error;
   }
 };
+
+module.exports.logout = async (refresh_token) => {
+  try {
+    await axios.post(
+      `${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/logout`,
+      new URLSearchParams({
+        client_id: KEYCLOAK_CLIENT_ID,
+        client_secret: KEYCLOAK_CLIENT_SECRET,
+        refresh_token: refresh_token,
+      }),
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      },
+    );
+  } catch (error) {
+    throw error;
+  }
+};
