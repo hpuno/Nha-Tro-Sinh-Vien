@@ -18,5 +18,6 @@ router.patch(
   removeUpload.removeImage,
   controller.editPatch,
 );
-
+router.get("/reset-password", controller.resetPassword);
+router.put("/reset-password", controller.resetPasswordPut);
 module.exports = router;

@@ -157,3 +157,26 @@ module.exports.logout = async (refresh_token) => {
     throw error;
   }
 };
+
+module.exports.resetPassword = async (id_user, new_password) => {
+  try {
+    const tokenAdmin = await getTokenAdmin();
+    await axios.put(
+      `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users/${id_user}/reset-password`,
+
+      {
+        type: "password",
+        value: new_password,
+        temporary: false,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${tokenAdmin}`,
+          "Content-type": "application/json",
+        },
+      },
+    );
+  } catch (error) {
+    throw error;
+  }
+};
