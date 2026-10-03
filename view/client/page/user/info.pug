@@ -1,0 +1,57 @@
+extends ../../layout/defaultUser.pug
+
+include ../../mixin/alert.pug
+
+block main
+    +errorAlert(3000)
+    +successAlert(3000)
+
+    div(class="px-10 py-8 bg-n-50 shadow-n-500 shadow-xs rounded-t-2xl")
+        .relative
+            
+            div(class="absolute top-0 right-10") 
+                div(class="flex items-center justify-center gap-2 font-inter text-p-500")
+                    div(class="relative flex size-3")
+                        span(class="absolute inline-flex h-full w-full animate-ping rounded-full bg-p-500 opacity-75")
+                        span(class="relative inline-flex size-3 rounded-full bg-p-500")
+
+                    p Hoạt động 
+
+            
+            h3(class="text-lg font-semibold font-inter text-n-800 mb-5") Thông tin cá nhân
+            div(class="grid grid-cols-2 gap-4 px-6 ") 
+                .form-group
+    
+                    .form-control_info                      
+                        label(for="KT_TEN") Họ và tên
+                        input(type="text" id="KT_TEN" value=khach_thue.KT_TEN disabled) 
+
+                    .form-control_info                          
+                        label(for="KT_SDT") Số điện thoại 
+                        input(type="test" id="KT_SDT" value=khach_thue.KT_SDT disabled) 
+
+                    .form-control_info                          
+                        label(for="KT_PHAI") Giới tính
+                        input(type="test" id="KT_PHAI" value=khach_thue.KT_PHAI disabled) 
+
+                .form-group
+
+                    .form-control_info                      
+                        label(for="KT_TEN") Email đăng nhập
+                        input(type="text" id="KT_TEN" value=khach_thue.KT_EMAIL disabled) 
+                    
+                    .form-control_info                      
+                        label(for="KT_CCCD") Căn cước công dân
+                        input(type="text" id="KT_CCCD" value=khach_thue.KT_CCCD disabled) 
+
+                    .form-control_info                      
+                        label(for="KT_NGAYTAO") Ngày tạo tài khoản
+                        input(type="text" id="KT_NGAYTAO" value=khach_thue.KT_NGAYTAO disabled) 
+                .form-control_info.col-span-2                      
+                    label(for="KT_TEN") Địa chỉ
+                    textarea(id="KT_TEN" disabled) #{khach_thue.KT_DIACHI} 
+                    
+            div(class="flex justify-end mt-5") 
+                a(href="/user/edit" class="btn-2 px-2 py-1 text-base")  Cập nhật thông tin
+
+                  

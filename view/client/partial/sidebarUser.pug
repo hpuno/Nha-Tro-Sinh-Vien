@@ -1,0 +1,34 @@
+section#sidebarUser 
+    div(class="fixed w-[300px] left-25 top-20 flex flex-col gap-15 px-2 py-4 bg-n-50 shadow-n-500 shadow-sm rounded-t-2xl") 
+            
+        div(class="flex flex-col gap-2 items-center justify-center ") 
+            
+            div(class="h-22 w-22 rounded-full bg-n-200 flex items-center justify-center")
+                img(src=khach_thue.KT_ANH alt=khach_thue.KT_TEN class="h-20 w-20 object-cover rounded-full") 
+            h3(class="font-inter text-sm text-n-800 font-semibold") #{khach_thue.KT_TEN}
+            p(class="font-inter text-xs text-n-500 ") #{khach_thue.KT_EMAIL}
+            button(class="btn") Đổi mật khẩu
+        
+        div(class="absolute left-5 right-5 top-60 border border-n-200")
+        
+        div(class="flex flex-col text-sm gap-1 text-n-800 px-2 ")
+
+            a(href="/user/info")
+                div(class="flex items-center gap-2 hover:bg-n-200 px-3 py-2 trasition-all duration-500 rounded-2xl")
+                    i(class="fa-solid fa-circle-user")
+                    span Thông tin cá nhân
+            a(href="#")
+                div(class="flex items-center gap-2 hover:bg-n-200 px-3 py-2 trasition-all duration-500 rounded-2xl")
+                    i(class="fa-solid fa-house")
+                    span Phòng thuê
+            a(href="#")
+                div(class="flex items-center gap-2 hover:bg-n-200 px-3 py-2 trasition-all duration-500 rounded-2xl")
+                    i(class="fa-solid fa-water")
+                    span Dịch vụ
+            a(href="#")
+                div(class="flex items-center gap-2 hover:bg-n-200 px-3 py-2 trasition-all duration-500 rounded-2xl")
+                    i(class="fa-solid fa-file-contract")
+                    span Hóa đơn
+        a(href="/auth/logout" class="flex items-center justify-center gap-2 border border-danger-500 px-2 py-2 font-inter text-sm rounded-lg bg-danger-500 text-red-50 hover:bg-red-600")
+            button(class="") Đăng xuất 
+            i(class="fa-solid fa-right-from-bracket")

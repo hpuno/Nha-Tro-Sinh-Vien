@@ -73,6 +73,19 @@
     @apply flex items-center gap-2 rounded-lg bg-p-500 text-white w-fit px-4  py-3 uppercase font-bold hover:shadow-n-800 hover:shadow-sm transition-all duration-200 hover:bg-p-700 hover:text-n-100;
   }
 
+  .form-control_info {
+    @apply flex flex-col gap-1 text-n-800 font-inter text-sm;
+  }
+  .form-control_info input,
+  select {
+    @apply border rounded-md px-2 py-2 border-n-200 font-inter text-n-500 text-sm;
+  }
+  .form-control_info label {
+    @apply font-inter text-sm  text-n-800;
+  }
+  .form-control_info textarea {
+    @apply font-inter outline-none text-sm text-n-500 border h-25 border-n-200 rounded-lg px-1 py-2;
+  }
   /* admin */
   .table-admin {
     @apply w-full border-collapse;

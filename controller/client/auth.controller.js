@@ -1,4 +1,3 @@
-const { escape } = require("../../config/database");
 const KHACH_THUE = require("../../models/KHACH_THUE.model");
 const keycoack = require("../../server/keycoak.server");
 const dayjs = require("dayjs");
@@ -49,8 +48,6 @@ module.exports.signupPost = async (req, res) => {
 };
 
 module.exports.signin = async (req, res) => {
-  console.log("SIGNIN SESSION:", req.session);
-  console.log("ACCESS TOKEN:", req.session.accesstoken);
   res.render("client/page/auth/signin", { pageTitle: "Trang đăng nhập" });
 };
 

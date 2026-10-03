@@ -1,6 +1,6 @@
 const express = require("express");
 require("dotenv").config();
-require("./config/cloud");
+require("./config/cloudinary");
 const port = process.env.PORT;
 const initData = require("./models/initData.model");
 const bodyParser = require("body-parser");
