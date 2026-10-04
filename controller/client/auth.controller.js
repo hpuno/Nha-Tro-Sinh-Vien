@@ -2,7 +2,6 @@ const KHACH_THUE = require("../../models/KHACH_THUE.model");
 const keycoack = require("../../server/keycoak.server");
 const dayjs = require("dayjs");
 const sendMailHelper = require("../../helper/sendMail.helper");
-const OTPHelper = require("../../helper/generalOTP.helper");
 const OTP = require("../../models/OTP.model");
 
 module.exports.signup = (req, res) => {
@@ -35,13 +34,23 @@ module.exports.otp = async (req, res) => {
       pageTitle: "Xác thực OTP",
       data: req.body,
     });
-  } catch (error) {}
+  } catch (error) {
+    req.flash("Lỗi");
+    res.redirect("/");
+  }
 };
 
 module.exports.signupPost = async (req, res) => {
   try {
-    const { KT_TEN, KT_EMAIL, KT_MATKHAU, OTP } = req.body;
+    const { KT_TEN, KT_EMAIL, KT_MATKHAU, KT_OTP } = req.body;
 
+    const otp = await OTP.findOne({ email: KT_EMAIL });
+
+    if (KT_OTP != otp.code) {
+      req.flash("error", "Mã OTP không hợp lệ");
+      res.redirect(req.get("Referer"));
+      return;
+    }
     req.body.KT_KEYCOAK = await keycoack.createUser({
       name: KT_TEN,
       email: KT_EMAIL,
@@ -107,6 +116,8 @@ module.exports.logout = async (req, res) => {
       res.redirect("/");
     });
   } catch (error) {
+    console.log(error);
     req.flash("error", "Đăng xuất thất bại");
+    res.redirect("/");
   }
 };
