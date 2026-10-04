@@ -1,6 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 require("./config/cloudinary");
+const mongodb = require("./config/mongodb");
 const port = process.env.PORT;
 const initData = require("./models/initData.model");
 const bodyParser = require("body-parser");
@@ -16,6 +17,7 @@ const app = express();
 
 // connect database
 initData.initTables();
+mongodb.connect();
 
 // pug
 app.set("views", `${__dirname}/view`);

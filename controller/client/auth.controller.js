@@ -1,15 +1,17 @@
 const KHACH_THUE = require("../../models/KHACH_THUE.model");
 const keycoack = require("../../server/keycoak.server");
 const dayjs = require("dayjs");
+const sendMailHelper = require("../../helper/sendMail.helper");
+const OTPHelper = require("../../helper/generalOTP.helper");
+const OTP = require("../../models/OTP.model");
 
 module.exports.signup = (req, res) => {
   res.render("client/page/auth/signup", { pageTitle: "Trang đăng ký" });
 };
 
-module.exports.signupPost = async (req, res) => {
+module.exports.otp = async (req, res) => {
   try {
-    const { KT_TEN, KT_EMAIL, KT_MATKHAU, KT_ReMATKHAU } = req.body;
-
+    const { KT_EMAIL, KT_MATKHAU, KT_ReMATKHAU } = req.body;
     const email = await KHACH_THUE.findDuplication("KT_EMAIL", KT_EMAIL);
     if (email.length > 0) {
       req.flash("error", "Thông tin không hợp lệ");
@@ -22,6 +24,23 @@ module.exports.signupPost = async (req, res) => {
       res.redirect(req.get("Referer"));
       return;
     }
+
+    const otp = new OTP({ email: req.body.KT_EMAIL });
+    await otp.save();
+
+    const html = `<p>Mã OTP của bạn là: <strong>${otp.code}</strong></p>`;
+    sendMailHelper.sendMail(html, KT_EMAIL);
+
+    res.render("client/page/auth/otp", {
+      pageTitle: "Xác thực OTP",
+      data: req.body,
+    });
+  } catch (error) {}
+};
+
+module.exports.signupPost = async (req, res) => {
+  try {
+    const { KT_TEN, KT_EMAIL, KT_MATKHAU, OTP } = req.body;
 
     req.body.KT_KEYCOAK = await keycoack.createUser({
       name: KT_TEN,
@@ -43,7 +62,7 @@ module.exports.signupPost = async (req, res) => {
   } catch (error) {
     console.log(error);
     req.flash("Lỗi tạo tài khoản");
-    res.redirect(req.get("Referer"));
+    res.redirect("/auth/signup");
   }
 };
 
@@ -54,6 +73,15 @@ module.exports.signin = async (req, res) => {
 module.exports.signinPost = async (req, res) => {
   try {
     const { KT_EMAIL, KT_MATKHAU } = req.body;
+
+    const isactive = await KHACH_THUE.SELECT_KT("KT_EMAIL", KT_EMAIL);
+
+    if (isactive[0].KT_TRANGTHAI === "inactive") {
+      req.flash("error", "Tài khoản đã bị khóa");
+      res.redirect("/");
+      return;
+    }
+
     const token = await keycoack.login(KT_EMAIL, KT_MATKHAU);
     req.session.accesstoken = token.access_token;
     req.session.refreshtoken = token.refresh_token;

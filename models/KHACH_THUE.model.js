@@ -102,3 +102,13 @@ module.exports.UPDATE = async (KT_ID, data) => {
     throw error;
   }
 };
+
+module.exports.SELECT = async () => {
+  let q = `SELECT * FROM KHACH_THUE`;
+  try {
+    const data = await db.query(q);
+    return data[0];
+  } catch (error) {
+    throw error;
+  }
+};

@@ -32,7 +32,7 @@ block main
 
                     .form-control_info                          
                         label(for="KT_PHAI") Giới tính
-                        input(type="test" id="KT_PHAI" value=khach_thue.KT_PHAI disabled) 
+                        input(type="test" id="KT_PHAI" value=(khach_thue.KT_PHAI=="male"?"Nam":"Nữ") disabled) 
 
                 .form-group
 
