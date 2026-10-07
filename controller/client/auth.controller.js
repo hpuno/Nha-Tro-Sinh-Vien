@@ -23,7 +23,12 @@ module.exports.otp = async (req, res) => {
       res.redirect(req.get("Referer"));
       return;
     }
-
+    const otp_old = await OTP.findOne({ email: req.body.KT_EMAIL });
+    if (otp_old) {
+      req.flash("error", "Vui lòng đợi 5 phút để tiếp tục");
+      res.redirect("/");
+      return;
+    }
     const otp = new OTP({ email: req.body.KT_EMAIL });
     await otp.save();
 
@@ -45,10 +50,10 @@ module.exports.signupPost = async (req, res) => {
     const { KT_TEN, KT_EMAIL, KT_MATKHAU, KT_OTP } = req.body;
 
     const otp = await OTP.findOne({ email: KT_EMAIL });
-
+    console.log(KT_OTP);
     if (KT_OTP != otp.code) {
       req.flash("error", "Mã OTP không hợp lệ");
-      res.redirect(req.get("Referer"));
+      res.redirect("/auth/otp");
       return;
     }
     req.body.KT_KEYCOAK = await keycoack.createUser({

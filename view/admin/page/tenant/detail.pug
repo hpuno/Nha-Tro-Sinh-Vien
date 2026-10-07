@@ -1,0 +1,82 @@
+extends ../../layout/default.pug
+include ../../mixin/search.pug
+include ../../mixin/filter-status.pug
+
+
+block main-content
+
+    div(class="container mt-10 w-[1000px]")
+    
+        div(class="relative grid grid-cols-2 gap-4 px-6 shadow-n-800 shadow-xs px-4 py-8 rounded-md ") 
+
+            if(khach_thue.KT_TRANGTHAI == "active")
+                div(class="absolute top-5 right-10") 
+                    div(class="flex items-center justify-center gap-2 font-inter text-p-500")
+                        div(class="relative flex size-3")
+                            span(class="absolute inline-flex h-full w-full animate-ping rounded-full bg-p-500 opacity-75")
+                            span(class="relative inline-flex size-3 rounded-full bg-p-500")
+                        p Hoạt động 
+            else 
+                div(class="absolute top-5 right-10") 
+                    div(class="flex items-center justify-center gap-2 font-inter text-red-600")
+                        div(class="relative flex size-3")
+                            span(class="absolute inline-flex h-full w-full animate-ping rounded-full bg-p-500 opacity-75")
+                            span(class="relative inline-flex size-3 rounded-full bg-red-600")
+                        p Dừng hoạt động 
+
+            div(class="col-span-2 flex items-center gap-5 mb-10") 
+                img(src=khach_thue.KT_ANH alt=khach_thue.KT_TEN class="h-25 w-25 object-cover p-1 bg-n-200 rounded-full")
+                div 
+                    h3(class="text-n-800 font-inter text-xl font-semibold") #{khach_thue.KT_TEN}
+                    p(class="font-inter text-n-500 text-sm") Khách thuê       
+            
+            div(class="absolute left-0 right-0 border border-n-200 top-40")
+
+            div(class="col-span-2 flex items-center gap-2 mb-2 font-inter text-lg ") 
+                i(class="fa-solid fa-user").text-p-500
+                span.text-n-800.font-semibold Thông tin cá nhân
+            .form-group
+
+                div(class="px-8 font-inter")                    
+                    span(class="text-n-500 text-xs") Họ và tên
+                    h3(class="text-n-800 text-sm font-semibold") #{khach_thue.KT_TEN}
+
+                div(class="px-8 font-inter")                    
+                    span(class="text-n-500 text-xs") Email đăng nhập
+                    h3(class="text-n-600 text-sm font-semibold") #{khach_thue.KT_EMAIL}
+
+                div(class="px-8 font-inter")                    
+                    span(class="text-n-500 text-xs") Giới tính
+                    h3(class="text-n-800 text-sm font-semibold") #{khach_thue.KT_PHAI?(khach_thue.KT_PHAI == "male"?"Nam":"Nữ"):"_"}
+            .form-group
+
+                div(class="px-8 font-inter")                    
+                    span(class="text-n-500 text-xs") Số điện thoại
+                    h3(class="text-n-800 text-sm font-semibold") #{khach_thue.KT_SDT?khach_thue.KT_SDT:"_"}
+                
+                div(class="px-8 font-inter")                    
+                    span(class="text-n-500 text-xs") Căn cước công dân
+                    h3(class="text-n-800 text-sm font-semibold") #{khach_thue.KT_CCCD?khach_thue.KT_CCCD:"_"}
+
+                div(class="px-8 font-inter")                    
+                    span(class="text-n-500 text-xs") Địa chỉ
+                    h3(class="text-n-800 text-sm font-semibold") #{khach_thue.KT_DIACHI.trim()?khach_thue.KT_DIACHI:"_"}
+            
+            div(class="col-span-2 flex items-center gap-2 my-2 font-inter text-lg ") 
+                i(class="fa-solid fa-user-gear").text-p-500
+                span.text-n-800.font-semibold Thông tin tài khoản
+
+            div(class="col-span-2 px-8")
+                div(class="grid grid-cols-[0.5fr_1fr_0.5fr] gap-5")
+                    div(class="bg-n-50 rounded-md border border-n-200 px-2 py-4 font-inter")
+                        h3(class="text-n-500 text-xs") Mã khách thuê
+                        p(class="text-n-800 font-semibold text-sm") ##{khach_thue.KT_ID}
+                    div(class="bg-n-50 rounded-md border border-n-200 px-2 py-4 font-inter") 
+                        h3(class="text-n-500 text-xs") Mã Keycoak
+                        p(class="text-n-800 font-semibold text-sm") #{khach_thue.KT_KEYCOAK} 
+                    div(class="bg-n-50 rounded-md border border-n-200 px-2 py-4 font-inter")
+                        h3(class="text-n-500 text-xs") Ngày tạo tài khoản
+                        p(class="text-n-800 font-semibold text-sm") #{khach_thue.KT_NGAYTAO}
+    
+                
+        

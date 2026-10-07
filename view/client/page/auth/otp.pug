@@ -7,7 +7,7 @@ block main
         div(class="container flex items-center justify-center h-screen")
 
             div(class="py-8 px-16 bg-n-100 flex items-center")
-                form(action="/auth/signup" method="POST") 
+                form(action="/auth/otp" method="POST") 
                     .form-group
                         div(class="font-inter mb-2")
                             h2(class="text-2xl text-center") Xác thực OTP 
@@ -17,8 +17,8 @@ block main
                             input(type="email" id="KT_EMAIL" value=data.KT_EMAIL disabled).bg-n-200     
 
                         .form-control                     
-                            label(for="OTP") #[span.text-red-500 * ]Mã OTP
-                            input(type="text" id="OTP" name="OTP" placeholder="Nhập mã OTP" required) 
+                            label(for="KT_OTP") #[span.text-red-500 * ]Mã OTP
+                            input(type="text" id="KT_OTP" name="KT_OTP" placeholder="Nhập mã OTP" required) 
 
                         input(type="hidden" name="KT_TEN" value=data.KT_TEN )
                         input(type="hidden" name="KT_MATKHAU" value=data.KT_MATKHAU )

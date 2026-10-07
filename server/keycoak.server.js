@@ -1,4 +1,5 @@
 const axios = require("axios");
+
 const {
   KEYCLOAK_URL,
   KEYCLOAK_REALM,
@@ -169,6 +170,41 @@ module.exports.resetPassword = async (id_user, new_password) => {
         value: new_password,
         temporary: false,
       },
+      {
+        headers: {
+          Authorization: `Bearer ${tokenAdmin}`,
+          "Content-type": "application/json",
+        },
+      },
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports.changeStatus = async (id_keycoak, status) => {
+  try {
+    const tokenAdmin = await getTokenAdmin();
+    await axios.put(
+      `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users/${id_keycoak}`,
+      { enabled: status },
+      {
+        headers: {
+          Authorization: `Bearer ${tokenAdmin}`,
+          "Content-type": "application/json",
+        },
+      },
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports.deleteUser = async (id_keycoak) => {
+  try {
+    const tokenAdmin = await getTokenAdmin();
+    await axios.delete(
+      `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users/${id_keycoak}`,
       {
         headers: {
           Authorization: `Bearer ${tokenAdmin}`,

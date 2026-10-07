@@ -78,13 +78,13 @@
   }
   .form-control_info input,
   .form-control_info select {
-    @apply border rounded-md px-2 py-2 border-n-200 font-inter text-n-500 text-sm;
+    @apply border rounded-md px-2 py-2 border-n-200 font-inter text-n-800 text-sm font-semibold;
   }
   .form-control_info label {
-    @apply font-inter text-sm  text-n-800;
+    @apply font-inter text-sm  text-n-500;
   }
   .form-control_info textarea {
-    @apply font-inter leading-normal outline-none text-sm text-n-500 border h-25 border-n-200 rounded-lg px-2 py-2;
+    @apply font-inter leading-normal outline-none text-sm text-n-800 font-semibold border h-25 border-n-200 rounded-lg px-2 py-2;
   }
   /* admin */
   .table-admin {

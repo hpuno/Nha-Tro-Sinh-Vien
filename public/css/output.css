@@ -46,6 +46,7 @@
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
     --tracking-wide: 0.025em;
+    --leading-tight: 1.25;
     --leading-normal: 1.5;
     --radius-md: 0.375rem;
     --radius-lg: 0.5rem;
@@ -238,8 +239,14 @@
   .top-0 {
     top: 0px;
   }
+  .top-5 {
+    top: calc(var(--spacing) * 5);
+  }
   .top-20 {
     top: calc(var(--spacing) * 20);
+  }
+  .top-40 {
+    top: calc(var(--spacing) * 40);
   }
   .top-60 {
     top: calc(var(--spacing) * 60);
@@ -307,6 +314,9 @@
   }
   .mx-auto {
     margin-inline: auto;
+  }
+  .my-2 {
+    margin-block: calc(var(--spacing) * 2);
   }
   .mt-4 {
     margin-top: calc(var(--spacing) * 4);
@@ -459,6 +469,9 @@
   .grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+  .grid-cols-\[0\.5fr_1fr_0\.5fr\] {
+    grid-template-columns: 0.5fr 1fr 0.5fr;
+  }
   .flex-col {
     flex-direction: column;
   }
@@ -494,6 +507,9 @@
   }
   .gap-6 {
     gap: calc(var(--spacing) * 6);
+  }
+  .gap-8 {
+    gap: calc(var(--spacing) * 8);
   }
   .gap-10 {
     gap: calc(var(--spacing) * 10);
@@ -586,6 +602,9 @@
   .bg-red-500 {
     background-color: var(--color-red-500);
   }
+  .bg-red-600 {
+    background-color: var(--color-red-600);
+  }
   .bg-white {
     background-color: var(--color-white);
   }
@@ -594,6 +613,9 @@
   }
   .p-1 {
     padding: var(--spacing);
+  }
+  .p-2 {
+    padding: calc(var(--spacing) * 2);
   }
   .p-3 {
     padding: calc(var(--spacing) * 3);
@@ -690,6 +712,10 @@
     --tw-leading: calc(var(--spacing) * 7);
     line-height: calc(var(--spacing) * 7);
   }
+  .leading-tight {
+    --tw-leading: var(--leading-tight);
+    line-height: var(--leading-tight);
+  }
   .font-bold {
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
@@ -728,6 +754,9 @@
   .text-red-500 {
     color: var(--color-red-500);
   }
+  .text-red-600 {
+    color: var(--color-red-600);
+  }
   .text-red-700 {
     color: var(--color-red-700);
   }
@@ -759,6 +788,12 @@
     --tw-shadow-color: #69756f;
     @supports (color: color-mix(in lab, red, red)) {
       --tw-shadow-color: color-mix(in oklab, var(--color-n-500) var(--tw-shadow-alpha), transparent);
+    }
+  }
+  .shadow-n-800 {
+    --tw-shadow-color: #26362f;
+    @supports (color: color-mix(in lab, red, red)) {
+      --tw-shadow-color: color-mix(in oklab, var(--color-n-800) var(--tw-shadow-alpha), transparent);
     }
   }
   .outline {
@@ -981,13 +1016,15 @@
     font-family: var(--font-inter);
     font-size: var(--text-sm);
     line-height: var(--tw-leading, var(--text-sm--line-height));
-    color: var(--color-n-500);
+    --tw-font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-n-800);
   }
   .form-control_info label {
     font-family: var(--font-inter);
     font-size: var(--text-sm);
     line-height: var(--tw-leading, var(--text-sm--line-height));
-    color: var(--color-n-800);
+    color: var(--color-n-500);
   }
   .form-control_info textarea {
     height: calc(var(--spacing) * 25);
@@ -1002,7 +1039,9 @@
     line-height: var(--tw-leading, var(--text-sm--line-height));
     --tw-leading: var(--leading-normal);
     line-height: var(--leading-normal);
-    color: var(--color-n-500);
+    --tw-font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-n-800);
     --tw-outline-style: none;
     outline-style: none;
   }

@@ -82,6 +82,9 @@ module.exports.SELECT_KT = async (key, value) => {
 };
 
 module.exports.UPDATE = async (KT_ID, data) => {
+  data.KT_SDT = data.KT_SDT || null;
+  data.KT_CCCD = data.KT_CCCD || null;
+
   let q = `
   UPDATE KHACH_THUE
   SET KT_TEN=?, KT_SDT=?, KT_PHAI=?, KT_EMAIL=?, KT_CCCD=?, KT_TRANGTHAI=?, KT_DIACHI=?, KT_ANH=?
@@ -103,11 +106,81 @@ module.exports.UPDATE = async (KT_ID, data) => {
   }
 };
 
-module.exports.SELECT = async () => {
-  let q = `SELECT * FROM KHACH_THUE`;
+module.exports.SELECT = async (find, pagination) => {
+  const params = [pagination.limit, pagination.offset];
+  const conditions = [];
+
+  let q = `
+    SELECT * FROM KHACH_THUE
+    ORDER BY KT_ID DESC
+    LIMIT ?
+    OFFSET ?
+  `;
+
+  if (find.search) {
+    conditions.push("KT_TEN LIKE ?");
+    const search = `%${find.search}%`;
+    params.push(search);
+  }
+
+  if (find.status) {
+    conditions.push("KT_TRANGTHAI = ?");
+    params.push(find.status);
+  }
+  if (conditions.length > 0) q += "\nWHERE " + conditions.join(" AND ");
+
   try {
-    const data = await db.query(q);
+    const data = await db.query(q, params);
     return data[0];
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports.CHANGE_STATUS = async (id, status) => {
+  let q = `
+  UPDATE KHACH_THUE
+  SET KT_TRANGTHAI = ?
+  WHERE KT_ID = ?
+  `;
+
+  try {
+    await db.query(q, [status, id]);
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports.findByID = async (id) => {
+  let q = `
+  SELECT * FROM KHACH_THUE
+  WHERE KT_ID = ?
+  `;
+  try {
+    const data = await db.query(q, [id]);
+    return data[0];
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports.DELETE_USER = async (id) => {
+  let q = `
+  DELETE FROM KHACH_THUE
+  WHERE KT_ID = ?
+  `;
+  try {
+    db.query(q, [id]);
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports.COUNT = async () => {
+  let q = "SELECT COUNT(*) FROM KHACH_THUE";
+  try {
+    const count = await db.query(q);
+    return count[0];
   } catch (error) {
     throw error;
   }

@@ -1,0 +1,108 @@
+extends ../../layout/default.pug
+include ../../mixin/search.pug
+include ../../mixin/filter-status.pug
+include ../../mixin/alert.pug
+
+block main-content
+    +successAlert(3000)
+    +errorAlert(3000)
+
+    div(class="container mt-10 w-[1000px]")
+    
+        div(class="relative flex flex-col gap-4 px-6 shadow-n-800 shadow-xs px-4 py-8 rounded-md ") 
+
+            if(khach_thue.KT_TRANGTHAI == "active")
+                div(class="absolute top-5 right-10") 
+                    div(class="flex items-center justify-center gap-2 font-inter text-p-500")
+                        div(class="relative flex size-3")
+                            span(class="absolute inline-flex h-full w-full animate-ping rounded-full bg-p-500 opacity-75")
+                            span(class="relative inline-flex size-3 rounded-full bg-p-500")
+                        p Hoạt động 
+            else 
+                div(class="absolute top-5 right-10") 
+                    div(class="flex items-center justify-center gap-2 font-inter text-red-600")
+                        div(class="relative flex size-3")
+                            span(class="absolute inline-flex h-full w-full animate-ping rounded-full bg-p-500 opacity-75")
+                            span(class="relative inline-flex size-3 rounded-full bg-red-600")
+                        p Dừng hoạt động 
+
+            div(class="flex items-center gap-5 mb-10") 
+                img(src=khach_thue.KT_ANH alt=khach_thue.KT_TEN class="h-25 w-25 object-cover p-1 bg-n-200 rounded-full")
+                div(class="flex flex-col -gap-1") 
+                    div(class="flex items-center gap-2") 
+                        h3(class="text-n-800 leading-tight font-inter text-xl font-semibold") #{khach_thue.KT_TEN}
+                        div(class="flex items-center gap-2 font-inter text-n-800 bg-p-100 px-2 text-sm rounded-xl") 
+                            i(class="fa-solid fa-address-card")
+                            p KH #[span #{khach_thue.KT_ID}]
+                    div(class="font-inter text-xs text-n-800")
+                        span Keycoak_ID: 
+                        span #{khach_thue.KT_KEYCOAK}
+
+                
+            div(class="absolute left-0 right-0 border border-n-200 top-40")
+
+            div(class="flex items-center gap-2 mb-2 font-inter text-lg ") 
+                i(class="fa-solid fa-user").text-p-500
+                span.text-n-800.font-semibold Thông tin cá nhân
+            
+            form(action=`/admin/tenant/edit/${khach_thue.KT_ID}?_method=PATCH` method="post" enctype="multipart/form-data")  
+                div(class="grid grid-cols-2 gap-4 px-6")
+                    .form-group
+
+                        .form-control_info                      
+                            label(for="KT_TEN") Họ và tên
+                            input(type="text" id="KT_TEN" name="KT_TEN" value=khach_thue.KT_TEN) 
+
+                        .form-control_info                          
+                            label(for="KT_MATKHAU_New") Mật khẩu mới
+                            input(type="password" id="KT_MATKHAU_New" name="KT_MATKHAU_New" ) 
+
+                        .form-control_info                          
+                            label(for="KT_SDT") Số điện thoại 
+                            input(type="text" id="KT_SDT" name="KT_SDT" value=khach_thue.KT_SDT) 
+
+                        .form-control_info                          
+                            label(for="KT_PHAI") Giới tính
+                            select(name="KT_PHAI")
+                                option(value="male") Nam 
+                                option(value="female") Nữ   
+
+                        .form-control_info 
+                            label(for="KT_ANH") Ảnh 
+                            div(class="flex gap-3") 
+                                div(class="flex gap-2 items-center")  
+                                    input(type="file" preview-image id="KT_ANH" name="KT_ANH" class="hidden" accept="image/*") 
+                                    label(for="KT_ANH")
+                                        div(class="flex flex-col items-center justify-center gap-2 font-inter text-5xl text-n-500 h-25 w-25 rounded-lg border border-dashed")
+                                            i(class="fa-solid fa-cloud-arrow-up")
+                                
+                                img(src=khach_thue.KT_ANH alt="" preview class=`h-30 w-30 object-cover p-1 rounded-2xl bg-n-200 ${!khach_thue.KT_ANH?"hidden":""}`)
+                         
+                    .form-group
+
+                        .form-control_info                      
+                            label(for="KT_EMAIL") #[span.text-red-500 * ]Email đăng nhập
+                            input(type="text" id="KT_EMAIL" name="KT_EMAIL" value=khach_thue.KT_EMAIL required) 
+                        
+                        .form-control_info                      
+                            label(for="KT_CCCD") Căn cước công dân
+                            input(type="text" id="KT_CCCD" name="KT_CCCD" value=khach_thue.KT_CCCD)
+
+                        .form-control_info                          
+                            label(for="KT_TRANGTHAI") Trạng thái
+                            select(name="KT_TRANGTHAI")
+                                option(value="active" selected=khach_thue.KT_TRANGTHAI=="active") Hoạt động 
+                                option(value="inactive" selected=khach_thue.KT_TRANGTHAI=="inactive") Dừng hoạt động
+
+                    .form-control_info.col-span-2                      
+                        label(for="KT_DIACHI") Địa chỉ
+                        textarea(id="KT_DIACHI" name="KT_DIACHI") #{khach_thue.KT_DIACHI} 
+            
+                div(class="flex items-center justify-around mt-10") 
+                    a(href="/admin/tenant" class="btn-2 py-1 text-base bg-gray-500") Quay về 
+                    button(type="submit" class="btn-2 py-1 text-base") Xác nhận thay đổi
+                    a(href="" class="btn-2 py-1 text-base bg-red-600") Xóa tài khoản 
+                    
+    
+                
+        

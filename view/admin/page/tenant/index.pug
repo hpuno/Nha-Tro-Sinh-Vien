@@ -18,7 +18,7 @@ block main-content
                 h2(class="font-inter font-semibold text-xl text-n-800") Danh sách khách thuê
                 div(class="flex items-center gap-2") 
                     +searchBox(search)
-                    +filterStatus()
+                    +filterStatus(filterStatus)
             table.table-admin
                 thead
                     tr
@@ -38,24 +38,51 @@ block main-content
                                 div(class="flex items-center gap-2") 
                                     img(src=item.KT_ANH alt=item.KT_TEN class="h-[40px] w-[40px] object-cover rounded-xl")
                                     p #{item.KT_TEN}
-                            td #{item.KT_SDT}
-                            td #{item.KT_CCCD}
+                            td #{item.KT_SDT?item.KT_SDT:"_"}
+                            td #{item.KT_CCCD?item.KT_CCCD:"_"}
                             td P101
                             td HPhuong
                             td 
                                 if(item.KT_TRANGTHAI == "active")
-                                    a(href="#" class="px-2 py-1 font-inter text-xs bg-p-500 rounded-md text-p-50 hover:bg-p-700 ") active 
+                                    a(href="javascript:;" change-status id=item.KT_ID status=item.KT_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-p-500 rounded-md text-p-50 hover:bg-p-700 ") active 
                                 else    
-                                    a(href="#" class="px-2 py-1 font-inter text-xs bg-red-500 rounded-md text-p-50 hover:bg-red-700 ") inactive 
+                                    a(href="javascript:;" change-status id=item.KT_ID status=item.KT_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-red-500 rounded-md text-p-50 hover:bg-red-700 ") inactive 
                             td
                                 div(class="flex gap-4 text-lg ")
                                     // chi tiet
-                                    a(href="#") 
+                                    a(href=`/admin/tenant/detail/${item.KT_ID}`) 
                                         i(class="fa-solid fa-circle-info text-n-500 hover:text-n-800")
                                     // chinh sua
-                                    a(href="#") 
+                                    a(href=`/admin/tenant/edit/${item.KT_ID}`) 
                                         i(class="fa-solid fa-square-pen text-p-500 hover:text-p-700")
-                                    // xoa
-                            td
-                                a(href="#") 
+                                    
+                            td  
+                                // xoa
+                                a(href="javascript:;"  button-delete id=item.KT_ID) 
                                     i(class="fa-solid fa-trash text-red-700 hover:text-red-800 text-lg")
+            div(pagination class="mt-5 flex items-center justify-center gap-8 font-inter text-base text-p-700 ")
+                
+                if(pagination.current > 1)
+                    button(page=pagination.current-1 class="hover:bg-n-200 rounded-full p-2")
+                        i(class="fa-solid fa-angles-left ")
+                    
+                - for(let i = 1; i <= pagination.page; i++)
+                    button(page=i class=`hover:bg-n-200 rounded-full p-2 ${pagination.current==i?"bg-n-200":""}`) #{i}
+                
+                if(pagination.current < pagination.page)
+                    button(page=pagination.current+1 class="hover:bg-n-200 rounded-full p-2") 
+                        i(class="fa-solid fa-angles-right")
+
+
+    
+    // change-status
+    form(action=""
+        method="POST"
+        path="/admin/tenant/change-status"
+        id="form-change-status") 
+    
+    // delete
+    form(action=""
+        method="POST"
+        path="/admin/tenant/delete"
+        id="form-delete")

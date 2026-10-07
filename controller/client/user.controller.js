@@ -56,10 +56,12 @@ module.exports.editPatch = async (req, res) => {
     }
 
     await KHACH_THUE.UPDATE(KT_ID, data);
+
     req.flash("success", "Cập nhật thành công");
     res.redirect("/user/info");
   } catch (error) {
     console.log(error);
+
     req.flash("error", "Cập nhật thất bại");
     res.redirect(req.get("Referer"));
   }
