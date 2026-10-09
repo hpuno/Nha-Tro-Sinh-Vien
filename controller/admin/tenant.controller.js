@@ -1,6 +1,8 @@
 const KHACH_THUE = require("../../models/KHACH_THUE.model");
 const keycoak = require("../../server/keycoak.server");
 const filterStatusHelper = require("../../helper/filterStatus.helper");
+const dayjs = require("dayjs");
+const exportFileHelper = require("../../helper/exportFile.helper");
 
 module.exports.index = async (req, res) => {
   try {
@@ -25,7 +27,7 @@ module.exports.index = async (req, res) => {
       offset: 0,
     };
 
-    pagination.count = await KHACH_THUE.COUNT();
+    pagination.count = await KHACH_THUE.COUNT(find);
     pagination.page = Math.ceil(
       pagination.count[0]["COUNT(*)"] / pagination.limit,
     );
@@ -176,6 +178,10 @@ module.exports.editPatch = async (req, res) => {
       else await keycoak.changeStatus(keycoak_id, true);
     }
 
+    if (data.KT_DIACHI) {
+      data.KT_DIACHI = data.KT_DIACHI.trim();
+    }
+
     await KHACH_THUE.UPDATE(KT_ID, data);
 
     req.flash("success", "Cập nhật thành công");
@@ -184,5 +190,68 @@ module.exports.editPatch = async (req, res) => {
     console.log(error);
     req.flash("error", "Cập nhật thất bại");
     res.redirect("/admin/tenant");
+  }
+};
+
+module.exports.create = (req, res) => {
+  res.render("admin/page/tenant/create", { pageTitle: "Thêm mới khách thuê" });
+};
+
+module.exports.createPost = async (req, res) => {
+  try {
+    const { KT_TEN, KT_EMAIL, KT_MATKHAU, KT_Re_MATKHAU, KT_CCCD, KT_SDT } =
+      req.body;
+    if (KT_MATKHAU != KT_Re_MATKHAU) {
+      req.flash("error", "Mật khẩu không khớp");
+      res.redirect(req.get("Referer"));
+      return;
+    }
+    const email = await KHACH_THUE.findDuplication("KT_EMAIL", KT_EMAIL);
+    if (email.length != 0) {
+      req.flash("error", "Email đã tồn tại");
+      res.redirect(req.get("Referer"));
+      return;
+    }
+
+    if (KT_CCCD) {
+      const cccd = await KHACH_THUE.findDuplication("KT_CCCD", KT_CCCD);
+      if (cccd.length != 0) {
+        req.flash("error", "Căn cước đã tồn tại");
+        res.redirect(req.get("Referer"));
+        return;
+      }
+    }
+
+    if (KT_SDT) {
+      const sdt = await KHACH_THUE.findDuplication("KT_SDT", KT_SDT);
+      if (sdt.length != 0) {
+        req.flash("error", "Số điện thoại đã tồn tại");
+        res.redirect(req.get("Referer"));
+        return;
+      }
+    }
+
+    // keycoak
+    req.body.KT_KEYCOAK = await keycoak.createUser({
+      name: KT_TEN,
+      email: KT_EMAIL,
+      password: KT_MATKHAU,
+    });
+
+    // sql
+    if (req.body.KT_DIACHI) {
+      req.body.KT_DIACHI = req.body.KT_DIACHI.trim();
+    }
+
+    req.body.KT_NGAYTAO = dayjs().format("YYYY/MM/DD");
+
+    await KHACH_THUE.INSERT(req.body);
+
+    req.flash("success", "Thêm mới thành công");
+    res.redirect("/admin/tenant");
+  } catch (error) {
+    console.log(error);
+    req.flash("error", "Truy cập thất bại");
+    res.redirect(req.get("Referer"));
   }
 };

@@ -107,15 +107,10 @@ module.exports.UPDATE = async (KT_ID, data) => {
 };
 
 module.exports.SELECT = async (find, pagination) => {
-  const params = [pagination.limit, pagination.offset];
+  const params = [];
   const conditions = [];
 
-  let q = `
-    SELECT * FROM KHACH_THUE
-    ORDER BY KT_ID DESC
-    LIMIT ?
-    OFFSET ?
-  `;
+  let q = `SELECT * FROM KHACH_THUE`;
 
   if (find.search) {
     conditions.push("KT_TEN LIKE ?");
@@ -128,6 +123,13 @@ module.exports.SELECT = async (find, pagination) => {
     params.push(find.status);
   }
   if (conditions.length > 0) q += "\nWHERE " + conditions.join(" AND ");
+
+  q += `
+    ORDER BY KT_ID DESC
+    LIMIT ?
+    OFFSET ?`;
+
+  params.push(pagination.limit, pagination.offset);
 
   try {
     const data = await db.query(q, params);
@@ -176,11 +178,31 @@ module.exports.DELETE_USER = async (id) => {
   }
 };
 
-module.exports.COUNT = async () => {
-  let q = "SELECT COUNT(*) FROM KHACH_THUE";
+module.exports.COUNT = async (find) => {
+  const params = [];
+  const conditions = [];
+
+  let q = `
+  SELECT COUNT(*)
+  FROM KHACH_THUE`;
+
+  if (find.search) {
+    conditions.push(`KT_TEN LIKE ?`);
+    params.push(`%${find.search}%`);
+  }
+
+  if (find.status) {
+    conditions.push(`KT_TRANGTHAI = ?`);
+    params.push(find.status);
+  }
+
+  if (conditions.length > 0) {
+    q += ` WHERE ${conditions.join(" AND ")}`;
+  }
+
   try {
-    const count = await db.query(q);
-    return count[0];
+    const [result] = await db.query(q, params);
+    return result;
   } catch (error) {
     throw error;
   }

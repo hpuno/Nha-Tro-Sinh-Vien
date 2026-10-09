@@ -55,6 +55,10 @@ module.exports.editPatch = async (req, res) => {
       req.body.KT_ANH = res.locals.khach_thue.KT_ANH;
     }
 
+    if (req.body.KT_DIACHI) {
+      req.body.KT_DIACHI = req.body.KT_DIACHI.trim();
+    }
+
     await KHACH_THUE.UPDATE(KT_ID, data);
 
     req.flash("success", "Cập nhật thành công");

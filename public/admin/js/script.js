@@ -33,6 +33,10 @@ if (buttonDelete) {
   const formDelete = document.querySelector("#form-delete");
   buttonDelete.forEach((item) => {
     item.addEventListener("click", () => {
+      const isconfirm = confirm("Bạn có chắc muốn xóa không");
+
+      if (isconfirm) {
+      }
       const id = item.getAttribute("id");
       let path = formDelete.getAttribute("path");
       path += `/${id}?_method=DELETE`;
@@ -53,6 +57,17 @@ if (previewImage) {
     if (file) {
       preview.classList.remove("hidden");
       preview.src = URL.createObjectURL(file);
+    }
+  });
+}
+
+const previewImageCreate = document.querySelector("[preview-image-create]");
+if (previewImageCreate) {
+  const previewCreate = document.querySelector("[preview-create]");
+  previewImageCreate.addEventListener("change", () => {
+    const [file] = previewImageCreate.files;
+    if (file) {
+      previewCreate.src = URL.createObjectURL(file);
     }
   });
 }

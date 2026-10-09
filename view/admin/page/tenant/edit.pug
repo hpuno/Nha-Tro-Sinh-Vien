@@ -93,7 +93,7 @@ block main-content
                             select(name="KT_TRANGTHAI")
                                 option(value="active" selected=khach_thue.KT_TRANGTHAI=="active") Hoạt động 
                                 option(value="inactive" selected=khach_thue.KT_TRANGTHAI=="inactive") Dừng hoạt động
-
+                
                     .form-control_info.col-span-2                      
                         label(for="KT_DIACHI") Địa chỉ
                         textarea(id="KT_DIACHI" name="KT_DIACHI") #{khach_thue.KT_DIACHI} 
@@ -101,8 +101,9 @@ block main-content
                 div(class="flex items-center justify-around mt-10") 
                     a(href="/admin/tenant" class="btn-2 py-1 text-base bg-gray-500") Quay về 
                     button(type="submit" class="btn-2 py-1 text-base") Xác nhận thay đổi
-                    a(href="" class="btn-2 py-1 text-base bg-red-600") Xóa tài khoản 
-                    
-    
-                
-        
+                    a(href="javascript:;"  button-delete id=khach_thue.KT_ID class="btn-2 py-1 text-base bg-red-600") Xóa tài khoản            
+    // delete
+    form(action=""
+        method="POST"
+        path="/admin/tenant/delete"
+        id="form-delete")

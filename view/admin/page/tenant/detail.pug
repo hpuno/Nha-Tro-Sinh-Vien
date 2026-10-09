@@ -60,7 +60,7 @@ block main-content
 
                 div(class="px-8 font-inter")                    
                     span(class="text-n-500 text-xs") Địa chỉ
-                    h3(class="text-n-800 text-sm font-semibold") #{khach_thue.KT_DIACHI.trim()?khach_thue.KT_DIACHI:"_"}
+                    h3(class="text-n-800 text-sm font-semibold") #{(khach_thue.KT_DIACHI)?khach_thue.KT_DIACHI:"_"}
             
             div(class="col-span-2 flex items-center gap-2 my-2 font-inter text-lg ") 
                 i(class="fa-solid fa-user-gear").text-p-500

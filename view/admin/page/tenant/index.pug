@@ -1,15 +1,16 @@
 extends ../../layout/default.pug
 include ../../mixin/search.pug
 include ../../mixin/filter-status.pug
-
+include ../../mixin/pagination.pug
 
 block main-content
     .container.mt-10
 
         div(class="flex justify-end mb-5")
-            div(class="flex items-center gap-2 font-inter bg-n-500 px-4 py-2 rounded-2xl text-n-50 hover:bg-n-200 hover:text-n-500 trasition-all duration-200") 
-                span Thêm mới 
-                i(class="fa-solid fa-plus")
+            a(href="/admin/tenant/create") 
+                div(class="flex items-center gap-2 font-inter bg-n-500 px-4 py-2 rounded-2xl text-n-50 hover:bg-n-200 hover:text-n-500 trasition-all duration-200") 
+                    span Thêm mới 
+                    i(class="fa-solid fa-plus")
         div(class="p-4 bg-n-50 rounded-2xl border border-n-200")
             div(class="flex items-center justify-end mb-5")    
                 a(href="#" class="font-inter text-lg text-n-800 hover:bg-n-50 ")  
@@ -25,8 +26,7 @@ block main-content
                         th Khách thuê
                         th Số điện thoại
                         th CCCD
-                        th Phòng
-                        th Nhà trọ
+                        th Thuê phòng
                         th Trạng thái
                         th Thao tác
                         th
@@ -40,8 +40,7 @@ block main-content
                                     p #{item.KT_TEN}
                             td #{item.KT_SDT?item.KT_SDT:"_"}
                             td #{item.KT_CCCD?item.KT_CCCD:"_"}
-                            td P101
-                            td HPhuong
+                            td Đang thuê
                             td 
                                 if(item.KT_TRANGTHAI == "active")
                                     a(href="javascript:;" change-status id=item.KT_ID status=item.KT_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-p-500 rounded-md text-p-50 hover:bg-p-700 ") active 
@@ -60,18 +59,8 @@ block main-content
                                 // xoa
                                 a(href="javascript:;"  button-delete id=item.KT_ID) 
                                     i(class="fa-solid fa-trash text-red-700 hover:text-red-800 text-lg")
-            div(pagination class="mt-5 flex items-center justify-center gap-8 font-inter text-base text-p-700 ")
-                
-                if(pagination.current > 1)
-                    button(page=pagination.current-1 class="hover:bg-n-200 rounded-full p-2")
-                        i(class="fa-solid fa-angles-left ")
-                    
-                - for(let i = 1; i <= pagination.page; i++)
-                    button(page=i class=`hover:bg-n-200 rounded-full p-2 ${pagination.current==i?"bg-n-200":""}`) #{i}
-                
-                if(pagination.current < pagination.page)
-                    button(page=pagination.current+1 class="hover:bg-n-200 rounded-full p-2") 
-                        i(class="fa-solid fa-angles-right")
+            // pagination
+            +pagination(pagination)
 
 
     
