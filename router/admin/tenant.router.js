@@ -34,4 +34,5 @@ router.post(
   controller.createPost,
 );
 
+router.get("/export-file", controller.exportFile);
 module.exports = router;

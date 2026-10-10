@@ -5,14 +5,14 @@ module.exports.exportTenant = async (title, row) => {
   const worksheeet = workbook.addWorksheet(title);
 
   const columns = [
-    { Headers: "ID", key: "KT_ID" },
-    { Headers: "Họ và tên", key: "KT_TEN" },
-    { Headers: "Email", key: "KT_EMAIL" },
-    { Headers: "Số điện thoại", key: "KT_SDT" },
-    { Headers: "Căn cước", key: "KT_CCCD" },
-    { Headers: "Phái", key: "KT_GIOITINH" },
-    { Headers: "Trạng thái", key: "KT_TRANGTHAI" },
-    { Headers: "Ngày tạo", key: "KT_NGAYTAO" },
+    { header: "ID", key: "KT_ID" },
+    { header: "Họ và tên", key: "KT_TEN" },
+    { header: "Email", key: "KT_EMAIL" },
+    { header: "Số điện thoại", key: "KT_SDT" },
+    { header: "Căn cước", key: "KT_CCCD" },
+    { header: "Phái", key: "KT_PHAI" },
+    { header: "Trạng thái", key: "KT_TRANGTHAI" },
+    { header: "Ngày tạo", key: "KT_NGAYTAO" },
   ];
 
   worksheeet.columns = columns;
@@ -30,7 +30,7 @@ module.exports.exportTenant = async (title, row) => {
     });
   });
 
-  const file = `/public/upload/${title}.xlxs`;
+  const file = `public/upload/${title}.xlsx`;
   await workbook.xlsx.writeFile(file);
   return file;
 };

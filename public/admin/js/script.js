@@ -113,3 +113,13 @@ if (pagination) {
     });
   });
 }
+
+// export-file
+const exportFile = document.querySelector("[export-file ]");
+if (exportFile) {
+  let url = new URL("/admin/tenant/export-file", window.location.origin);
+  exportFile.addEventListener("click", () => {
+    url.href += window.location.search;
+    window.location.href = url.href;
+  });
+}

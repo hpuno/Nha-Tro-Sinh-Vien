@@ -4,10 +4,15 @@ include ../../mixin/filter-status.pug
 include ../../mixin/pagination.pug
 
 block main-content
+
+    - const search = ""
+    - const filterStatus = {}
+    - const pagination = {}
+
     .container.mt-10
 
         div(class="flex justify-end mb-5")
-            a(href="/admin/tenant/create") 
+            a(href="/admin/housing/create") 
                 div(class="flex items-center gap-2 font-inter bg-n-500 px-4 py-2 rounded-2xl text-n-50 hover:bg-n-200 hover:text-n-500 trasition-all duration-200") 
                     span Thêm mới 
                     i(class="fa-solid fa-plus")
@@ -16,21 +21,19 @@ block main-content
                 button(export-file class="font-inter text-lg text-n-800 hover:bg-n-50 ")  
                     i(class="fa-solid fa-download")
             div(class="flex items-center justify-between mb-10")
-                h2(class="font-inter font-semibold text-xl text-n-800") Danh sách khách thuê
+                h2(class="font-inter font-semibold text-xl text-n-800") Danh sách nhà trọ
                 div(class="flex items-center gap-2") 
                     +searchBox(search)
                     +filterStatus(filterStatus)
             table.table-admin
                 thead
                     tr
-                        th Khách thuê
-                        th Số điện thoại
-                        th CCCD
-                        th Thuê phòng
+                        th Nhà trọ
+                        th Địa chỉ
                         th Trạng thái
                         th Thao tác
                         th
-
+                - const khach_thue = {}
                 tbody
                     each item in khach_thue 
                         tr  

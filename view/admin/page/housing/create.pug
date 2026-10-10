@@ -1,0 +1,63 @@
+extends ../../layout/default.pug
+include ../../mixin/search.pug
+include ../../mixin/filter-status.pug
+include ../../mixin/alert.pug
+
+block main-content
+    +successAlert(3000)
+    +errorAlert(3000)
+
+    div(class="container mt-10 w-[1000px]")
+    
+        div(class="relative flex flex-col gap-4 px-6 shadow-n-800 shadow-xs px-4 py-8 rounded-md ") 
+            
+            form(action="/admin/tenant/create" method="post" enctype="multipart/form-data")  
+
+                div(class="grid grid-cols-2 gap-4 px-6")
+                    
+                    div(class="flex items-center col-span-2 gap-2 font-inter text-lg ") 
+                        i(class="fa-solid fa-house").text-p-500
+                        span.text-n-800.font-semibold Thông tin nhà trọ
+
+                    .form-control_info.col-span-2
+                            div(class="flex items-center gap-5 bg-n-50 border border-n-200 rounded-xl py-4  px-8 w-fit")
+                                
+                                div(class="h-20 w-20 border border-dashed border-n-500 bg-n-100 rounded-md")
+                                    input(type="file" preview-image-create id="KT_ANH" name="KT_ANH" accept="image/*"  class="hidden")
+                                    img(preview-create class="h-full w-full object-cover")
+                                
+                                div(class="flex flex-col gap-1")
+                                    span(class="font-inter text-n-800 font-semibold text-sm") Ảnh dãy trọ 
+                                    span(class="font-inter text-n-500 text-xs") Tải lên ảnh dãy trọ của bạn.
+                                    label(for="KT_ANH" class="px-2 py-1 bg-white font-semibold text-p-700 font-inter text-xs border border-p-500 rounded-md w-fit") Chọn ảnh
+                    .form-group
+
+                        .form-control_info                      
+                            label(for="KT_TEN") #[span.text-red-500 * ]Nhà trọ
+                            input(type="text" id="KT_TEN" name="KT_TEN" )
+
+                        .form-control_info                          
+                            label(for="KT_PHAI") Giới tính
+                            select(name="KT_PHAI")
+                                option(value="male") Nam 
+                                option(value="female") Nữ  
+
+                    .form-group 
+                        
+                        .form-control_info                      
+                            label(for="KT_SDT") #[span.text-red-500 * ]Số điện thoại
+                            input(type="text" id="KT_SDT" name="KT_SDT" )
+
+                        .form-control_info                      
+                            label(for="KT_CCCD") Căn cước công dân
+                            input(type="text" id="KT_CCCD" name="KT_CCCD" )
+
+                    .form-control_info.col-span-2                      
+                        label(for="KT_DIACHI") Địa chỉ
+                        textarea(id="KT_DIACHI" name="KT_DIACHI") 
+            
+                div(class="flex items-center justify-end mt-10 gap-4") 
+                    a(href="/admin/tenant" class="btn-2 py-1 text-base bg-gray-500") Hủy
+                    button(type="submit" class="btn-2 py-1 text-base") Thêm mới
+                
+        

@@ -3,6 +3,7 @@ const keycoak = require("../../server/keycoak.server");
 const filterStatusHelper = require("../../helper/filterStatus.helper");
 const dayjs = require("dayjs");
 const exportFileHelper = require("../../helper/exportFile.helper");
+const fs = require("fs");
 
 module.exports.index = async (req, res) => {
   try {
@@ -244,14 +245,43 @@ module.exports.createPost = async (req, res) => {
     }
 
     req.body.KT_NGAYTAO = dayjs().format("YYYY/MM/DD");
-
-    await KHACH_THUE.INSERT(req.body);
+    console.log(req.body);
+    await KHACH_THUE.INSERT_ADMIN(req.body);
 
     req.flash("success", "Thêm mới thành công");
     res.redirect("/admin/tenant");
   } catch (error) {
     console.log(error);
     req.flash("error", "Truy cập thất bại");
+    res.redirect(req.get("Referer"));
+  }
+};
+
+module.exports.exportFile = async (req, res) => {
+  try {
+    let find = {};
+
+    if (req.query.search) find.search = req.query.search;
+
+    if (req.query.status) find.status = req.query.status;
+
+    const khach_thue = await KHACH_THUE.SELECT_EXPORT_FILE(find);
+
+    const exportFile = await exportFileHelper.exportTenant(
+      "Danh-sach-khach-thue",
+      khach_thue,
+    );
+
+    res.download(exportFile, (err) => {
+      if (!err) {
+        fs.unlink(exportFile, (err) => {
+          if (err) console.log(err);
+        });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    req.flash("error", "không thể xuất file");
     res.redirect(req.get("Referer"));
   }
 };

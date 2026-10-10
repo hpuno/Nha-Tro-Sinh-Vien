@@ -207,3 +207,63 @@ module.exports.COUNT = async (find) => {
     throw error;
   }
 };
+
+module.exports.INSERT_ADMIN = async (data) => {
+  let q = `
+  INSERT INTO KHACH_THUE(
+    KT_TEN,
+    KT_PHAI,
+    KT_KEYCOAK,
+    KT_SDT,
+    KT_CCCD,
+    KT_DIACHI,
+    KT_EMAIL,
+    KT_TRANGTHAI,
+    KT_ANH,
+    KT_NGAYTAO)
+  VALUES(? , ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  try {
+    await db.query(q, [
+      data.KT_TEN,
+      data.KT_PHAI,
+      data.KT_KEYCOAK,
+      data.KT_SDT,
+      data.KT_CCCD,
+      data.KT_DIACHI,
+      data.KT_EMAIL,
+      data.KT_TRANGTHAI,
+      data.KT_ANH,
+      data.KT_NGAYTAO,
+    ]);
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports.SELECT_EXPORT_FILE = async (find) => {
+  const params = [];
+  const conditions = [];
+
+  let q = `SELECT * FROM KHACH_THUE`;
+
+  if (find.search) {
+    conditions.push("KT_TEN LIKE ?");
+    const search = `%${find.search}%`;
+    params.push(search);
+  }
+
+  if (find.status) {
+    conditions.push("KT_TRANGTHAI = ?");
+    params.push(find.status);
+  }
+  if (conditions.length > 0) q += "\nWHERE " + conditions.join(" AND ");
+
+  try {
+    const data = await db.query(q, params);
+    return data[0];
+  } catch (error) {
+    throw error;
+  }
+};
