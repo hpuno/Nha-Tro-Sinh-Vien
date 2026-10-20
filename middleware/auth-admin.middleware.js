@@ -51,8 +51,8 @@ module.exports.authAdminPrivate = async (req, res, next) => {
     const [nhan_vien] = await NHAN_VIEN.SELECT_NV("NV_keycloak", keycloak_id);
     const [phan_cong] = await PHAN_CONG.SELECT_ROLE(nhan_vien.NV_ID);
 
-    res.locals.nhan_vien = nhan_vien;
-    res.locals.phan_cong = phan_cong;
+    res.locals.user = nhan_vien;
+    res.locals.role = phan_cong;
 
     return next();
   } catch (globalError) {
@@ -60,4 +60,13 @@ module.exports.authAdminPrivate = async (req, res, next) => {
     req.flash("error", "Có lỗi hệ thống xảy ra, vui lòng thử lại!");
     return res.redirect("/admin/auth/signin");
   }
+};
+
+module.exports.privateRouter = (req, res, next) => {
+  if (res.locals.role.CV_TEN == "Chủ Trọ") {
+    next();
+  }
+  req.flash("error", "Không có quyền truy cập");
+  res.redirect("/admin/auth/signin");
+  return;
 };

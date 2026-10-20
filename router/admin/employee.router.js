@@ -22,6 +22,12 @@ router.patch("/change-status/:status/:id", controller.changeStatus);
 router.get("/detail/:id", controller.detail);
 router.delete("/delete/:id", controller.delete);
 router.get("/edit/:id", controller.edit);
-router.patch("/edit/:id", upload.single("NV_ANH"), controller.editPatch);
+router.patch(
+  "/edit/:id",
+  upload.single("NV_ANH"),
+  uploadCloud.employee,
+  removeCloud.removeImage,
+  controller.editPatch,
+);
 router.get("/export-file", controller.exportFile);
 module.exports = router;

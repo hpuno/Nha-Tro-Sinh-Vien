@@ -4,7 +4,9 @@ const housingRouter = require("./housing.router");
 const employeeRouter = require("./employee.router");
 const roleRouter = require("./role.router");
 const authRouter = require("./auth.router");
+const roomRouter = require("./room.router");
 const adminMiddleware = require("../../middleware/auth-admin.middleware");
+
 module.exports = (app) => {
   app.use(
     "/admin/dashboard",
@@ -12,8 +14,24 @@ module.exports = (app) => {
     dashboardRouter,
   );
   app.use("/admin/tenant", adminMiddleware.authAdminPrivate, tenantRouter);
-  app.use("/admin/housing", adminMiddleware.authAdminPrivate, housingRouter);
-  app.use("/admin/employee", adminMiddleware.authAdminPrivate, employeeRouter);
-  app.use("/admin/role", adminMiddleware.authAdminPrivate, roleRouter);
+  app.use(
+    "/admin/housing",
+    adminMiddleware.authAdminPrivate,
+    adminMiddleware.privateRouter,
+    housingRouter,
+  );
+  app.use(
+    "/admin/employee",
+    adminMiddleware.authAdminPrivate,
+    adminMiddleware.privateRouter,
+    employeeRouter,
+  );
+  app.use(
+    "/admin/role",
+    adminMiddleware.authAdminPrivate,
+    adminMiddleware.privateRouter,
+    roleRouter,
+  );
+  app.use("/admin/room", adminMiddleware.authAdminPrivate, roomRouter);
   app.use("/admin/auth", authRouter);
 };
