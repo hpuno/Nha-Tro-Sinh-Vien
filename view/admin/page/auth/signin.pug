@@ -1,0 +1,29 @@
+include ../../layout/defaultSign.pug
+include ../../mixin/alert.pug
+
+block main 
+    +errorAlert(3000)
+    section#signup 
+        div(class="container flex items-center justify-center h-screen")
+                
+                div(class="py-8 px-16 bg-n-100 flex items-center justify-center w-fit ")
+                    form(action="/admin/auth/signin" method="post").w-xs
+                        .form-group
+                            div(class="font-inter mb-2")
+                                h2(class="text-2xl text-center") Đăng nhập tài khoản 
+                                p(class="text-xs text-n-500 text-center") Đăng nhập quản lý nhà trọ.
+                            
+                            .form-control                         
+                                label(for="NV_EMAIL") #[span.text-red-500 * ]Email đăng nhập
+                                input(type="email" id="NV_EMAIL" name="NV_EMAIL" placeholder="Nhập email dùng để đăng nhập" required) 
+
+                            .form-control                     
+                                label(for="NV_MATKHAU") #[span.text-red-500 * ]Mật khẩu
+                                input(type="password" id="NV_MATKHAU" name="NV_MATKHAU" placeholder="Nhập mật khẩu" required) 
+
+                            .form-control 
+                                button(type="submit" class="btn-2 self-center ") Đăng nhập
+                               
+                                    
+
+    

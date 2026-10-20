@@ -4,6 +4,7 @@ const filterStatusHelper = require("../../helper/filterStatus.helper");
 const dayjs = require("dayjs");
 const exportFileHelper = require("../../helper/exportFile.helper");
 const fs = require("fs");
+const NHAN_VIEN = require("../../models/NHAN_VIEN.model");
 
 module.exports.index = async (req, res) => {
   try {
@@ -65,6 +66,11 @@ module.exports.changStatus = async (req, res) => {
 
     if (status == "inactive") await keycloak.changeStatus(id_keycloak, false);
     else await keycloak.changeStatus(id_keycloak, true);
+    const [nhan_vien] = await NHAN_VIEN.findID(id);
+    if (nhan_vien) {
+      nhan_vien.NV_TRANGTHAI = status;
+      await NHAN_VIEN.UPDATE(id, nhan_vien);
+    }
     await KHACH_THUE.CHANGE_STATUS(id, status);
 
     req.flash("success", "Cập nhật thành công");

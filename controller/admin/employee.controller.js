@@ -6,6 +6,7 @@ const keycloak = require("../../server/keycloak.server");
 const filterStatusHelper = require("../../helper/filterStatus.helper");
 const PHAN_CONG = require("../../models/PHAN_CONG.model");
 const exportFileHelper = require("../../helper/exportFile.helper");
+const KHACH_THUE = require("../../models/KHACH_THUE.model");
 const fs = require("fs");
 
 module.exports.index = async (req, res) => {
@@ -145,6 +146,17 @@ module.exports.createPost = async (req, res) => {
 module.exports.changeStatus = async (req, res) => {
   try {
     const { status, id } = req.params;
+
+    const [nhan_vien] = await NHAN_VIEN.findID(id);
+    const id_keycloak = nhan_vien.NV_keycloak;
+
+    if (status == "inactive") await keycloak.changeStatus(id_keycloak, false);
+    else await keycloak.changeStatus(id_keycloak, true);
+    const [khach_thue] = await KHACH_THUE.findByID(id);
+    if (khach_thue) {
+      khach_thue.KT_TRANGTHAI = status;
+      await KHACH_THUE.UPDATE(id, khach_thue);
+    }
     await NHAN_VIEN.CHANGE_STATUS(id, status);
     req.flash("success", "Cập nhật thành công");
     res.redirect(req.get("Referer"));

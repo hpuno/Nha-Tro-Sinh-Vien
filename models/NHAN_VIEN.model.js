@@ -241,3 +241,16 @@ module.exports.SELECT_EXPORT_FILE = async (find) => {
     throw error;
   }
 };
+
+module.exports.SELECT_NV = async (key, value) => {
+  let q = `
+  SELECT * FROM NHAN_VIEN
+  WHERE ${key} = ?
+  `;
+  try {
+    const [row] = await db.query(q, [value]);
+    return row;
+  } catch (error) {
+    throw error;
+  }
+};
