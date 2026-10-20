@@ -1,0 +1,85 @@
+extends ../../layout/default.pug
+include ../../mixin/search.pug
+include ../../mixin/filter-status.pug
+include ../../mixin/pagination.pug
+include ../../mixin/alert.pug
+
+block main-content
+    +errorAlert(3000)
+    +successAlert(3000)
+
+    .container.mt-10
+
+        div(class="flex justify-end mb-5")
+            a(href="/admin/employee/create") 
+                div(class="flex items-center gap-2 font-inter bg-n-500 px-4 py-2 rounded-2xl text-n-50 hover:bg-n-200 hover:text-n-500 trasition-all duration-200") 
+                    span Thêm mới 
+                    i(class="fa-solid fa-plus")
+        div(class="p-4 bg-n-50 rounded-2xl border border-n-200")
+            
+            div(class="flex items-center justify-end mb-5")    
+                button(export-file class="font-inter text-lg text-n-800 hover:bg-n-50 ")  
+                    i(class="fa-solid fa-download")
+            
+            div(class="flex items-center justify-between mb-10")
+                h2(class="font-inter font-semibold text-xl text-n-800") Danh sách nhân viên
+                div(class="flex items-center gap-2") 
+                    +searchBox(search)
+                    +filterStatus(filterStatus)
+            table.table-admin
+                thead
+                    tr
+                        th Tên nhân viên
+                        th Chức vụ
+                        th Số điện thoại
+                        th Trạng thái
+                        th Phân quyền
+                        th Thao tác
+                tbody
+                    each item in nhan_vien 
+                        tr  
+                            td
+                                div(class="flex items-center gap-2") 
+                                    img(src=item.NV_ANH alt=item.NV_TEN class="h-[40px] w-[40px] object-cover rounded-xl")
+                                    p #{item.NV_TEN}
+                            td #{item.CV_TEN}
+                            td #{item.NV_SDT}
+                            td 
+                                if(item.NV_TRANGTHAI == "active")
+                                    a(href="javascript:;" change-status id=item.NV_ID status=item.NV_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-p-500 rounded-md text-p-50 hover:bg-p-700 ") active 
+                                else    
+                                    a(href="javascript:;" change-status id=item.NV_ID status=item.NV_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-red-500 rounded-md text-p-50 hover:bg-red-700 ") inactive 
+                            td  
+                                if(item.NV_TRANGTHAI == "active")
+                                    a(href=`/admin/role/permission/${item.NV_ID}` class="px-2 py-1 font-inter text-xs bg-purple-800 rounded-md text-purple-50 hover:bg-purple-600 w-fit") Phân quyền
+                                else    
+                                    a(href="" class="px-2 py-1 font-inter text-xs bg-gray-800 rounded-md text-gray-50 hover:bg-gray-600 w-fit") Phân quyền
+
+                            td
+                                div(class="flex gap-4 text-lg ")
+                                    // chi tiet
+                                    a(href=`/admin/employee/detail/${item.NV_ID}`) 
+                                        i(class="fa-solid fa-circle-info text-n-500 hover:text-n-800")
+                                    // chinh sua
+                                    a(href=`/admin/employee/edit/${item.NV_ID}`) 
+                                        i(class="fa-solid fa-square-pen text-p-500 hover:text-p-700")
+                                    // xoa
+                                    a(href="javascript:;"  button-delete id=item.NV_ID) 
+                                        i(class="fa-solid fa-trash text-red-700 hover:text-red-800 text-lg")
+                            
+            // pagination
+            +pagination(pagination)
+
+
+    
+    // change-status
+    form(action=""
+        method="POST"
+        path="/admin/employee/change-status"
+        id="form-change-status") 
+    
+    // delete
+    form(action=""
+        method="POST"
+        path="/admin/employee/delete"
+        id="form-delete")

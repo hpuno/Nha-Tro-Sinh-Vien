@@ -2,8 +2,12 @@ extends ../../layout/default.pug
 include ../../mixin/search.pug
 include ../../mixin/filter-status.pug
 include ../../mixin/pagination.pug
+include ../../mixin/alert.pug
 
 block main-content
+    +errorAlert(3000)
+    +successAlert(3000)
+
     .container.mt-10
 
         div(class="flex justify-end mb-5")

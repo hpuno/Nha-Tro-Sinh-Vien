@@ -1,0 +1,100 @@
+extends ../../layout/default.pug
+include ../../mixin/search.pug
+include ../../mixin/filter-status.pug
+include ../../mixin/pagination.pug
+include ../../mixin/alert.pug
+
+block main-content
+    +errorAlert(3000)
+    +successAlert(3000)
+
+    .container.mt-10
+        div(class="grid grid-cols-[450px_1fr] gap-5")
+            //- Danh sách chức vụ
+            div
+                div(class="p-4 bg-n-50 rounded-2xl border border-n-200" )
+
+                    div(class="flex items-center justify-between")
+                        h2(class="font-inter font-semibold text-xl text-n-800") Danh sách chức vụ
+                        a(href="/admin/role/create" class="px-2 py-1 bg-n-500 rounded-md text-sm text-n-50 hover:bg-n-200 hover:text-n-500 trasition-all duration-200") Thêm mới
+
+                    table.table-admin
+                        thead
+                            tr
+                                th Chức vụ
+                                th Trạng thái
+                                th Thao tác
+                               
+                        tbody
+                            each item in chuc_vu 
+                                tr  
+                                    td #{item.CV_TEN}
+                                    td 
+                                        if(item.CV_TRANGTHAI == "active")
+                                            a(href="javascript:;" change-status id=item.CV_ID status=item.CV_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-p-500 rounded-md text-p-50 hover:bg-p-700 ") active 
+                                        else    
+                                            a(href="javascript:;" change-status id=item.CV_ID status=item.CV_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-red-500 rounded-md text-p-50 hover:bg-red-700 ") inactive 
+                                    td
+                                        div(class="flex gap-4 text-lg ")
+                                            // chi tiet
+                                            a(href=`/admin/role/detail/${item.CV_ID}`) 
+                                                i(class="fa-solid fa-circle-info text-n-500 hover:text-n-800")
+                                            // chinh sua
+                                            a(href=`/admin/role/edit/${item.CV_ID}`) 
+                                                i(class="fa-solid fa-square-pen text-p-500 hover:text-p-700")
+                                            // xoa
+                                            a(href="javascript:;"  button-delete id=item.CV_ID) 
+                                                i(class="fa-solid fa-trash text-red-700 hover:text-red-800 text-lg")
+            
+            //-  Phân quyền
+            div
+                
+                div(class="p-4 bg-n-50 rounded-2xl border border-n-200")
+                    
+                    div(class="flex items-center justify-end mb-5")    
+                        button(export-file class="font-inter text-lg text-n-800 hover:bg-n-50 ")  
+                            i(class="fa-solid fa-download")
+                    
+                    div(class="flex items-center justify-between mb-10")
+                        h2(class="font-inter font-semibold text-xl text-n-800") Danh sách phân công
+                        div(class="flex items-center gap-2") 
+                            +searchBox(search)
+                           
+                    table.table-admin
+                        thead
+                            tr
+                                th Nhân viên
+                                th Chức vụ
+                                th Phân quyền
+                                th Chi tiết
+                        tbody
+                            each item in nhan_vien 
+                                tr  
+                                    td
+                                        div(class="flex items-center gap-2") 
+                                            img(src=item.NV_ANH alt=item.NV_TEN class="h-[40px] w-[40px] object-cover rounded-xl")
+                                            p #{item.NV_TEN}
+                                    td #{item.CV_TEN?item.CV_TEN:"_"}
+                                    td
+                                        a(href=`/admin/role/permission/${item.NV_ID}` class="px-2 py-1 font-inter text-xs bg-purple-800 rounded-md text-purple-50 hover:bg-purple-600 w-fit") Phân quyền
+                                    td.text-center
+                                        a(href=`/admin/role/permission/detail/${item.NV_ID}`) 
+                                            i(class="fa-solid fa-circle-info text-n-500 text-lg hover:text-n-800")                                  
+                                     
+                                        
+                    // pagination
+                    +pagination(pagination)
+
+
+    
+    // change-status
+    form(action=""
+        method="POST"
+        path="/admin/role/change-status"
+        id="form-change-status") 
+    
+    // delete
+    form(action=""
+        method="POST"
+        path="/admin/role/delete"
+        id="form-delete")

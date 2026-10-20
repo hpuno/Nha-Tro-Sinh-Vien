@@ -35,8 +35,8 @@ block main-content
                             i(class="fa-solid fa-address-card")
                             p KH #[span #{khach_thue.KT_ID}]
                     div(class="font-inter text-xs text-n-800")
-                        span Keycoak_ID: 
-                        span #{khach_thue.KT_KEYCOAK}
+                        span keycloak_ID: 
+                        span #{khach_thue.KT_keycloak}
 
                 
             div(class="absolute left-0 right-0 border border-n-200 top-40")
@@ -47,6 +47,19 @@ block main-content
             
             form(action=`/admin/tenant/edit/${khach_thue.KT_ID}?_method=PATCH` method="post" enctype="multipart/form-data")  
                 div(class="grid grid-cols-2 gap-4 px-6")
+
+                    .form-control_info.col-span-2
+                            div(class="flex items-center gap-5 bg-n-50 border border-n-200 rounded-xl py-4  px-8 w-fit")
+                                
+                                div(class="h-20 w-20 border border-dashed border-n-500 bg-n-100 rounded-md")
+                                    input(type="file" preview-image-create id="KT_ANH" name="KT_ANH" accept="image/*" class="hidden")
+                                    img(src=khach_thue.KT_ANH preview-create class=`h-full w-full object-cover ${khach_thue.KT_ANH?"":"hidden"}`)
+                                
+                                div(class="flex flex-col gap-1")
+                                    span(class="font-inter text-n-800 font-semibold text-sm") Ảnh đại diện
+                                    span(class="font-inter text-n-500 text-xs") Tải lên ảnh của khách thuê.
+                                    label(for="KT_ANH" class="px-2 py-1 bg-white font-semibold text-p-700 font-inter text-xs border border-p-500 rounded-md w-fit") Chọn ảnh
+
                     .form-group
 
                         .form-control_info                      
@@ -64,20 +77,9 @@ block main-content
                         .form-control_info                          
                             label(for="KT_PHAI") Giới tính
                             select(name="KT_PHAI")
-                                option(value="male") Nam 
-                                option(value="female") Nữ   
+                                option(value="male" checked=(khach_thue.KT_PHAI == "male")) Nam 
+                                option(value="female" checked=(khach_thue.KT_PHAI == "female")) Nữ   
 
-                        .form-control_info 
-                            label(for="KT_ANH") Ảnh 
-                            div(class="flex gap-3") 
-                                div(class="flex gap-2 items-center")  
-                                    input(type="file" preview-image id="KT_ANH" name="KT_ANH" class="hidden" accept="image/*") 
-                                    label(for="KT_ANH")
-                                        div(class="flex flex-col items-center justify-center gap-2 font-inter text-5xl text-n-500 h-25 w-25 rounded-lg border border-dashed")
-                                            i(class="fa-solid fa-cloud-arrow-up")
-                                
-                                img(src=khach_thue.KT_ANH alt="" preview class=`h-30 w-30 object-cover p-1 rounded-2xl bg-n-200 ${!khach_thue.KT_ANH?"hidden":""}`)
-                         
                     .form-group
 
                         .form-control_info                      

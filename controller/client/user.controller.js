@@ -1,4 +1,4 @@
-const keycoak = require("../../server/keycoak.server");
+const keycloak = require("../../server/keycloak.server");
 const KHACH_THUE = require("../../models/KHACH_THUE.model");
 
 module.exports.info = async (req, res) => {
@@ -85,9 +85,9 @@ module.exports.resetPasswordPut = async (req, res) => {
       return;
     }
 
-    const id_user = res.locals.khach_thue.KT_KEYCOAK;
+    const id_user = res.locals.khach_thue.KT_keycloak;
     console.log(id_user);
-    await keycoak.resetPassword(id_user, KT_NewPassword);
+    await keycloak.resetPassword(id_user, KT_NewPassword);
     req.flash("success", "Đổi mật khẩu thành công");
     res.redirect("/user/info");
   } catch (error) {

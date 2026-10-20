@@ -1,5 +1,5 @@
 const KHACH_THUE = require("../../models/KHACH_THUE.model");
-const keycoak = require("../../server/keycoak.server");
+const keycloak = require("../../server/keycloak.server");
 const filterStatusHelper = require("../../helper/filterStatus.helper");
 const dayjs = require("dayjs");
 const exportFileHelper = require("../../helper/exportFile.helper");
@@ -8,7 +8,7 @@ const fs = require("fs");
 module.exports.index = async (req, res) => {
   try {
     let find = {};
-    const filterStatus = filterStatusHelper.filterTenant();
+    const filterStatus = filterStatusHelper.filter();
 
     if (req.query.search) find.search = req.query.search;
 
@@ -61,10 +61,10 @@ module.exports.changStatus = async (req, res) => {
 
     const khach_thue = await KHACH_THUE.findByID(id);
 
-    const id_keycoak = khach_thue[0].KT_KEYCOAK;
+    const id_keycloak = khach_thue[0].KT_keycloak;
 
-    if (status == "inactive") await keycoak.changeStatus(id_keycoak, false);
-    else await keycoak.changeStatus(id_keycoak, true);
+    if (status == "inactive") await keycloak.changeStatus(id_keycloak, false);
+    else await keycloak.changeStatus(id_keycloak, true);
     await KHACH_THUE.CHANGE_STATUS(id, status);
 
     req.flash("success", "Cập nhật thành công");
@@ -95,8 +95,8 @@ module.exports.delete = async (req, res) => {
   try {
     const id = req.params.id;
     const khach_thue = await KHACH_THUE.findByID(id);
-    const id_keycoak = khach_thue[0].KT_KEYCOAK;
-    await keycoak.deleteUser(id_keycoak);
+    const id_keycloak = khach_thue[0].KT_keycloak;
+    await keycloak.deleteUser(id_keycloak);
     await KHACH_THUE.DELETE_USER(id);
 
     req.flash("success", "Xóa thành công");
@@ -129,7 +129,7 @@ module.exports.editPatch = async (req, res) => {
     const KT_ID = req.params.id;
 
     const khach_thue = await KHACH_THUE.findByID(KT_ID);
-    const keycoak_id = khach_thue[0].KT_KEYCOAK;
+    const keycloak_id = khach_thue[0].KT_keycloak;
 
     const email = await KHACH_THUE.findDuplicationUpdate(
       "KT_EMAIL",
@@ -169,14 +169,14 @@ module.exports.editPatch = async (req, res) => {
     }
 
     if (data.KT_MATKHAU_New) {
-      await keycoak.resetPassword(keycoak_id, data.KT_MATKHAU_New);
+      await keycloak.resetPassword(keycloak_id, data.KT_MATKHAU_New);
     }
     if (!data.KT_ANH) data.KT_ANH = khach_thue[0].KT_ANH;
 
     if (khach_thue[0].KT_TRANGTHAI != data.KT_TRANGTHAI) {
       if (data.KT_TRANGTHAI == "inactive")
-        await keycoak.changeStatus(keycoak_id, false);
-      else await keycoak.changeStatus(keycoak_id, true);
+        await keycloak.changeStatus(keycloak_id, false);
+      else await keycloak.changeStatus(keycloak_id, true);
     }
 
     if (data.KT_DIACHI) {
@@ -232,12 +232,22 @@ module.exports.createPost = async (req, res) => {
       }
     }
 
-    // keycoak
-    req.body.KT_KEYCOAK = await keycoak.createUser({
-      name: KT_TEN,
-      email: KT_EMAIL,
-      password: KT_MATKHAU,
-    });
+    //keycloak
+    const [user] = await keycloak.checkUsername(KT_EMAIL);
+
+    if (user) {
+      await keycloak.setRole(user.id, "KHACH_THUE");
+      req.body.KT_keycloak = user.id;
+    } else {
+      req.body.KT_keycloak = await keycloak.createUser(
+        {
+          name: KT_TEN,
+          email: KT_EMAIL,
+          password: KT_MATKHAU,
+        },
+        "KHACH_THUE",
+      );
+    }
 
     // sql
     if (req.body.KT_DIACHI) {
@@ -245,7 +255,7 @@ module.exports.createPost = async (req, res) => {
     }
 
     req.body.KT_NGAYTAO = dayjs().format("YYYY/MM/DD");
-    console.log(req.body);
+
     await KHACH_THUE.INSERT_ADMIN(req.body);
 
     req.flash("success", "Thêm mới thành công");

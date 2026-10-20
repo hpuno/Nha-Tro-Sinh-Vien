@@ -2,12 +2,11 @@ extends ../../layout/default.pug
 include ../../mixin/search.pug
 include ../../mixin/filter-status.pug
 include ../../mixin/pagination.pug
+include ../../mixin/alert.pug
 
 block main-content
-
-    - const search = ""
-    - const filterStatus = {}
-    - const pagination = {}
+    +errorAlert(3000)
+    +successAlert(3000)
 
     .container.mt-10
 
@@ -17,9 +16,11 @@ block main-content
                     span Thêm mới 
                     i(class="fa-solid fa-plus")
         div(class="p-4 bg-n-50 rounded-2xl border border-n-200")
+            
             div(class="flex items-center justify-end mb-5")    
                 button(export-file class="font-inter text-lg text-n-800 hover:bg-n-50 ")  
                     i(class="fa-solid fa-download")
+            
             div(class="flex items-center justify-between mb-10")
                 h2(class="font-inter font-semibold text-xl text-n-800") Danh sách nhà trọ
                 div(class="flex items-center gap-2") 
@@ -30,37 +31,36 @@ block main-content
                     tr
                         th Nhà trọ
                         th Địa chỉ
+                        th Số lượng phòng
                         th Trạng thái
                         th Thao tác
                         th
-                - const khach_thue = {}
                 tbody
-                    each item in khach_thue 
+                    each item in nha_tro 
                         tr  
                             td
                                 div(class="flex items-center gap-2") 
-                                    img(src=item.KT_ANH alt=item.KT_TEN class="h-[40px] w-[40px] object-cover rounded-xl")
-                                    p #{item.KT_TEN}
-                            td #{item.KT_SDT?item.KT_SDT:"_"}
-                            td #{item.KT_CCCD?item.KT_CCCD:"_"}
-                            td Đang thuê
+                                    img(src=item.NT_ANH alt=item.NT_TEN class="h-[40px] w-[40px] object-cover rounded-xl")
+                                    p #{item.NT_TEN}
+                            td #{item.NT_DIACHI?item.NT_DIACHI:"_"}
+                            td 10
                             td 
-                                if(item.KT_TRANGTHAI == "active")
-                                    a(href="javascript:;" change-status id=item.KT_ID status=item.KT_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-p-500 rounded-md text-p-50 hover:bg-p-700 ") active 
+                                if(item.NT_TRANGTHAI == "active")
+                                    a(href="javascript:;" change-status id=item.NT_ID status=item.NT_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-p-500 rounded-md text-p-50 hover:bg-p-700 ") active 
                                 else    
-                                    a(href="javascript:;" change-status id=item.KT_ID status=item.KT_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-red-500 rounded-md text-p-50 hover:bg-red-700 ") inactive 
+                                    a(href="javascript:;" change-status id=item.NT_ID status=item.NT_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-red-500 rounded-md text-p-50 hover:bg-red-700 ") inactive 
                             td
                                 div(class="flex gap-4 text-lg ")
                                     // chi tiet
-                                    a(href=`/admin/tenant/detail/${item.KT_ID}`) 
+                                    a(href=`/admin/housing/detail/${item.NT_ID}`) 
                                         i(class="fa-solid fa-circle-info text-n-500 hover:text-n-800")
                                     // chinh sua
-                                    a(href=`/admin/tenant/edit/${item.KT_ID}`) 
+                                    a(href=`/admin/housing/edit/${item.NT_ID}`) 
                                         i(class="fa-solid fa-square-pen text-p-500 hover:text-p-700")
                                     
                             td  
                                 // xoa
-                                a(href="javascript:;"  button-delete id=item.KT_ID) 
+                                a(href="javascript:;"  button-delete id=item.NT_ID) 
                                     i(class="fa-solid fa-trash text-red-700 hover:text-red-800 text-lg")
             // pagination
             +pagination(pagination)
@@ -70,11 +70,11 @@ block main-content
     // change-status
     form(action=""
         method="POST"
-        path="/admin/tenant/change-status"
+        path="/admin/housing/change-status"
         id="form-change-status") 
     
     // delete
     form(action=""
         method="POST"
-        path="/admin/tenant/delete"
+        path="/admin/housing/delete"
         id="form-delete")

@@ -6,16 +6,14 @@ module.exports.KHACH_THUE = async () => {
   KT_ID INT AUTO_INCREMENT PRIMARY KEY,
   KT_TEN VARCHAR(255) NOT NULL,
   KT_PHAI VARCHAR(50),
-  KT_KEYCOAK VARCHAR(255) UNIQUE,
-  KT_SDT VARCHAR(10) UNIQUE,
-  KT_CCCD VARCHAR(12) UNIQUE,
+  KT_keycloak VARCHAR(255) UNIQUE,
+  KT_SDT VARCHAR(10),
+  KT_CCCD VARCHAR(12),
   KT_DIACHI VARCHAR(255), 
   KT_EMAIL VARCHAR(255) UNIQUE,
   KT_TRANGTHAI VARCHAR(50) DEFAULT "active",
   KT_ANH LONGTEXT,
-  KT_NGAYTAO DATE
-  )
-  `;
+  KT_NGAYTAO DATE)`;
   try {
     await db.query(q);
     console.log("Tao bang KHACH_THUE thanh cong");
@@ -26,12 +24,13 @@ module.exports.KHACH_THUE = async () => {
 
 module.exports.INSERT = async (data) => {
   let q = `
-  INSERT INTO KHACH_THUE(KT_TEN, KT_EMAIL, KT_KEYCOAK, KT_NGAYTAO) VALUES(?, ?, ?, ?)`;
+  INSERT INTO KHACH_THUE(KT_TEN, KT_EMAIL, KT_keycloak, KT_NGAYTAO)
+  VALUES(?, ?, ?, ?)`;
   try {
     await db.query(q, [
       data.KT_TEN,
       data.KT_EMAIL,
-      data.KT_KEYCOAK,
+      data.KT_keycloak,
       data.KT_NGAYTAO,
     ]);
   } catch (error) {
@@ -172,7 +171,7 @@ module.exports.DELETE_USER = async (id) => {
   WHERE KT_ID = ?
   `;
   try {
-    db.query(q, [id]);
+    await db.query(q, [id]);
   } catch (error) {
     throw error;
   }
@@ -213,7 +212,7 @@ module.exports.INSERT_ADMIN = async (data) => {
   INSERT INTO KHACH_THUE(
     KT_TEN,
     KT_PHAI,
-    KT_KEYCOAK,
+    KT_keycloak,
     KT_SDT,
     KT_CCCD,
     KT_DIACHI,
@@ -228,7 +227,7 @@ module.exports.INSERT_ADMIN = async (data) => {
     await db.query(q, [
       data.KT_TEN,
       data.KT_PHAI,
-      data.KT_KEYCOAK,
+      data.KT_keycloak,
       data.KT_SDT,
       data.KT_CCCD,
       data.KT_DIACHI,
@@ -261,8 +260,8 @@ module.exports.SELECT_EXPORT_FILE = async (find) => {
   if (conditions.length > 0) q += "\nWHERE " + conditions.join(" AND ");
 
   try {
-    const data = await db.query(q, params);
-    return data[0];
+    const [data] = await db.query(q, params);
+    return data;
   } catch (error) {
     throw error;
   }

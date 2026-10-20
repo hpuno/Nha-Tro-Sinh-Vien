@@ -1,0 +1,64 @@
+extends ../../layout/default.pug
+include ../../mixin/search.pug
+include ../../mixin/filter-status.pug
+
+
+block main-content
+
+    div(class="container mt-10 w-[1000px]")
+    
+        div(class="relative grid grid-cols-2 gap-4 px-6 shadow-n-800 shadow-xs px-4 py-8 rounded-md ") 
+
+            if(nha_tro.NT_TRANGTHAI == "active")
+                div(class="absolute top-5 right-10") 
+                    div(class="flex items-center justify-center gap-2 font-inter text-p-500")
+                        div(class="relative flex size-3")
+                            span(class="absolute inline-flex h-full w-full animate-ping rounded-full bg-p-500 opacity-75")
+                            span(class="relative inline-flex size-3 rounded-full bg-p-500")
+                        p Hoạt động 
+            else 
+                div(class="absolute top-5 right-10") 
+                    div(class="flex items-center justify-center gap-2 font-inter text-red-600")
+                        div(class="relative flex size-3")
+                            span(class="absolute inline-flex h-full w-full animate-ping rounded-full bg-p-500 opacity-75")
+                            span(class="relative inline-flex size-3 rounded-full bg-red-600")
+                        p Dừng hoạt động 
+
+            div(class="col-span-2 flex items-center gap-5 mb-10") 
+                img(src=nha_tro.NT_ANH alt=nha_tro.NT_TEN class="h-25 w-25 object-cover p-1 bg-n-200 rounded-full")
+                div 
+                    h3(class="text-n-800 font-inter text-xl font-semibold") #{nha_tro.NT_TEN }
+                    p(class="font-inter text-n-500 text-sm") #{nha_tro.NT_DIACHI}       
+            
+            div(class="absolute left-0 right-0 border border-n-200 top-40")
+
+            div(class="col-span-2 flex items-center gap-2 mb-2 font-inter text-lg ") 
+                i(class="fa-solid fa-house").text-p-500
+                span.text-n-800.font-semibold Thông tin nhà trọ
+            .form-group
+
+                div(class="px-8 font-inter")                    
+                    span(class="text-n-500 text-xs") Nhà trọ
+                    h3(class="text-n-800 text-sm font-semibold") #{nha_tro.NT_TEN}
+                
+                div(class="px-8 font-inter")                    
+                    span(class="text-n-500 text-xs") Ngày tạo
+                    h3(class="text-n-800 text-sm font-semibold") #{nha_tro.NT_NGAYTAO}
+
+            .form-group
+
+                div(class="px-8 font-inter")                    
+                    span(class="text-n-500 text-xs") Mô tả
+                    h3(class="text-n-800 text-sm font-semibold") #{(nha_tro.NT_MOTA)?nha_tro.NT_MOTA:"_"}
+
+                div(class="px-8 font-inter")                    
+                    span(class="text-n-500 text-xs") Địa chỉ
+                    h3(class="text-n-800 text-sm font-semibold") #{(nha_tro.NT_DIACHI)?nha_tro.NT_DIACHI:"_"}
+            div(class="col-span-2 flex items-center justify-center")
+                a(href="/admin/housing" class="btn-2 px-2 py-1 bg-gray-500 mt-5") Quay lại
+
+            
+           
+        
+                
+        

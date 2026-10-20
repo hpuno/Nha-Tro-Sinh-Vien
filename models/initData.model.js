@@ -10,6 +10,7 @@ const DON_VI_TINH = require("./DON_VI_TINH.model");
 const DICH_VU = require("./DICH_VU.model");
 const SDDV = require("./SDDV.model");
 const GHI_CHI_SO = require("./GHI_CHI_SO.model");
+const PHAN_CONG = require("./PHAN_CONG.model");
 
 module.exports.initTables = async () => {
   try {
@@ -25,6 +26,8 @@ module.exports.initTables = async () => {
     await DICH_VU.DICH_VU();
     await SDDV.SDDV();
     await GHI_CHI_SO.GHI_CHI_SO();
+    await PHAN_CONG.PHAN_CONG();
+
     console.log("success");
   } catch (error) {
     console.error("error", error.message);

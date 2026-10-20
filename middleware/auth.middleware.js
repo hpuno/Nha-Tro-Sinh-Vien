@@ -1,4 +1,4 @@
-const keycoack = require("../server/keycoak.server");
+const keycoack = require("../server/keycloak.server");
 const KHACH_THUE = require("../models/KHACH_THUE.model");
 
 module.exports.authClient = async (req, res, next) => {
@@ -7,8 +7,8 @@ module.exports.authClient = async (req, res, next) => {
     const token = await keycoack.statusToken(access_token);
 
     if (token.active) {
-      const keycoak_id = token.sub;
-      const khach_thue = await KHACH_THUE.SELECT_KT("KT_KEYCOAK", keycoak_id);
+      const keycloak_id = token.sub;
+      const khach_thue = await KHACH_THUE.SELECT_KT("KT_keycloak", keycloak_id);
 
       res.locals.khach_thue = khach_thue[0];
     }
@@ -55,8 +55,8 @@ module.exports.authClientPrivate = async (req, res, next) => {
       }
     }
 
-    const keycoak_id = token.sub;
-    const khach_thue = await KHACH_THUE.SELECT_KT("KT_KEYCOAK", keycoak_id);
+    const keycloak_id = token.sub;
+    const khach_thue = await KHACH_THUE.SELECT_KT("KT_keycloak", keycloak_id);
 
     res.locals.khach_thue = khach_thue[0];
 

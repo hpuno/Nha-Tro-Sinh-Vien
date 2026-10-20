@@ -1,5 +1,5 @@
 const KHACH_THUE = require("../../models/KHACH_THUE.model");
-const keycoack = require("../../server/keycoak.server");
+const keycloak = require("../../server/keycloak.server");
 const dayjs = require("dayjs");
 const sendMailHelper = require("../../helper/sendMail.helper");
 const OTP = require("../../models/OTP.model");
@@ -50,23 +50,34 @@ module.exports.signupPost = async (req, res) => {
     const { KT_TEN, KT_EMAIL, KT_MATKHAU, KT_OTP } = req.body;
 
     const otp = await OTP.findOne({ email: KT_EMAIL });
-    console.log(KT_OTP);
+
     if (KT_OTP != otp.code) {
       req.flash("error", "Mã OTP không hợp lệ");
       res.redirect("/auth/otp");
       return;
     }
-    req.body.KT_KEYCOAK = await keycoack.createUser({
-      name: KT_TEN,
-      email: KT_EMAIL,
-      password: KT_MATKHAU,
-    });
+
+    const [user] = await keycloak.checkUsername(KT_EMAIL);
+
+    if (user) {
+      await keycloak.setRole(user.id, "KHACH_THUE");
+      req.body.KT_keycloak = user.id;
+    } else {
+      req.body.KT_keycloak = await keycloak.createUser(
+        {
+          name: KT_TEN,
+          email: KT_EMAIL,
+          password: KT_MATKHAU,
+        },
+        "KHACH_THUE",
+      );
+    }
 
     req.body.KT_NGAYTAO = dayjs().format("YYYY/MM/DD");
 
     await KHACH_THUE.INSERT(req.body);
 
-    const token = await keycoack.login(KT_EMAIL, KT_MATKHAU);
+    const token = await keycloak.login(KT_EMAIL, KT_MATKHAU);
     req.session.accesstoken = token.access_token;
     req.session.refreshtoken = token.refresh_token;
     req.session.expiresAt = Date.now() + token.expires_in * 1000;
@@ -96,7 +107,7 @@ module.exports.signinPost = async (req, res) => {
       return;
     }
 
-    const token = await keycoack.login(KT_EMAIL, KT_MATKHAU);
+    const token = await keycloak.login(KT_EMAIL, KT_MATKHAU);
     req.session.accesstoken = token.access_token;
     req.session.refreshtoken = token.refresh_token;
     req.session.expiresAt = Date.now() + token.expires_in * 1000;
@@ -111,7 +122,7 @@ module.exports.signinPost = async (req, res) => {
 
 module.exports.logout = async (req, res) => {
   try {
-    await keycoack.logout(req.session.refreshtoken);
+    await keycloak.logout(req.session.refreshtoken);
     req.session.destroy((err) => {
       if (err) {
         res.redirect("/");

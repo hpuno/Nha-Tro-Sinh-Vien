@@ -21,7 +21,7 @@ async function getTokenAdmin() {
   return res.data.access_token;
 }
 
-module.exports.createUser = async (data) => {
+module.exports.createUser = async (data, roles) => {
   const token = await getTokenAdmin();
 
   // create user
@@ -54,7 +54,7 @@ module.exports.createUser = async (data) => {
   const userId = location.split("/").pop();
 
   const responseRole = await axios.get(
-    `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/roles/KHACH_THUE`,
+    `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/roles/${roles}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -182,11 +182,11 @@ module.exports.resetPassword = async (id_user, new_password) => {
   }
 };
 
-module.exports.changeStatus = async (id_keycoak, status) => {
+module.exports.changeStatus = async (id_keycloak, status) => {
   try {
     const tokenAdmin = await getTokenAdmin();
     await axios.put(
-      `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users/${id_keycoak}`,
+      `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users/${id_keycloak}`,
       { enabled: status },
       {
         headers: {
@@ -200,11 +200,11 @@ module.exports.changeStatus = async (id_keycoak, status) => {
   }
 };
 
-module.exports.deleteUser = async (id_keycoak) => {
+module.exports.deleteUser = async (id_keycloak) => {
   try {
     const tokenAdmin = await getTokenAdmin();
     await axios.delete(
-      `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users/${id_keycoak}`,
+      `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users/${id_keycloak}`,
       {
         headers: {
           Authorization: `Bearer ${tokenAdmin}`,
@@ -215,4 +215,49 @@ module.exports.deleteUser = async (id_keycoak) => {
   } catch (error) {
     throw error;
   }
+};
+
+module.exports.checkUsername = async (username) => {
+  const token = await getTokenAdmin();
+
+  const { data } = await axios.get(
+    `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users`,
+    {
+      params: {
+        username: username,
+        exact: true,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  return data;
+};
+
+module.exports.setRole = async (userId, roles) => {
+  const token = await getTokenAdmin();
+
+  const responseRole = await axios.get(
+    `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/roles/${roles}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  const role = responseRole.data;
+
+  await axios.post(
+    `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users/${userId}/role-mappings/realm`,
+    [role],
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    },
+  );
 };

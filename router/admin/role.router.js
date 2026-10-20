@@ -1,0 +1,16 @@
+const express = require("express");
+const router = express.Router();
+const controller = require("../../controller/admin/role.controller");
+
+router.get("/", controller.index);
+router.get("/create", controller.create);
+router.post("/create", controller.createPost);
+router.get("/permission/:id", controller.permission);
+router.patch("/permission/:id", controller.permissionPatch);
+router.get("/permission/detail/:id", controller.permissionDetail);
+router.get("/detail/:id", controller.detail);
+router.delete("/delete/:id", controller.delete);
+router.get("/edit/:id", controller.edit);
+router.patch("/edit/:id", controller.editPatch);
+router.get("/export-file", controller.exportFile);
+module.exports = router;

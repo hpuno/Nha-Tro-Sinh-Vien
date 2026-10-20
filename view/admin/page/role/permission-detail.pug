@@ -1,0 +1,57 @@
+extends ../../layout/default.pug
+include ../../mixin/search.pug
+include ../../mixin/filter-status.pug
+include ../../mixin/alert.pug
+
+block main-content
+    +successAlert(3000)
+    +errorAlert(3000)
+
+    div(class="container mt-10 w-[700px]")
+    
+        div(class="relative flex flex-col gap-4 px-6 shadow-n-800 shadow-xs px-4 py-8 rounded-md ") 
+
+            if(nhan_vien.NV_TRANGTHAI == "active")
+                div(class="absolute top-5 right-10") 
+                    div(class="flex items-center justify-center gap-2 font-inter text-p-500")
+                        div(class="relative flex size-3")
+                            span(class="absolute inline-flex h-full w-full animate-ping rounded-full bg-p-500 opacity-75")
+                            span(class="relative inline-flex size-3 rounded-full bg-p-500")
+                        p Hoạt động 
+            else 
+                div(class="absolute top-5 right-10") 
+                    div(class="flex items-center justify-center gap-2 font-inter text-red-600")
+                        div(class="relative flex size-3")
+                            span(class="absolute inline-flex h-full w-full animate-ping rounded-full bg-p-500 opacity-75")
+                            span(class="relative inline-flex size-3 rounded-full bg-red-600")
+                        p Dừng hoạt động 
+
+            div(class="flex items-center gap-5 mb-10") 
+                img(src=nhan_vien.NV_ANH alt=nhan_vien.NV_TEN class="h-25 w-25 object-cover p-1 bg-n-200 rounded-full")
+                
+                div(class="flex flex-col gap-1") 
+                    div(class="flex items-center gap-2") 
+                        h3(class="text-n-800 leading-tight font-inter text-xl font-semibold") #{nhan_vien.NV_TEN}
+                        div(class="flex items-center gap-2 font-inter text-n-800 bg-p-100 px-2 text-sm rounded-xl") 
+                            i(class="fa-solid fa-address-card")
+                            p NV #[span #{nhan_vien.NV_ID}]
+                    div(class="font-inter text-xs text-n-800")
+                        span keycloak_ID: 
+                        span #{nhan_vien.NV_keycloak}
+
+                    div(class="mt-4 flex flex-col gap-4")
+                        div
+                            div(class="flex gap-2 items-center font-inter text-base") 
+                                i(i class="fa-solid fa-user-tag").text-p-500
+                                span(class="text-n-500") Chức vụ
+                            h3(class="font-inter text-n-800 text-base font-semibold px-4") #{chuc_vu?chuc_vu.CV_TEN:"_"}
+                        div
+                            div(class="flex gap-2 items-center font-inter text-base") 
+                                i(class="fa-solid fa-layer-group").text-p-500
+                                span(class="text-n-500") Quản lý
+                            each item in nha_tro 
+                                h3(class="font-inter text-n-800 text-base font-semibold px-4") #{item.NT_TEN?item.NT_TEN:"_"}
+            
+            a(href="/admin/role" class="btn-2 py-1 text-base bg-gray-500 self-center") Quay về 
+                  
+                             

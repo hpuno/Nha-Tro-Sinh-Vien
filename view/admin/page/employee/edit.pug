@@ -1,0 +1,111 @@
+extends ../../layout/default.pug
+include ../../mixin/search.pug
+include ../../mixin/filter-status.pug
+include ../../mixin/alert.pug
+
+block main-content
+    +successAlert(3000)
+    +errorAlert(3000)
+
+    div(class="container mt-10 w-[1000px]")
+    
+        div(class="relative flex flex-col gap-4 px-6 shadow-n-800 shadow-xs px-4 py-8 rounded-md ") 
+
+            if(nhan_vien.NV_TRANGTHAI == "active")
+                div(class="absolute top-5 right-10") 
+                    div(class="flex items-center justify-center gap-2 font-inter text-p-500")
+                        div(class="relative flex size-3")
+                            span(class="absolute inline-flex h-full w-full animate-ping rounded-full bg-p-500 opacity-75")
+                            span(class="relative inline-flex size-3 rounded-full bg-p-500")
+                        p Hoạt động 
+            else 
+                div(class="absolute top-5 right-10") 
+                    div(class="flex items-center justify-center gap-2 font-inter text-red-600")
+                        div(class="relative flex size-3")
+                            span(class="absolute inline-flex h-full w-full animate-ping rounded-full bg-p-500 opacity-75")
+                            span(class="relative inline-flex size-3 rounded-full bg-red-600")
+                        p Dừng hoạt động 
+
+            div(class="flex items-center gap-5 mb-10") 
+                img(src=nhan_vien.NV_ANH alt=nhan_vien.NV_TEN class="h-25 w-25 object-cover p-1 bg-n-200 rounded-full")
+                div(class="flex flex-col -gap-1") 
+                    div(class="flex items-center gap-2") 
+                        h3(class="text-n-800 leading-tight font-inter text-xl font-semibold") #{nhan_vien.NV_TEN}
+                        div(class="flex items-center gap-2 font-inter text-n-800 bg-p-100 px-2 text-sm rounded-xl") 
+                            i(class="fa-solid fa-address-card")
+                            p NV #[span #{nhan_vien.NV_ID}]
+                    div(class="font-inter text-xs text-n-800")
+                        span keycloak_ID: 
+                        span #{nhan_vien.NV_keycloak}
+
+                
+            div(class="absolute left-0 right-0 border border-n-200 top-40")
+
+            div(class="flex items-center gap-2 mb-2 font-inter text-lg ") 
+                i(class="fa-solid fa-user").text-p-500
+                span.text-n-800.font-semibold Thông tin cá nhân
+            
+            form(action=`/admin/employee/edit/${nhan_vien.NV_ID}?_method=PATCH` method="post" enctype="multipart/form-data")  
+                div(class="grid grid-cols-2 gap-4 px-6")
+
+                    .form-control_info.col-span-2
+                            div(class="flex items-center gap-5 bg-n-50 border border-n-200 rounded-xl py-4  px-8 w-fit")
+                                
+                                div(class="h-20 w-20 border border-dashed border-n-500 bg-n-100 rounded-md")
+                                    input(type="file" preview-image-create id="KT_ANH" name="KT_ANH" accept="image/*" class="hidden")
+                                    img(src=nhan_vien.NV_ANH preview-create class=`h-full w-full object-cover ${nhan_vien.NV_ANH?"":"hidden"}`)
+                                
+                                div(class="flex flex-col gap-1")
+                                    span(class="font-inter text-n-800 font-semibold text-sm") Ảnh đại diện
+                                    span(class="font-inter text-n-500 text-xs") Tải lên ảnh của khách thuê.
+                                    label(for="KT_ANH" class="px-2 py-1 bg-white font-semibold text-p-700 font-inter text-xs border border-p-500 rounded-md w-fit") Chọn ảnh
+
+                    .form-group
+
+                        .form-control_info                      
+                            label(for="NV_TEN") Họ và tên
+                            input(type="text" id="NV_TEN" name="NV_TEN" value=nhan_vien.NV_TEN) 
+
+                        .form-control_info                          
+                            label(for="NV_MATKHAU") Mật khẩu mới
+                            input(type="password" id="NV_MATKHAU" name="NV_MATKHAU" ) 
+
+                        .form-control_info                          
+                            label(for="NV_SDT") Số điện thoại 
+                            input(type="text" id="NV_SDT" name="NV_SDT" value=nhan_vien.NV_SDT) 
+
+                        .form-control_info                          
+                            label(for="KT_PHAI") Giới tính
+                            select(name="KT_PHAI")
+                                option(value="male" checked=(nhan_vien.NV_PHAI == "male")) Nam 
+                                option(value="female" checked=(nhan_vien.NV_PHAI == "female")) Nữ   
+
+                    .form-group
+
+                        .form-control_info                      
+                            label(for="NV_EMAIL") #[span.text-red-500 * ]Email đăng nhập
+                            input(type="text" id="NV_EMAIL" name="NV_EMAIL" value=nhan_vien.NV_EMAIL required) 
+                        
+                        .form-control_info                      
+                            label(for="NV_CCCD") Căn cước công dân
+                            input(type="text" id="NV_CCCD" name="NV_CCCD" value=nhan_vien.NV_CCCD)
+
+                        .form-control_info                          
+                            label(for="NV_TRANGTHAI") Trạng thái
+                            select(name="NV_TRANGTHAI")
+                                option(value="active" selected=nhan_vien.NV_TRANGTHAI=="active") Hoạt động 
+                                option(value="inactive" selected=nhan_vien.NV_TRANGTHAI=="inactive") Dừng hoạt động
+                
+                    .form-control_info.col-span-2                      
+                        label(for="NV_DIACHI") Địa chỉ
+                        textarea(id="NV_DIACHI" name="NV_DIACHI") #{nhan_vien.NV_DIACHI} 
+            
+                div(class="flex items-center justify-around mt-10") 
+                    a(href="/admin/employee" class="btn-2 py-1 text-base bg-gray-500") Quay về 
+                    button(type="submit" class="btn-2 py-1 text-base") Xác nhận thay đổi
+                    a(href="javascript:;"  button-delete id=nhan_vien.NV_ID class="btn-2 py-1 text-base bg-red-600") Xóa nhân viên         
+    // delete
+    form(action=""
+        method="POST"
+        path="/admin/employee/delete"
+        id="form-delete")

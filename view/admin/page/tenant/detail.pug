@@ -72,11 +72,13 @@ block main-content
                         h3(class="text-n-500 text-xs") Mã khách thuê
                         p(class="text-n-800 font-semibold text-sm") ##{khach_thue.KT_ID}
                     div(class="bg-n-50 rounded-md border border-n-200 px-2 py-4 font-inter") 
-                        h3(class="text-n-500 text-xs") Mã Keycoak
-                        p(class="text-n-800 font-semibold text-sm") #{khach_thue.KT_KEYCOAK} 
+                        h3(class="text-n-500 text-xs") Mã keycloak
+                        p(class="text-n-800 font-semibold text-sm") #{khach_thue.KT_keycloak} 
                     div(class="bg-n-50 rounded-md border border-n-200 px-2 py-4 font-inter")
                         h3(class="text-n-500 text-xs") Ngày tạo tài khoản
                         p(class="text-n-800 font-semibold text-sm") #{khach_thue.KT_NGAYTAO}
+            div(class="col-span-2 flex items-center justify-center")
+                a(href="/admin/tenant" class="btn-2 px-2 py-1 bg-gray-500 mt-5") Quay lại
     
                 
         

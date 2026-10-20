@@ -1,0 +1,43 @@
+extends ../../layout/default.pug
+include ../../mixin/search.pug
+include ../../mixin/filter-status.pug
+include ../../mixin/alert.pug
+
+block main-content
+    +successAlert(3000)
+    +errorAlert(3000)
+
+    div(class="container mt-10 w-[700px]")
+    
+        div(class="relative flex flex-col gap-4 px-6 shadow-n-800 shadow-xs px-4 py-8 rounded-md ") 
+            
+                div(class="grid grid-cols-2 gap-4 px-6")
+                    
+                    div(class="flex items-center col-span-2 gap-2 font-inter text-lg ") 
+                        i(class="fa-solid fa-house").text-p-500
+                        span.text-n-800.font-semibold Thông tin chức vụ
+
+                    .form-group
+
+                        .form-control_info                      
+                            label(for="CV_TEN") Chức vụ
+                            input(type="text" id="CV_TEN" value=chuc_vu.CV_TEN disabled)
+
+                        
+                    .form-group 
+                    
+                        .form-control_info                          
+                            label(for="CV_TRANGTHAI") Trạng thái
+                            select(name="CV_TRANGTHAI" disabled)
+                                option(value="active" selected=(chuc_vu.CV_TRANGTHAI=="active")) Hoạt động 
+                                option(value="inactive" selected=(chuc_vu.CV_TRANGTHAI=="inactive")) Dừng hoạt động  
+
+                    .form-control_info.col-span-2                      
+                        label(for="CV_MOTA") Mô tả
+                        textarea(id="CV_MOTA" name="CV_MOTA" disabled) #{chuc_vu.CV_MOTA}
+            
+                div(class="flex items-center justify-end mt-10 gap-4") 
+                    a(href="/admin/role" class="btn-2 py-1 text-base bg-gray-500") Hủy
+                    
+                
+        

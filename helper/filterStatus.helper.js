@@ -1,4 +1,4 @@
-module.exports.filterTenant = () => {
+module.exports.filter = () => {
   const filterStatus = [
     { value: "", name: "Tất cả", selected: true },
     { value: "active", name: "Hoạt động", selected: false },
