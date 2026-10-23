@@ -36,13 +36,13 @@ if (buttonDelete) {
       const isconfirm = confirm("Bạn có chắc muốn xóa không");
 
       if (isconfirm) {
-      }
-      const id = item.getAttribute("id");
-      let path = formDelete.getAttribute("path");
-      path += `/${id}?_method=DELETE`;
+        const id = item.getAttribute("id");
+        let path = formDelete.getAttribute("path");
+        path += `/${id}?_method=DELETE`;
 
-      formDelete.action = path;
-      formDelete.submit();
+        formDelete.action = path;
+        formDelete.submit();
+      }
     });
   });
 }
@@ -122,5 +122,34 @@ if (exportFile) {
   exportFile.addEventListener("click", () => {
     url.href += window.location.search;
     window.location.href = url.href;
+  });
+}
+
+// change-price-format
+const changePriceFormat = document.querySelector("[change-price-format]");
+if (changePriceFormat) {
+  changePriceFormat.addEventListener("input", () => {
+    let price = changePriceFormat.value.trim();
+    price = price.replaceAll(",", "");
+    const priceNew = new Intl.NumberFormat("en-US").format(price);
+    changePriceFormat.value = priceNew;
+  });
+}
+
+// format-price
+const formatPrice = document.querySelectorAll(".format-price");
+if (formatPrice) {
+  formatPrice.forEach((item) => {
+    const priceNew = new Intl.NumberFormat("en-US").format(item.innerHTML);
+    item.innerHTML = priceNew;
+  });
+}
+
+// format-price-input
+const formatPriceUInput = document.querySelectorAll("[format-price-input]");
+if (formatPriceUInput) {
+  formatPriceUInput.forEach((item) => {
+    const price = new Intl.NumberFormat("en-US").format(item.value);
+    item.value = price;
   });
 }

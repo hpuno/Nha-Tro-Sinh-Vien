@@ -7,14 +7,11 @@ include ../../mixin/alert.pug
 block main-content
     +errorAlert(3000)
     +successAlert(3000)
-    - const filterStatus = {}
-    - const search = ""
-    - const nhan_vien = {}
-    - const pagination = {}
+
     .container.mt-10
 
         div(class="flex justify-end mb-5")
-            a(href="/admin/employee/create") 
+            a(href="/admin/room/create") 
                 div(class="flex items-center gap-2 font-inter bg-n-500 px-4 py-2 rounded-2xl text-n-50 hover:bg-n-200 hover:text-n-500 trasition-all duration-200") 
                     span Thêm mới 
                     i(class="fa-solid fa-plus")
@@ -32,42 +29,36 @@ block main-content
             table.table-admin
                 thead
                     tr
-                        th Tên nhân viên
-                        th Chức vụ
-                        th Số điện thoại
+                        th Phòng
+                        th Nhà trọ
+                        th Giá (VND) 
                         th Trạng thái
-                        th Phân quyền
                         th Thao tác
                 tbody
-                    each item in nhan_vien 
+                    each item in phong 
                         tr  
                             td
                                 div(class="flex items-center gap-2") 
-                                    img(src=item.NV_ANH alt=item.NV_TEN class="h-[40px] w-[40px] object-cover rounded-xl")
-                                    p #{item.NV_TEN}
-                            td #{item.CV_TEN}
-                            td #{item.NV_SDT}
+                                    img(src=item.P_ANH alt=item.P_TEN class="h-[40px] w-[40px] object-cover rounded-xl")
+                                    p #{item.P_TEN}
+                            td #{item.NT_TEN}
+                            td.format-price #{item.P_GIA }
                             td 
-                                if(item.NV_TRANGTHAI == "active")
-                                    a(href="javascript:;" change-status id=item.NV_ID status=item.NV_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-p-500 rounded-md text-p-50 hover:bg-p-700 ") active 
+                                if(item.P_TRANGTHAI == "active")
+                                    a(href="javascript:;" change-status id=item.P_ID status=item.P_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-p-500 rounded-md text-p-50 hover:bg-p-700 ") active 
                                 else    
-                                    a(href="javascript:;" change-status id=item.NV_ID status=item.NV_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-red-500 rounded-md text-p-50 hover:bg-red-700 ") inactive 
-                            td  
-                                if(item.NV_TRANGTHAI == "active")
-                                    a(href=`/admin/role/permission/${item.NV_ID}` class="px-2 py-1 font-inter text-xs bg-purple-800 rounded-md text-purple-50 hover:bg-purple-600 w-fit") Phân quyền
-                                else    
-                                    a(href="" class="px-2 py-1 font-inter text-xs bg-gray-800 rounded-md text-gray-50 hover:bg-gray-600 w-fit") Phân quyền
+                                    a(href="javascript:;" change-status id=item.P_ID status=item.P_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-red-500 rounded-md text-p-50 hover:bg-red-700 ") inactive 
 
                             td
                                 div(class="flex gap-4 text-lg ")
                                     // chi tiet
-                                    a(href=`/admin/employee/detail/${item.NV_ID}`) 
+                                    a(href=`/admin/room/detail/${item.P_ID}`) 
                                         i(class="fa-solid fa-circle-info text-n-500 hover:text-n-800")
                                     // chinh sua
-                                    a(href=`/admin/employee/edit/${item.NV_ID}`) 
+                                    a(href=`/admin/room/edit/${item.P_ID}`) 
                                         i(class="fa-solid fa-square-pen text-p-500 hover:text-p-700")
                                     // xoa
-                                    a(href="javascript:;"  button-delete id=item.NV_ID) 
+                                    a(href="javascript:;"  button-delete id=item.P_ID) 
                                         i(class="fa-solid fa-trash text-red-700 hover:text-red-800 text-lg")
                             
             // pagination
@@ -76,11 +67,11 @@ block main-content
     // change-status
     form(action=""
         method="POST"
-        path="/admin/employee/change-status"
+        path="/admin/room/change-status"
         id="form-change-status") 
     
     // delete
     form(action=""
         method="POST"
-        path="/admin/employee/delete"
+        path="/admin/room/delete"
         id="form-delete")

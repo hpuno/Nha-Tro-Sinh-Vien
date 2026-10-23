@@ -15,6 +15,7 @@ module.exports.PHAN_CONG = async () => {
   )`;
 
   try {
+    await db.query(q);
     console.log("Tao bang PHAN_CONG thanh cong");
   } catch (error) {
     console.log("Tao bang PHAN_CONG that bai");
@@ -87,7 +88,7 @@ module.exports.SELECT_ROLE = async (id) => {
 
 module.exports.SELECT_HOUSING = async (id) => {
   let q = `
-    SELECT NHA_TRO.NT_TEN FROM NHA_TRO
+    SELECT NHA_TRO.NT_TEN, NHA_TRO.NT_ID FROM NHA_TRO
     INNER JOIN PHAN_CONG ON PHAN_CONG.NT_ID = NHA_TRO.NT_ID
     WHERE PHAN_CONG.NV_ID = ?`;
   try {

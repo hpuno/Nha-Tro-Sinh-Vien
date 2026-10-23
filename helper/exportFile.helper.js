@@ -127,3 +127,40 @@ module.exports.exportPermission = async (title, row) => {
   await workbook.xlsx.writeFile(file);
   return file;
 };
+
+module.exports.exportRoom = async (title, row) => {
+  const workbook = new excel.Workbook();
+  const worksheeet = workbook.addWorksheet(title);
+
+  const columns = [
+    { header: "P_ID", key: "P_ID" },
+    { header: "P_TEN", key: "P_TEN" },
+    { header: "NT_TEN", key: "NT_TEN" },
+    { header: "P_SL", key: "P_SL" },
+    { header: "P_DIENTICH", key: "P_DIENTICH" },
+    { header: "P_GIA", key: "P_GIA" },
+    { header: "P_TRANGTHAI", key: "P_TRANGTHAI" },
+    { header: "P_MOTA", key: "P_MOTA" },
+    { header: "P_NGAYTAO", key: "P_NGAYTAO" },
+  ];
+
+  worksheeet.columns = columns;
+
+  row.forEach((item) => {
+    worksheeet.addRow({
+      P_ID: item.P_ID,
+      P_TEN: item.P_TEN,
+      NT_TEN: item.NT_TEN,
+      P_SL: item.P_SL,
+      P_DIENTICH: item.P_DIENTICH,
+      P_GIA: item.P_GIA,
+      P_TRANGTHAI: item.P_TRANGTHAI,
+      P_MOTA: item.P_MOTA,
+      P_NGAYTAO: item.P_NGAYTAO,
+    });
+  });
+
+  const file = `public/upload/${title}.xlsx`;
+  await workbook.xlsx.writeFile(file);
+  return file;
+};

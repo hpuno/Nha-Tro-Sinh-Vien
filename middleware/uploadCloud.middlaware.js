@@ -26,3 +26,12 @@ module.exports.employee = async (req, res, next) => {
   }
   next();
 };
+
+module.exports.room = async (req, res, next) => {
+  if (req.file) {
+    const img = req.file.path;
+    const result = await cloudinary.uploader.upload(img);
+    req.body.P_ANH = result.url;
+  }
+  next();
+};

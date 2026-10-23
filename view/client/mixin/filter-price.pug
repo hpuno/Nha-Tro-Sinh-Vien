@@ -1,0 +1,15 @@
+mixin filterPrice(filterPrice) 
+    div(class="py-1 px-2 font-inter text-sm text-n-800 flex flex-col") 
+        p(class="font-inter text-sm text-n-800 font-semibold") Giá phòng
+        .px-4
+            each item in filterPrice 
+                div(class="flex items-center gap-2 ")
+                    input(
+                            type="radio"
+                            name="price-room"
+                            id=item.value
+                            value=item.value
+                            checked=item.checked
+                        )
+                    label(for=item.value) #{item.name}
+                    

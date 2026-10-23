@@ -50,9 +50,10 @@ module.exports.authAdminPrivate = async (req, res, next) => {
     const keycloak_id = token.sub;
     const [nhan_vien] = await NHAN_VIEN.SELECT_NV("NV_keycloak", keycloak_id);
     const [phan_cong] = await PHAN_CONG.SELECT_ROLE(nhan_vien.NV_ID);
-
+    const permission = await PHAN_CONG.SELECT_HOUSING(nhan_vien.NV_ID);
     res.locals.user = nhan_vien;
     res.locals.role = phan_cong;
+    res.locals.permission = permission;
 
     return next();
   } catch (globalError) {
@@ -64,7 +65,7 @@ module.exports.authAdminPrivate = async (req, res, next) => {
 
 module.exports.privateRouter = (req, res, next) => {
   if (res.locals.role.CV_TEN == "Chủ Trọ") {
-    next();
+    return next();
   }
   req.flash("error", "Không có quyền truy cập");
   res.redirect("/admin/auth/signin");

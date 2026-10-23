@@ -54,6 +54,7 @@ module.exports.index = async (req, res) => {
       chuc_vu: chuc_vu,
     });
   } catch (error) {
+    console.log(error);
     req.flash("error", "Không thể truy cập");
     res.redirect("/admin/dashboard");
   }

@@ -1,0 +1,13 @@
+mixin pagination(pagination)
+    div(pagination class="mt-5 flex items-center justify-center gap-8 font-inter text-base text-p-700 ")
+                
+        if(pagination.current > 1)
+            button(page=pagination.current-1 class="hover:bg-n-200 rounded-full p-2")
+                i(class="fa-solid fa-angles-left ")
+            
+        - for(let i = 1; i <= pagination.page; i++)
+            button(page=i class=`hover:bg-n-200 rounded-full p-2 ${pagination.current==i?"bg-n-200":""}`) #{i}
+        
+        if(pagination.current < pagination.page)
+            button(page=pagination.current+1 class="hover:bg-n-200 rounded-full p-2") 
+                i(class="fa-solid fa-angles-right")

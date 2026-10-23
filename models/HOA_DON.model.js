@@ -10,9 +10,10 @@ module.exports.HOA_DON = async () => {
     HD_TRANGTHAI VARCHAR(50) DEFAULT "Unpaid",
     
     NV_ID INT NOT NULL,
-    CONSTRAINT HD_NV FOREIGN KEY (NV_ID) REFERENCES NHAN_VIEN(NV_ID)
-    )
-    `;
+    TP_ID INT NOT NULL,
+
+    CONSTRAINT HD_NV FOREIGN KEY (NV_ID) REFERENCES NHAN_VIEN(NV_ID),
+    CONSTRAINT TP_HD FOREIGN KEY (TP_ID) REFERENCES THUE_PHONG(TP_ID))`;
   try {
     await db.query(q);
     console.log("Tao bang HOA_DON thanh cong");

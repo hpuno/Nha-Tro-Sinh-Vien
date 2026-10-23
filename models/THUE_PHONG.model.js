@@ -9,21 +9,19 @@ module.exports.THUE_PHONG = async () => {
   TP_NGAY_KETTHUC DATE,
   TP_TRANGTHAI VARCHAR(255) DEFAULT "active",
 
-  NV_ID INT NOT NULL,
+  NV_ID INT,
   KT_ID INT NOT NULL,
   P_ID INT NOT NULL,
-  HD_ID INT NOT NULL,
+  HD_ID INT,
 
   CONSTRAINT TP_TP FOREIGN KEY (KT_ID) REFERENCES KHACH_THUE(KT_ID),
   CONSTRAINT TP_NV FOREIGN KEY (NV_ID) REFERENCES NHAN_VIEN(NV_ID),
-  CONSTRAINT TP_PHONG FOREIGN KEY (P_ID) REFERENCES PHONG(P_ID),
-  CONSTRAINT TP_HD FOREIGN KEY (HD_ID) REFERENCES HOA_DON(HD_ID)
-  )
-  `;
+  CONSTRAINT TP_PHONG FOREIGN KEY (P_ID) REFERENCES PHONG(P_ID))`;
   try {
     await db.query(q);
     console.log("Tao bang THUE_PHONG thanh cong");
   } catch (error) {
+    console.log(error);
     console.log("Tao bang THUE_PHONG that bai");
   }
 };
