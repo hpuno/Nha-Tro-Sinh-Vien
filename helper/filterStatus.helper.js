@@ -28,11 +28,11 @@ module.exports.filterHousing = async () => {
 
 module.exports.filterPrice = () => {
   const filterPrice = [
-    { value: "0-1", name: "Dưới 1 triệu", selected: false },
-    { value: "1-2", name: "Từ 1 - 2 triệu", selected: false },
-    { value: "2-3", name: "Từ 2 - 3 triệu", selected: false },
-    { value: "3-4", name: "Từ 3 - 4 triệu", selected: false },
-    { value: "5-100", name: "Trên 5 triệu", selected: false },
+    { value: "0.1-1", name: "Dưới 1 triệu", checked: false },
+    { value: "1-2", name: "Từ 1 - 2 triệu", checked: false },
+    { value: "2-3", name: "Từ 2 - 3 triệu", checked: false },
+    { value: "3-4", name: "Từ 3 - 4 triệu", checked: false },
+    { value: "5-100", name: "Trên 5 triệu", checked: false },
   ];
 
   return filterPrice;

@@ -105,11 +105,14 @@ module.exports.UPDATE = async (KT_ID, data) => {
   }
 };
 
-module.exports.SELECT = async (find, pagination) => {
-  const params = [];
-  const conditions = [];
+module.exports.SELECT = async (find, pagination, role) => {
+  const params = [role];
+  const conditions = ["PHONG.NT_ID IN (?) OR PHONG.NT_ID IS NULL"];
 
-  let q = `SELECT * FROM KHACH_THUE`;
+  let q = `
+  SELECT * FROM KHACH_THUE
+  LEFT JOIN THUE_PHONG ON THUE_PHONG.KT_ID = KHACH_THUE.KT_ID
+  LEFT JOIN PHONG ON PHONG.P_ID = THUE_PHONG.P_ID`;
 
   if (find.search) {
     conditions.push("KT_TEN LIKE ?");
@@ -124,7 +127,7 @@ module.exports.SELECT = async (find, pagination) => {
   if (conditions.length > 0) q += "\nWHERE " + conditions.join(" AND ");
 
   q += `
-    ORDER BY KT_ID DESC
+    ORDER BY KHACH_THUE.KT_ID DESC
     LIMIT ?
     OFFSET ?`;
 
@@ -262,6 +265,18 @@ module.exports.SELECT_EXPORT_FILE = async (find) => {
   try {
     const [data] = await db.query(q, params);
     return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports.UPDATE_ONE = async (id, key, value) => {
+  let q = `
+  UPDATE KHACH_THUE
+  SET ${key} = ?
+  WHERE KT_ID = ?`;
+  try {
+    await db.query(q, [value, id]);
   } catch (error) {
     throw error;
   }

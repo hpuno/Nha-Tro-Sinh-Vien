@@ -110,10 +110,22 @@
   .form-control {
     @apply flex flex-col gap-1 text-n-800 font-inter text-sm;
   }
+
   .form-control input {
     @apply border border-n-500 px-2 py-2 rounded-xl;
   }
 
+  .form-control_rental {
+    @apply grid grid-cols-[0.4fr_1fr] items-center text-n-800 font-inter text-sm gap-4;
+  }
+
+  .form-control_rental label {
+    @apply text-n-500 text-sm;
+  }
+
+  .form-control_rental input {
+    @apply border-b border-n-200 w-3/4;
+  }
   .form-group {
     @apply flex flex-col gap-4;
   }

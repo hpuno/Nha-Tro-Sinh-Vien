@@ -99,7 +99,14 @@ module.exports.delete = async (req, res) => {
 
     const [role] = await PHAN_CONG.FindByRole(id);
 
-    if (role.CV_ID) await PHAN_CONG.DELETE_ROLE(role.CV_ID);
+    if (role.CV_ID) {
+      req.flash(
+        "error",
+        "Không thể xóa chức vụ này, vì còn nhân viên đảm nhiệm",
+      );
+      res.redirect("/admin/role");
+      return;
+    }
 
     await CHUC_VU.DELETE(id);
 

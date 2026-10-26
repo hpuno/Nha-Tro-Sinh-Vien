@@ -30,7 +30,6 @@ block main-content
                         th Khách thuê
                         th Số điện thoại
                         th CCCD
-                        th Thuê phòng
                         th Trạng thái
                         th Thao tác
                         th
@@ -38,13 +37,14 @@ block main-content
                 tbody
                     each item in khach_thue 
                         tr  
-                            td
+                            td.relative 
+                                if(rental.includes(item.KT_ID))
+                                    div(class="absolute top-5 -left-2 bg-red-700 text-red-50 font-inter text-[8px] px-1 rounded-2xl") Đang thuê
                                 div(class="flex items-center gap-2") 
                                     img(src=item.KT_ANH alt=item.KT_TEN class="h-[40px] w-[40px] object-cover rounded-xl")
                                     p #{item.KT_TEN}
                             td #{item.KT_SDT?item.KT_SDT:"_"}
                             td #{item.KT_CCCD?item.KT_CCCD:"_"}
-                            td Đang thuê
                             td 
                                 if(item.KT_TRANGTHAI == "active")
                                     a(href="javascript:;" change-status id=item.KT_ID status=item.KT_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-p-500 rounded-md text-p-50 hover:bg-p-700 ") active 

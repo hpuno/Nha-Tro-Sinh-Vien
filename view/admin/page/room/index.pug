@@ -37,9 +37,11 @@ block main-content
                 tbody
                     each item in phong 
                         tr  
-                            td
+                            td.relative 
+                                if(rental.includes(item.P_ID))
+                                    div(class="absolute top-5 -left-2 bg-red-700 text-red-50 font-inter text-[8px] px-1 rounded-2xl") Đang thuê
                                 div(class="flex items-center gap-2") 
-                                    img(src=item.P_ANH alt=item.P_TEN class="h-[40px] w-[40px] object-cover rounded-xl")
+                                    img(src=item.P_ANH alt=item.P_TEN class="h-[50px] w-[50px] object-cover rounded-xl")
                                     p #{item.P_TEN}
                             td #{item.NT_TEN}
                             td.format-price #{item.P_GIA }

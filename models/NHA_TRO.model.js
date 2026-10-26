@@ -203,3 +203,18 @@ module.exports.SELECT_EXPORT_FILE = async (find) => {
     throw error;
   }
 };
+
+module.exports.COUNT_ROOM = async () => {
+  let q = `
+  SELECT COUNT(*) AS COUNT FROM NHA_TRO
+  JOIN phong ON PHONG.NT_ID = NHA_TRO.NT_ID
+  GROUP BY NHA_TRO.NT_ID
+  `;
+
+  try {
+    const [data] = await db.query(q);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};

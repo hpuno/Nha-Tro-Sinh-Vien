@@ -5,6 +5,7 @@ const filterStatusHelper = require("../../helper/filterStatus.helper");
 const roleHelper = require("../../helper/getRoleUser.helper");
 const exportFileHelper = require("../../helper/exportFile.helper");
 const fs = require("fs");
+const THUE_PHONG = require("../../models/THUE_PHONG.model");
 
 module.exports.index = async (req, res) => {
   try {
@@ -42,6 +43,9 @@ module.exports.index = async (req, res) => {
     }
 
     const phong = await PHONG.SELECT(find, pagination, role);
+    const thue_phong = await THUE_PHONG.SELECT_RENTAL("P_ID");
+
+    const rental = thue_phong.map((item) => item.P_ID);
 
     res.render("admin/page/room/index", {
       pageTitle: "Quản lý phòng trọ",
@@ -49,6 +53,7 @@ module.exports.index = async (req, res) => {
       filterStatus: filterStatus,
       pagination: pagination,
       phong: phong,
+      rental: rental,
     });
   } catch (error) {
     console.log(error);
@@ -100,6 +105,14 @@ module.exports.changeStatus = async (req, res) => {
 module.exports.delete = async (req, res) => {
   try {
     const id = req.params.id;
+
+    const thue_phong = await THUE_PHONG.findByID("P_ID", id);
+
+    if (thue_phong.length > 0) {
+      req.flash("error", "Không thể xóa phòng, vì còn khách đang thuê");
+      res.redirect("/admin/room");
+      return;
+    }
     await PHONG.DELETE(id);
 
     req.flash("success", "Xóa thành công");

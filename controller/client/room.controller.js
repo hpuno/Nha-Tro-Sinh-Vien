@@ -5,20 +5,30 @@ module.exports.index = async (req, res) => {
   try {
     let find = {};
 
+    // filter-housing
     const filterHousing = await filterStatusHelper.filterHousing();
 
-    if (req.query.housing) {
-      find.housing = req.query.housing;
+    const housing = req.query.housing ? [].concat(req.query.housing) : [];
+
+    if (housing.length > 0) {
+      find.housing = housing;
       filterHousing.forEach((item) => {
-        if (item.value == req.query.housing) {
-          filterHousing[0].selected = false;
-          item.selected = true;
-        }
+        item.checked = housing.includes(String(item.value));
       });
     }
 
+    // filter-price
     const filterPrice = filterStatusHelper.filterPrice();
+    if (req.query.price) {
+      const price = req.query.price;
+      const [min, max] = price.split("-").map(Number);
+      find.max = max * 1_000_000;
+      find.min = min * 1_000_000;
 
+      filterPrice.forEach((item) => {
+        item.checked = item.value == price;
+      });
+    }
     if (req.query.search) find.search = req.query.search;
 
     const pagination = {
@@ -26,7 +36,7 @@ module.exports.index = async (req, res) => {
       current: 1,
       offset: 0,
     };
-
+    console.log(find);
     pagination.count = await PHONG.COUNT_CLIENT(find);
     pagination.page = Math.ceil(
       pagination.count[0]["COUNT(*)"] / pagination.limit,
@@ -48,6 +58,7 @@ module.exports.index = async (req, res) => {
       filterPrice: filterPrice,
     });
   } catch (error) {
+    console.log(error);
     req.flash("error", "Truy cập thất bại");
     res.redirect("/");
   }

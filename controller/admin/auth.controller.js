@@ -40,7 +40,7 @@ module.exports.logout = async (req, res) => {
       }
       res.clearCookie("connect.sid");
 
-      res.redirect("/");
+      res.redirect("/admin/auth/signin");
     });
   } catch (error) {
     console.log(error);

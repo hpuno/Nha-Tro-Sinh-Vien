@@ -3,6 +3,7 @@ const NHA_TRO = require("../../models/NHA_TRO.model");
 const filterStatusHelper = require("../../helper/filterStatus.helper");
 const exportFileHelper = require("../../helper/exportFile.helper");
 const fs = require("fs");
+const PHONG = require("../../models/PHONG.model");
 
 module.exports.index = async (req, res) => {
   try {
@@ -39,6 +40,7 @@ module.exports.index = async (req, res) => {
     }
 
     const nha_tro = await NHA_TRO.SELECT(find, pagination);
+    const count_room = await NHA_TRO.COUNT_ROOM();
 
     res.render("admin/page/housing/index", {
       pageTitle: "Quản lý nhà trọ",
@@ -46,6 +48,7 @@ module.exports.index = async (req, res) => {
       search: req.query.search,
       pagination: pagination,
       filterStatus: filterStatus,
+      count_room: count_room,
     });
   } catch (error) {
     console.log(error);
@@ -98,11 +101,20 @@ module.exports.changeStatus = async (req, res) => {
 module.exports.delete = async (req, res) => {
   try {
     const id = req.params.id;
+
+    const phong = await PHONG.findByIDHousing(id);
+    console.log(phong);
+    if (phong.length > 0) {
+      req.flash("error", "Không thể xóa nhà trọ, vì tồn tại phòng");
+      res.redirect("/admin/housing");
+      return;
+    }
     await NHA_TRO.DELETE(id);
 
     req.flash("success", "Xóa thành công");
     res.redirect(req.get("Referer"));
   } catch (error) {
+    console.log(error);
     req.flash("error", "Xóa thất bại");
     res.redirect("/admin/housing");
   }

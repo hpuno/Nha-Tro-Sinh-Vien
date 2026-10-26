@@ -237,6 +237,18 @@ module.exports.SELECT_ACTIVE = async (find, pagination) => {
     conditions.push("P_TRANGTHAI = ?");
     params.push(find.status);
   }
+
+  if (find.housing) {
+    const housing = find.housing;
+    conditions.push("PHONG.NT_ID IN (?)");
+    params.push(housing);
+  }
+
+  if (find.max && find.min) {
+    conditions.push("P_GIA BETWEEN ? AND ?");
+    params.push(find.min, find.max);
+  }
+
   if (conditions.length > 0) q += "\nWHERE " + conditions.join(" AND ");
 
   q += `
@@ -272,6 +284,17 @@ module.exports.COUNT_CLIENT = async (find) => {
     params.push(find.status);
   }
 
+  if (find.housing) {
+    const housing = find.housing;
+    conditions.push("PHONG.NT_ID IN (?)");
+    params.push(housing);
+  }
+
+  if (find.max && find.min) {
+    conditions.push("P_GIA BETWEEN ? AND ?");
+    params.push(find.min, find.max);
+  }
+
   if (conditions.length > 0) {
     q += ` WHERE ${conditions.join(" AND ")}`;
   }
@@ -279,6 +302,19 @@ module.exports.COUNT_CLIENT = async (find) => {
   try {
     const [result] = await db.query(q, params);
     return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports.findByIDHousing = async (idHousing) => {
+  let q = `
+  SELECT * FROM PHONG
+  WHERE NT_ID = ?`;
+
+  try {
+    const [data] = await db.query(q, [idHousing]);
+    return data;
   } catch (error) {
     throw error;
   }

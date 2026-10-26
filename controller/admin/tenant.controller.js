@@ -5,6 +5,8 @@ const dayjs = require("dayjs");
 const exportFileHelper = require("../../helper/exportFile.helper");
 const fs = require("fs");
 const NHAN_VIEN = require("../../models/NHAN_VIEN.model");
+const THUE_PHONG = require("../../models/THUE_PHONG.model");
+const roleHelper = require("../../helper/getRoleUser.helper");
 
 module.exports.index = async (req, res) => {
   try {
@@ -39,7 +41,12 @@ module.exports.index = async (req, res) => {
       pagination.offset = (pagination.current - 1) * pagination.limit;
     }
 
-    const khach_thue = await KHACH_THUE.SELECT(find, pagination);
+    const role = roleHelper.getRole(res.locals);
+
+    const khach_thue = await KHACH_THUE.SELECT(find, pagination, role);
+    const thue_phong = await THUE_PHONG.SELECT_RENTAL("KT_ID");
+
+    let rental = thue_phong.map((item) => item.KT_ID);
 
     res.render("admin/page/tenant/index", {
       pageTitle: "Quản lý khách thuê",
@@ -47,6 +54,7 @@ module.exports.index = async (req, res) => {
       search: req.query.search,
       filterStatus: filterStatus,
       pagination: pagination,
+      rental: rental,
     });
   } catch (error) {
     console.log(error);

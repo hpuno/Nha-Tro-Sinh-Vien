@@ -12,14 +12,18 @@ block main
     div(class="relative px-10 py-8 bg-n-50  rounded-t-2xl")
         
         div(class="fixed w-[300px] left-25 top-20 z-50 flex flex-col gap-3 px-4 py-8 bg-n-50 shadow-n-500 shadow-sm rounded-t-2xl") 
-            h2(class="font-inter text-p-700 text-xl font-semibold") Bộ lọc
+            h2(class="font-inter text-p-700 text-xl font-semibold") Tìm kiếm
+            
+            button#clear-filter(class="absolute top-2 right-5 font-inter text-n-500 text-sm underline hover:text-n-800") Xóa bộ lọc
             
             +searchBox(search)
                 
+            h2(class="font-inter text-p-700 text-xl font-semibold") Bộ lọc
+            
             +filterHousing(filterHousing)
             
             +filterPrice(filterPrice)
-
+             
         div(class="ml-[400px]")
            
             .mb-4 
@@ -28,26 +32,29 @@ block main
             
             div(class="flex flex-col gap-5")
                 
-                each item in phong
-                    
-                    div(class="relative grid grid-cols-[200px_1fr] gap-2 px-2 py-4 bg-n-100 shadow-n-500 shadow-xs rounded-tl-xl rounded-br-xl") 
+                if(phong.length > 0)
+                    each item in phong
                         
-                        img(src=item.P_ANH class="h-50 w-50 object-cover rounded-md")
-                        
-                        div(class="flex flex-col gap-1 justify-center px-4 py-2")
-                            h3(class="font-inter text-n-800 text-xl font-bold") #{item.P_TEN}
-                            div(class="flex items-center gap-2 text-n-500") 
-                                i(class="fa-solid fa-house")
-                                span #{item.NT_TEN}
-                            div(class="flex items-center gap-2 text-n-500") 
-                                i(class="fa-solid fa-location-dot") 
-                                span #{item.NT_DIACHI}
-                            div(class="flex items-center gap-2")  
-                                p(class="font-inter text-p-700 text-lg font-bold format-price") #{item.P_GIA}
-                                span(class="font-inter text-p-700 text-lg font-bold") VND/tháng
-                            div(class="flex items-center gap-2 text-n-500") 
-                                i(class="fa-solid fa-audio-description")
-                                span #{item.P_MOTA?item.P_MOTA:"Phòng trọ thoáng mát, sạch sẽ, an toàn."}
-                            div(class="absolute top-5 right-5 btn")
-                                a(href="/room/detail") Chi tiết
-                +pagination(pagination)
+                        div(class="relative grid grid-cols-[200px_1fr] gap-2 px-2 py-4 bg-n-100 shadow-n-500 shadow-xs rounded-tl-2xl rounded-br-xl hover:shadow-md duration-300") 
+                            
+                            img(src=item.P_ANH class="h-50 w-50 object-cover rounded-md")
+                            
+                            div(class="flex flex-col gap-1 justify-center px-4 py-2")
+                                h3(class="font-inter text-n-800 text-xl font-bold") #{item.P_TEN}
+                                div(class="flex items-center gap-2 text-n-500") 
+                                    i(class="fa-solid fa-house")
+                                    span #{item.NT_TEN}
+                                div(class="flex items-center gap-2 text-n-500") 
+                                    i(class="fa-solid fa-location-dot") 
+                                    span #{item.NT_DIACHI}
+                                div(class="flex items-center gap-2")  
+                                    p(class="font-inter text-p-700 text-lg font-bold format-price") #{item.P_GIA}
+                                    span(class="font-inter text-p-700 text-lg font-bold") VND/tháng
+                                div(class="flex items-center gap-2 text-n-500") 
+                                    i(class="fa-solid fa-audio-description")
+                                    span #{item.P_MOTA?item.P_MOTA:"Phòng trọ thoáng mát, sạch sẽ, an toàn."}
+                                div(class="absolute top-5 right-5 px-2 py-1 bg-p-500 text-p-50 font-inter text-md hover:bg-p-700 rounded-lg")
+                                    a(href=`/rental/${item.P_ID}`) Thuê phòng
+                    +pagination(pagination)
+                else 
+                    div(class="h-screen font-inter text-n-800 font-semibold text-base") Hiện tại chưa tìm thấy phòng.

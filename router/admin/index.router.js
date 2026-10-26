@@ -5,6 +5,7 @@ const employeeRouter = require("./employee.router");
 const roleRouter = require("./role.router");
 const authRouter = require("./auth.router");
 const roomRouter = require("./room.router");
+const rentalRouter = require("./rental.router");
 const adminMiddleware = require("../../middleware/auth-admin.middleware");
 
 module.exports = (app) => {
@@ -33,5 +34,7 @@ module.exports = (app) => {
     roleRouter,
   );
   app.use("/admin/room", adminMiddleware.authAdminPrivate, roomRouter);
+  app.use("/admin/rental", adminMiddleware.authAdminPrivate, rentalRouter);
+
   app.use("/admin/auth", authRouter);
 };

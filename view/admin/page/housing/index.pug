@@ -36,14 +36,14 @@ block main-content
                         th Thao tác
                         th
                 tbody
-                    each item in nha_tro 
+                    each item, idx in nha_tro 
                         tr  
                             td
                                 div(class="flex items-center gap-2") 
                                     img(src=item.NT_ANH alt=item.NT_TEN class="h-[40px] w-[40px] object-cover rounded-xl")
                                     p #{item.NT_TEN}
                             td #{item.NT_DIACHI?item.NT_DIACHI:"_"}
-                            td 10
+                            td #{count_room[idx].COUNT}
                             td 
                                 if(item.NT_TRANGTHAI == "active")
                                     a(href="javascript:;" change-status id=item.NT_ID status=item.NT_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-p-500 rounded-md text-p-50 hover:bg-p-700 ") active 

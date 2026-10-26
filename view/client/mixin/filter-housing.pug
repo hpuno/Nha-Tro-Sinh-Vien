@@ -2,14 +2,14 @@ mixin filterHousing(filterHousing)
     div(class="py-1 px-2 font-inter text-sm text-n-800 flex flex-col") 
         p(class="font-inter text-sm text-n-800 font-semibold") Nhà trọ
         .px-4
-            each item in filterHousing 
-                div(class="flex items-center gap-2 ")
-                    input(
-                            type="checkbox"
-                            id=item.value
-                            name="housing"
-                            value=item.value
-                            checked=item.checked
-                        )
-                    label(for=item.value) #{item.name}
-                    
+                each item in filterHousing 
+                    div(class="flex items-center gap-2 ")
+                        input(
+                                type="checkbox"
+                                id=item.value
+                                name="filter-housing"
+                                value=item.value
+                                checked=item.checked
+                            )
+                        label(for=item.value) #{item.name}
+                

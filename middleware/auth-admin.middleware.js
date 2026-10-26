@@ -51,6 +51,7 @@ module.exports.authAdminPrivate = async (req, res, next) => {
     const [nhan_vien] = await NHAN_VIEN.SELECT_NV("NV_keycloak", keycloak_id);
     const [phan_cong] = await PHAN_CONG.SELECT_ROLE(nhan_vien.NV_ID);
     const permission = await PHAN_CONG.SELECT_HOUSING(nhan_vien.NV_ID);
+
     res.locals.user = nhan_vien;
     res.locals.role = phan_cong;
     res.locals.permission = permission;
