@@ -7,6 +7,9 @@ const fs = require("fs");
 const NHAN_VIEN = require("../../models/NHAN_VIEN.model");
 const THUE_PHONG = require("../../models/THUE_PHONG.model");
 const roleHelper = require("../../helper/getRoleUser.helper");
+const NHA_TRO = require("../../models/NHA_TRO.model");
+const PHONG = require("../../models/PHONG.model");
+const DICH_VU = require("../../models/DICH_VU.model");
 
 module.exports.index = async (req, res) => {
   try {
@@ -47,7 +50,6 @@ module.exports.index = async (req, res) => {
     const thue_phong = await THUE_PHONG.SELECT_RENTAL("KT_ID");
 
     let rental = thue_phong.map((item) => item.KT_ID);
-
     res.render("admin/page/tenant/index", {
       pageTitle: "Quản lý khách thuê",
       khach_thue: khach_thue,
@@ -307,5 +309,56 @@ module.exports.exportFile = async (req, res) => {
     console.log(error);
     req.flash("error", "không thể xuất file");
     res.redirect(req.get("Referer"));
+  }
+};
+
+module.exports.rental = async (req, res) => {
+  try {
+    let phong = [];
+    let housing = [];
+    let room = [];
+    let idRoom = "";
+    let idHousing = "";
+    const idUser = req.params.id;
+
+    const dich_vu = await DICH_VU.SELECT();
+
+    const priceService = {
+      nuoc: dich_vu.find((item) => item.DV_TEN === "Nước")?.DV_GIA,
+      dien: dich_vu.find((item) => item.DV_TEN === "Điện")?.DV_GIA,
+      rac: dich_vu.find((item) => item.DV_TEN === "Lấy rác")?.DV_GIA,
+    };
+
+    if (req.query.idHousing) {
+      idHousing = req.query.idHousing;
+      housing = await NHA_TRO.SELECT_ONE(idHousing);
+      phong = await PHONG.SELECT_RENTAL(idHousing);
+    }
+
+    if (req.query.idRoom) {
+      idRoom = req.query.idRoom;
+      room = await PHONG.findByID(idRoom);
+    }
+    const nha_tro = await NHA_TRO.SELECT_ACTIVE();
+
+    const [khach_thue] = await KHACH_THUE.findByID(idUser);
+    const TP_NGAYTHUE = dayjs().format("YYYY-MM-DD");
+
+    res.render("admin/page/tenant/rental", {
+      pageTitle: "Thêm mới thuê phòng",
+      nha_tro: nha_tro,
+      housing: housing[0],
+      phong: phong,
+      room: room[0],
+      priceService: priceService,
+      idHousing: idHousing,
+      idRoom: idRoom,
+      khach_thue: khach_thue,
+      TP_NGAYTHUE: TP_NGAYTHUE,
+    });
+  } catch (error) {
+    console.log(error);
+    req.flash("error", "Thuê phòng thất bại");
+    res.redirect("/admin/tenant");
   }
 };

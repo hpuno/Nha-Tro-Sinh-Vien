@@ -7,19 +7,9 @@ include ../../mixin/alert.pug
 block main-content
     +errorAlert(3000)
     +successAlert(3000)
-
-    - const nha_tro = {}
-    - const filterStatus = {}
-    - const search = ""
-    - const pagination = {}
     
     .container.mt-10
 
-        div(class="flex justify-end mb-5")
-            a(href="/admin/housing/create") 
-                div(class="flex items-center gap-2 font-inter bg-n-500 px-4 py-2 rounded-2xl text-n-50 hover:bg-n-200 hover:text-n-500 trasition-all duration-200") 
-                    span Thêm mới 
-                    i(class="fa-solid fa-plus")
         div(class="p-4 bg-n-50 rounded-2xl border border-n-200")
             
             div(class="flex items-center justify-end mb-5")    
@@ -27,45 +17,47 @@ block main-content
                     i(class="fa-solid fa-download")
             
             div(class="flex items-center justify-between mb-10")
-                h2(class="font-inter font-semibold text-xl text-n-800") Danh sách nhà trọ
+                h2(class="font-inter font-semibold text-xl text-n-800") Danh sách thuê phòng
                 div(class="flex items-center gap-2") 
                     +searchBox(search)
-                    +filterStatus(filterStatus)
+                    +filterStatus(filterRental)
             table.table-admin
                 thead
                     tr
-                        th Nhà trọ
-                        th Địa chỉ
-                        th Số lượng phòng
+                        th Phòng
+                        th Khách thuê
+                        th Giá phòng
                         th Trạng thái
                         th Thao tác
                         th
                 tbody
-                    each item, idx in nha_tro 
+                    each item, idx in thue_phong 
                         tr  
                             td
                                 div(class="flex items-center gap-2") 
-                                    img(src=item.NT_ANH alt=item.NT_TEN class="h-[40px] w-[40px] object-cover rounded-xl")
-                                    p #{item.NT_TEN}
-                            td #{item.NT_DIACHI?item.NT_DIACHI:"_"}
-                            td #{count_room[idx].COUNT}
+                                    img(src=item.P_ANH alt=item.P_TEN class="h-[50px] w-[50px] object-cover rounded-xl")
+                                    p #{item.P_TEN}
+                            td #{item.KT_TEN}
+                            td.format-price #{item.P_GIA}
                             td 
-                                if(item.NT_TRANGTHAI == "active")
-                                    a(href="javascript:;" change-status id=item.NT_ID status=item.NT_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-p-500 rounded-md text-p-50 hover:bg-p-700 ") active 
+                                if(item.TP_TRANGTHAI == "confirm")
+                                    a(href="javascript:;" change-status_rental id=item.TP_ID status=item.TP_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-yellow-500 rounded-md text-yellow-50 hover:bg-yellow-700 ") confirm 
+                                else if(item.TP_TRANGTHAI == "active")
+                                    a(href="javascript:;" change-status_rental id=item.TP_ID status=item.TP_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-p-500 rounded-md text-p-50 hover:bg-p-700 ") active 
                                 else    
-                                    a(href="javascript:;" change-status id=item.NT_ID status=item.NT_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-red-500 rounded-md text-p-50 hover:bg-red-700 ") inactive 
+                                    a(href="javascript:;" change-status_rental id=item.TP_ID status=item.TP_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-red-500 rounded-md text-p-50 hover:bg-red-700 ") inactive 
                             td
                                 div(class="flex gap-4 text-lg ")
                                     // chi tiet
-                                    a(href=`/admin/housing/detail/${item.NT_ID}`) 
+                                    a(href=`/admin/rental/detail/${item.TP_ID}`) 
                                         i(class="fa-solid fa-circle-info text-n-500 hover:text-n-800")
                                     // chinh sua
-                                    a(href=`/admin/housing/edit/${item.NT_ID}`) 
+                                    a(href=`/admin/rental/edit/${item.TP_ID}`) 
                                         i(class="fa-solid fa-square-pen text-p-500 hover:text-p-700")
                                     
                             td  
                                 // xoa
-                                a(href="javascript:;"  button-delete id=item.NT_ID) 
+                                a(href="javascript:;"  button-delete id=item.TP_ID) 
                                     i(class="fa-solid fa-trash text-red-700 hover:text-red-800 text-lg")
             // pagination
             +pagination(pagination)
@@ -75,11 +67,11 @@ block main-content
     // change-status
     form(action=""
         method="POST"
-        path="/admin/housing/change-status"
-        id="form-change-status") 
+        path="/admin/rental/change-status"
+        id="form-change-status_rental") 
     
     // delete
     form(action=""
         method="POST"
-        path="/admin/housing/delete"
+        path="/admin/rental/delete"
         id="form-delete")

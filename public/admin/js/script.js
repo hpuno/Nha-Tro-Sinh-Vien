@@ -10,13 +10,44 @@ if (showAlert) {
 // change-status
 const changeStatus = document.querySelectorAll("[change-status]");
 if (changeStatus) {
-  let url = new URL(window.location.href);
   const formChangeStatus = document.querySelector("#form-change-status");
   changeStatus.forEach((item) => {
     item.addEventListener("click", () => {
       let status = item.getAttribute("status");
       let id = item.getAttribute("id");
       status = status == "active" ? "inactive" : "active";
+
+      let path = formChangeStatus.getAttribute("path");
+      path += `/${status}/${id}?_method=PATCH`;
+
+      formChangeStatus.action = path;
+      formChangeStatus.submit();
+    });
+  });
+}
+
+// form-change-status_rental
+const changeStatusRental = document.querySelectorAll("[change-status_rental]");
+if (changeStatusRental) {
+  const formChangeStatus = document.querySelector("#form-change-status_rental");
+  changeStatusRental.forEach((item) => {
+    item.addEventListener("click", () => {
+      let status = item.getAttribute("status");
+      let id = item.getAttribute("id");
+
+      switch (status) {
+        case "confirm":
+          status = "active";
+          break;
+        case "active":
+          status = "inactive";
+          break;
+        case "inactive":
+          status = "active";
+          break;
+        default:
+          break;
+      }
 
       let path = formChangeStatus.getAttribute("path");
       path += `/${status}/${id}?_method=PATCH`;
@@ -151,5 +182,50 @@ if (formatPriceUInput) {
   formatPriceUInput.forEach((item) => {
     const price = new Intl.NumberFormat("en-US").format(item.value);
     item.value = price;
+  });
+}
+
+// #rental-housing
+const rentalHousing = document.querySelector("#rental-housing");
+if (rentalHousing) {
+  let url = new URL(window.location.href);
+  rentalHousing.addEventListener("change", () => {
+    const value = rentalHousing.value;
+    if (value) url.searchParams.set("idHousing", value);
+    else url.searchParams.delete("idHousing");
+    window.location.href = url.href;
+  });
+}
+
+// #rental-room
+const rentalRoom = document.querySelector("#rental-room");
+if (rentalRoom) {
+  let url = new URL(window.location.href);
+  rentalRoom.addEventListener("change", () => {
+    const value = rentalRoom.value;
+    if (value) url.searchParams.set("idRoom", value);
+    else url.searchParams.delete("idRoom");
+    window.location.href = url.href;
+  });
+}
+
+// TP_NGAY_KETTHUC
+const select_TP_NGAY_KETTHUC = document.querySelector("select#TP_NGAY_KETTHUC");
+if (select_TP_NGAY_KETTHUC) {
+  select_TP_NGAY_KETTHUC.addEventListener("change", () => {
+    const inp_TP_NGAY_KETTHUC = document.querySelector(
+      "[name='TP_NGAY_KETTHUC']",
+    );
+
+    const TP_NGAYTHUE = document.querySelector("#TP_NGAYTHUE").value;
+    let value = select_TP_NGAY_KETTHUC.value;
+
+    if (value != "") {
+      value = parseFloat(value) * 12;
+      const ngayKT = new Date(TP_NGAYTHUE);
+
+      ngayKT.setMonth(ngayKT.getMonth() + value);
+      inp_TP_NGAY_KETTHUC.value = `${ngayKT.getFullYear()}-${String(ngayKT.getMonth() + 1).padStart(2, "0")}-${String(ngayKT.getDate()).padStart(2, "0")}`;
+    } else inp_TP_NGAY_KETTHUC.value = null;
   });
 }

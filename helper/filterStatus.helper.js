@@ -47,3 +47,14 @@ module.exports.filterPriceService = () => {
 
   return filterPriceService;
 };
+
+module.exports.filterRental = () => {
+  const filterStatus = [
+    { value: "", name: "Tất cả", selected: true },
+    { value: "active", name: "Hoạt động", selected: false },
+    { value: "inactive", name: "Dừng hoạt động", selected: false },
+    { value: "confirm", name: "Chưa xác nhận", selected: false },
+  ];
+
+  return filterStatus;
+};

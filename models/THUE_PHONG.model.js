@@ -73,3 +73,83 @@ module.exports.SELECT_RENTAL = async (key) => {
     throw error;
   }
 };
+
+module.exports.SELECT = async (find, pagination, role) => {
+  const params = [role];
+  const conditions = ["PHONG.NT_ID IN (?)"];
+
+  let q = `
+  SELECT * FROM THUE_PHONG
+  INNER JOIN PHONG ON THUE_PHONG.P_ID = PHONG.P_ID
+  INNER JOIN NHA_TRO ON PHONG.NT_ID = NHA_TRO.NT_ID
+  INNER JOIN KHACH_THUE ON KHACH_THUE.KT_ID = THUE_PHONG.KT_ID`;
+
+  if (find.search) {
+    conditions.push("P_TEN LIKE ?");
+    const search = `%${find.search}%`;
+    params.push(search);
+  }
+
+  if (find.status) {
+    conditions.push("TP_TRANGTHAI = ?");
+    params.push(find.status);
+  }
+  if (conditions.length > 0) q += "\nWHERE " + conditions.join(" AND ");
+
+  q += `
+    ORDER BY TP_ID DESC
+    LIMIT ?
+    OFFSET ?`;
+
+  params.push(pagination.limit, pagination.offset);
+
+  try {
+    const data = await db.query(q, params);
+    return data[0];
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports.COUNT = async (find, role) => {
+  const params = [role];
+  const conditions = ["PHONG.NT_ID IN (?)"];
+
+  let q = `
+  SELECT COUNT(*) FROM THUE_PHONG
+  INNER JOIN PHONG ON THUE_PHONG.P_ID = PHONG.P_ID
+  INNER JOIN NHA_TRO ON PHONG.NT_ID = NHA_TRO.NT_ID
+  INNER JOIN KHACH_THUE ON KHACH_THUE.KT_ID = THUE_PHONG.KT_ID`;
+
+  if (find.search) {
+    conditions.push("P_TEN LIKE ?");
+    const search = `%${find.search}%`;
+    params.push(search);
+  }
+
+  if (find.status) {
+    conditions.push("TP_TRANGTHAI = ?");
+    params.push(find.status);
+  }
+  if (conditions.length > 0) q += "\nWHERE " + conditions.join(" AND ");
+
+  try {
+    const [result] = await db.query(q, params);
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports.CHANGE_STATUS = async (id, status) => {
+  let q = `
+  UPDATE THUE_PHONG
+  SET TP_TRANGTHAI = ?
+  WHERE TP_ID = ?`;
+
+  try {
+    await db.query(q, [status, id]);
+  } catch (error) {
+    throw error;
+  }
+};

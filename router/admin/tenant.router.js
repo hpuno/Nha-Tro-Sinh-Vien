@@ -34,6 +34,8 @@ router.post(
   controller.createPost,
 );
 
+router.get("/rental/:id", controller.rental);
+
 router.get("/export-file", controller.exportFile);
 
 module.exports = router;

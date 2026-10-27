@@ -332,3 +332,20 @@ module.exports.findByIDHousing = async (idHousing) => {
     throw error;
   }
 };
+
+module.exports.SELECT_RENTAL = async (idHousing) => {
+  let q = `
+  SELECT * FROM PHONG
+  WHERE P_ID IN (
+      SELECT P_ID FROM phong
+      EXCEPT
+      SELECT P_ID FROM thue_phong
+    ) AND NT_ID = ?`;
+
+  try {
+    const [data] = await db.query(q, [idHousing]);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};

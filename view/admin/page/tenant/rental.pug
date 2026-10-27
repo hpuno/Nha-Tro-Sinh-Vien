@@ -1,0 +1,130 @@
+extends ../../layout/default.pug
+include ../../mixin/alert.pug
+
+block main-content
+    +successAlert(3000)
+    +errorAlert(3000)
+
+    div(class="container mt-10")
+        form(action="/admin/rental" method="post") 
+            
+            div(class="relative grid grid-cols-2 gap-10 bg-n-50 px-4 py-6 rounded-2xl w-5xl m-auto shadow-n-200 shadow-xs")
+
+                .form-group.gap-2
+
+                    //- Nhà trọ
+                    div(class="flex items-center gap-2 my-2 font-inter text-lg")
+                        i(class="fa-solid fa-house").text-p-500
+                        p Thông tin nhà trọ
+
+                    div(class="px-2 py-1 flex items-center gap-2 font-inter text-sm text-n-800 border border-n-200 rounded-2xl w-fit")
+                        select#rental-housing
+                            option Chọn nhà trọ
+                            each item in nha_tro
+                                option(value=item.NT_ID selected=(item.NT_ID == idHousing)) #{item.NT_TEN}  
+
+                    if(housing)
+                        if(housing.NT_ANH)
+                            img(src=housing.NT_ANH alt=housing.NT_TEN class="h-25 w-25 object-cover rounded-md") 
+                        
+                        div(class="px-4 flex items-center gap-2")                    
+                            span(class="text-n-500 text-xs") - Nhà trọ:
+                            span(class="text-n-800 text-sm font-semibold") #{housing.NT_TEN}
+
+                        div(class="px-4 flex items-center gap-2")                    
+                            span(class="text-n-500 text-xs") - Địa chỉ:
+                            span(class="text-n-800 text-sm font-semibold") #{housing.NT_DIACHI}
+
+                        div(class="px-4 flex items-center gap-2")                    
+                            span(class="text-n-500 text-xs") - Mô tả:
+                            span(class="text-n-800 text-sm font-semibold") #{housing.NT_MOTA?housing.NT_MOTA:"_"}
+
+                    //- Phòng trọ
+                    div(class="flex items-center gap-2 my-2 font-inter text-lg")
+                        i(class="fa-solid fa-building-user").text-p-500
+                        p Thông tin phòng trọ
+
+                    div(class="px-2 py-1 flex items-center gap-2 font-inter text-sm text-n-800 border border-n-200 rounded-2xl w-fit")
+                        select#rental-room(name="P_ID")
+                            option Chọn phòng trọ
+                            each item in phong
+                                option(value=item.P_ID selected=(item.P_ID == idRoom)) #{item.P_TEN}
+
+                    if(room)
+                        if(room.P_ANH)
+                            img(src=room.P_ANH alt=room.P_TEN class="h-25 w-25 object-cover rounded-md")
+
+                        div(class="px-4 flex items-center gap-2")                    
+                            span(class="text-n-500 text-xs") - Phòng trọ:
+                            span(class="text-n-800 text-sm font-semibold") #{room.P_TEN}
+
+                        div(class="px-4 flex items-center gap-2")                    
+                            span(class="text-n-500 text-xs") - Giá phòng (VND):
+                            span(class="text-n-800 text-sm font-semibold format-price") #{room.P_GIA}
+                        
+                        div(class="px-4 flex items-center gap-2")                    
+                            span(class="text-n-500 text-xs") - Giá điện (kWh):
+                            span(class="text-n-800 text-sm font-semibold format-price") #{priceService.dien}
+                        
+                        div(class="px-4 flex items-center gap-2")                    
+                            span(class="text-n-500 text-xs") - Giá nước (m #[sup 3]):
+                            span(class="text-n-800 text-sm font-semibold format-price") #{priceService.nuoc}
+
+                        div(class="px-4 flex items-center gap-2")                    
+                            span(class="text-n-500 text-xs") - Tiền thu rác (VND):
+                            span(class="text-n-800 text-sm font-semibold format-price") #{priceService.rac}
+
+                        div(class="px-4 flex items-center gap-2")                    
+                            span(class="text-n-500 text-xs") - Diện tích (m #[sup 2]):
+                            span(class="text-n-800 text-sm font-semibold ") #{room.P_DIENTICH}
+
+                        div(class="px-4 flex items-center gap-2")                    
+                            span(class="text-n-500 text-xs") - Số lượng người ở:
+                            span(class="text-n-800 text-sm font-semibold ") #{room.P_SL}
+
+                        div(class="px-4 flex items-center gap-2")                    
+                            span(class="text-n-500 text-xs") - Mô tả:
+                            span(class="text-n-800 text-sm font-semibold ") #{room.P_MOTA?room.P_MOTA:"_"}
+
+                div(class="absolute right-1/2 left-1/2 top-5 bottom-5 border border-n-200")
+
+                .form-group.gap-8
+
+                    div(class="flex items-center gap-2 my-2 font-inter text-lg")
+                        i(class="fa-solid fa-book-open-reader").text-p-500
+                        p Thông tin thuê
+
+                    if(khach_thue.KT_ANH)
+                        img(src=khach_thue.KT_ANH alt=khach_thue.KT_TEN class="h-25 w-25 object-cover rounded-md")
+                
+                    .form-control_rental                  
+                        label(for="KT_TEN") #[span.text-red-500 * ]Họ và tên:
+                        input(type="text" id="KT_TEN" name="KT_TEN" value=khach_thue.KT_TEN required)
+                    
+                    .form-control_rental                  
+                        label(for="KT_SDT") #[span.text-red-500 * ]Số điện thoại:
+                        input(type="text" id="KT_SDT" name="KT_SDT" value=khach_thue.KT_SDT required)
+                    
+                    .form-control_rental                  
+                        label(for="KT_CCCD") #[span.text-red-500 * ]Căn cước:
+                        input(type="text" id="KT_CCCD" name="KT_CCCD" value=khach_thue.KT_CCCD required)
+                    
+                    .form-control_rental                  
+                        label(for="TP_NGAYTHUE") #[span.text-red-500 * ]Ngày thuê:
+                        input(type="Date" id="TP_NGAYTHUE" name="TP_NGAYTHUE" value=TP_NGAYTHUE required)
+
+                    .form-control_rental                  
+                        label(for="TP_NGAY_KETTHUC") #[span.text-red-500 * ]Ngày kết thúc:
+                        div(class="flex items-center gap-2 w-3/4")
+                            input(type="text" name="TP_NGAY_KETTHUC" readonly required)
+                            select(id="TP_NGAY_KETTHUC" class="font-inter border border-n-500 rounded-xl px-2 py-1" required)
+                                option(value="") Thời hạn thuê
+                                option(value="0.5") 6 tháng 
+                                option(value="1") 1 năm   
+                                option(value="2") 2 năm    
+
+                    div(class="flex items-center justify-end gap-4 mt-5")
+                        a(href="/room" class="px-4 py-1 font-semibold font-inter text-base text-gray-50 bg-gray-600 hover:bg-gray-700 rounded-xl") Hủy 
+                        button(class="px-4 py-1 font-semibold font-inter text-base text-p-50 bg-p-500 hover:bg-p-700 rounded-xl") Đăng ký thuê
+                                
+                            

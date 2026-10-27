@@ -110,7 +110,7 @@ module.exports.SELECT = async (find, pagination, role) => {
   const conditions = ["PHONG.NT_ID IN (?) OR PHONG.NT_ID IS NULL"];
 
   let q = `
-  SELECT * FROM KHACH_THUE
+  SELECT DISTINCT KHACH_THUE.* FROM KHACH_THUE
   LEFT JOIN THUE_PHONG ON THUE_PHONG.KT_ID = KHACH_THUE.KT_ID
   LEFT JOIN PHONG ON PHONG.P_ID = THUE_PHONG.P_ID`;
 
