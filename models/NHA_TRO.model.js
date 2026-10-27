@@ -218,3 +218,15 @@ module.exports.COUNT_ROOM = async () => {
     throw error;
   }
 };
+
+module.exports.SELECT_RENTAL = async (role) => {
+  let q = `
+  SELECT * FROM NHA_TRO
+  WHERE NT_ID IN (?) AND NT_TRANGTHAI = "active"`;
+  try {
+    const [data] = await db.query(q, role);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};

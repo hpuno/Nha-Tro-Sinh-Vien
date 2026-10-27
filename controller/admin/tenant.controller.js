@@ -339,7 +339,10 @@ module.exports.rental = async (req, res) => {
       idRoom = req.query.idRoom;
       room = await PHONG.findByID(idRoom);
     }
-    const nha_tro = await NHA_TRO.SELECT_ACTIVE();
+
+    const role = roleHelper.getRole(res.locals);
+
+    const nha_tro = await NHA_TRO.SELECT_RENTAL(role);
 
     const [khach_thue] = await KHACH_THUE.findByID(idUser);
     const TP_NGAYTHUE = dayjs().format("YYYY-MM-DD");
