@@ -5,7 +5,6 @@ const NHA_TRO = require("./NHA_TRO.model");
 const NHAN_VIEN = require("./NHAN_VIEN.model");
 const THUE_PHONG = require("./THUE_PHONG.model");
 const HOA_DON = require("./HOA_DON.model");
-const DON_VI_TINH = require("./DON_VI_TINH.model");
 const DICH_VU = require("./DICH_VU.model");
 const SDDV = require("./SDDV.model");
 const GHI_CHI_SO = require("./GHI_CHI_SO.model");
@@ -20,7 +19,6 @@ module.exports.initTables = async () => {
     await NHAN_VIEN.NHAN_VIEN();
     await THUE_PHONG.THUE_PHONG();
     await HOA_DON.HOA_DON();
-    await DON_VI_TINH.DON_VI_TINH();
     await DICH_VU.DICH_VU();
     await SDDV.SDDV();
     await GHI_CHI_SO.GHI_CHI_SO();

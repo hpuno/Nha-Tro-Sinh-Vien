@@ -37,3 +37,13 @@ module.exports.filterPrice = () => {
 
   return filterPrice;
 };
+
+module.exports.filterPriceService = () => {
+  const filterPriceService = [
+    { value: "m3", name: "m³", checked: false },
+    { value: "vnd", name: "VND", checked: false },
+    { value: "kwh", name: "Kwh", checked: false },
+  ];
+
+  return filterPriceService;
+};

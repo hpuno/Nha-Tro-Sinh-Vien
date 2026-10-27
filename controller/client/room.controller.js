@@ -36,7 +36,7 @@ module.exports.index = async (req, res) => {
       current: 1,
       offset: 0,
     };
-    console.log(find);
+
     pagination.count = await PHONG.COUNT_CLIENT(find);
     pagination.page = Math.ceil(
       pagination.count[0]["COUNT(*)"] / pagination.limit,

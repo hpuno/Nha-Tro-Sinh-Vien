@@ -1,0 +1,53 @@
+extends ../../layout/default.pug
+include ../../mixin/search.pug
+include ../../mixin/filter-status.pug
+include ../../mixin/alert.pug
+
+block main-content
+    +successAlert(3000)
+    +errorAlert(3000)
+
+    div(class="container mt-10 w-[700px]")
+    
+        div(class="relative flex flex-col gap-4 px-6 shadow-n-800 shadow-xs px-4 py-8 rounded-md ") 
+            
+            form(action=`/admin/service/edit/${dich_vu.DV_ID}?_method=PATCH` method="post")  
+
+                div(class="grid grid-cols-2 gap-4 px-6")
+
+                    div(class="flex items-center col-span-2 gap-2 font-inter text-lg ") 
+                        i(class="fa-regular fa-clipboard")
+                        span.text-n-800.font-semibold Thông tin dịch vụ
+
+                    .form-group
+                        div(class="form-control_info")          
+                            label(for="DV_TEN") #[span.text-red-500 * ]Tên dịch vụ
+                            input(type="text" id="DV_TEN" name="DV_TEN" value=dich_vu.DV_TEN placeholder="Điện, nước, giặt ủi" required)
+
+                        div(class="form-control_info")          
+                            label(for="DV_GIA") #[span.text-red-500 * ] Giá dịch vụ
+                            input(type="text" id="DV_GIA" change-price-format format-price-input min=1 name="DV_GIA" value=dich_vu.DV_GIA required)
+
+                    .form-group
+
+                        .form-control_info          
+                            label(for="DV_TRANGTHAI") #[span.text-red-500 * ]Trạng thái
+                            select(name="DV_TRANGTHAI" required)
+                                option(value="active" selected=(dich_vu.DV_TRANGTHAI == "active")) Hoạt động 
+                                option(value="inactive" selected=(dich_vu.DV_TRANGTHAI == "inactive")) Dừng hoạt động
+
+                        .form-control_info
+                            label(for="DV_DVT") #[span.text-red-500 * ]Đơn vị
+                            select(name="DV_DVT" required).w-fit 
+                                each item in filterPriceService
+                                    option(value=item.value selected=(dich_vu.DV_DVT == item.value)) #{item.name}
+                            
+                    .form-control_info.col-span-2                 
+                        label(for="DV_MOTA") Mô tả
+                        textarea(id="DV_MOTA" name="DV_MOTA") #{dich_vu.DV_MOTA} 
+
+                div(class="flex items-center justify-end mt-10 gap-4") 
+                    a(href="/admin/service" class="btn-2 py-1 text-base bg-gray-500") Hủy
+                    button(type="submit" class="btn-2 py-1 text-base") Thêm mới
+                
+        

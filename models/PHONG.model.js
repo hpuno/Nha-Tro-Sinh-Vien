@@ -223,6 +223,13 @@ module.exports.SELECT_ACTIVE = async (find, pagination) => {
   const params = [];
   const conditions = ["P_TRANGTHAI='active'"];
 
+  conditions.push(`
+    P_ID IN (
+      SELECT P_ID FROM phong
+      EXCEPT
+      SELECT P_ID FROM thue_phong
+    )`);
+
   let q = `
     SELECT *, NHA_TRO.NT_TEN FROM PHONG
     INNER JOIN NHA_TRO ON PHONG.NT_ID = NHA_TRO.NT_ID`;
@@ -269,6 +276,12 @@ module.exports.SELECT_ACTIVE = async (find, pagination) => {
 module.exports.COUNT_CLIENT = async (find) => {
   const params = [];
   const conditions = ["P_TRANGTHAI='active'"];
+  conditions.push(`
+    P_ID IN (
+      SELECT P_ID FROM phong
+      EXCEPT
+      SELECT P_ID FROM thue_phong
+    )`);
 
   let q = `
     SELECT COUNT(*) FROM PHONG

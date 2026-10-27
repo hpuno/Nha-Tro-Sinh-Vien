@@ -4,7 +4,12 @@ module.exports.THUE_PHONG = async () => {
   let q = `
   CREATE TABLE IF NOT EXISTS THUE_PHONG (
   TP_ID INT AUTO_INCREMENT PRIMARY KEY,
-  TP_DATCOC INT CHECK(TP_DATCOC > 0),
+  TP_DATCOC INT CHECK(TP_DATCOC > 0), 
+  TP_GIA INT NOT NULL CHECK(TP_GIA > 0),
+  TP_GIADIEN INT NOT NULL CHECK(TP_GIADIEN > 0),
+  TP_GIANUOC INT NOT NULL CHECK(TP_GIANUOC > 0),
+  TP_GIARAC INT NOT NULL CHECK(TP_GIARAC > 0),
+
   TP_NGAYTHUE DATE,
   TP_NGAY_KETTHUC DATE,
   TP_TRANGTHAI VARCHAR(255) DEFAULT "confirm",
@@ -28,11 +33,20 @@ module.exports.THUE_PHONG = async () => {
 module.exports.INSERT = async (data, KT_ID, P_ID) => {
   let q = `
   INSERT INTO 
-  THUE_PHONG (TP_NGAYTHUE, TP_NGAY_KETTHUC, KT_ID, P_ID)
-  VALUES (?, ?, ?, ?)`;
+  THUE_PHONG (TP_NGAYTHUE, TP_NGAY_KETTHUC, KT_ID, P_ID, TP_GIADIEN, TP_GIANUOC, TP_GIARAC, TP_GIA)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
 
   try {
-    await db.query(q, [data.TP_NGAYTHUE, data.TP_NGAY_KETTHUC, KT_ID, P_ID]);
+    await db.query(q, [
+      data.TP_NGAYTHUE,
+      data.TP_NGAY_KETTHUC,
+      KT_ID,
+      P_ID,
+      data.TP_GIADIEN,
+      data.TP_GIANUOC,
+      data.TP_GIARAC,
+      data.TP_GIA,
+    ]);
   } catch (error) {
     throw error;
   }

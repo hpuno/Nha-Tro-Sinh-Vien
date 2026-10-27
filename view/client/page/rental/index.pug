@@ -53,11 +53,15 @@ block main
                         
                         div(class="px-4 flex items-center gap-2")                    
                             span(class="text-n-500 text-xs") - Giá điện (kWh):
-                            span(class="text-n-800 text-sm font-semibold format-price") 13000
+                            span(class="text-n-800 text-sm font-semibold format-price") #{priceService.dien}
                         
                         div(class="px-4 flex items-center gap-2")                    
                             span(class="text-n-500 text-xs") - Giá nước (m #[sup 3]):
-                            span(class="text-n-800 text-sm font-semibold format-price") 4000
+                            span(class="text-n-800 text-sm font-semibold format-price") #{priceService.nuoc}
+
+                        div(class="px-4 flex items-center gap-2")                    
+                            span(class="text-n-500 text-xs") - Tiền thu rác (VND):
+                            span(class="text-n-800 text-sm font-semibold format-price") #{priceService.rac}
 
                         div(class="px-4 flex items-center gap-2")                    
                             span(class="text-n-500 text-xs") - Diện tích (m #[sup 2]):
