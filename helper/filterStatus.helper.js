@@ -1,4 +1,5 @@
 const NHA_TRO = require("../models/NHA_TRO.model");
+const dayjs = require("dayjs");
 
 module.exports.filter = () => {
   const filterStatus = [
@@ -41,7 +42,7 @@ module.exports.filterPrice = () => {
 module.exports.filterPriceService = () => {
   const filterPriceService = [
     { value: "m3", name: "m³", checked: false },
-    { value: "vnd", name: "VND", checked: false },
+    { value: "phong", name: "Phòng", checked: false },
     { value: "kwh", name: "Kwh", checked: false },
   ];
 
@@ -57,4 +58,32 @@ module.exports.filterRental = () => {
   ];
 
   return filterStatus;
+};
+
+module.exports.filterService = () => {
+  const filterService = [
+    { value: "", name: "Tất cả", selected: true },
+    { value: "registered", name: "Đăng ký", selected: false },
+    { value: "unregistered", name: "Chưa đăng ký", selected: false },
+  ];
+
+  return filterService;
+};
+
+module.exports.filterMounthYear = () => {
+  let filterMounthYear = [{ value: "", name: "Tất cả", selected: true }];
+
+  const year = dayjs().year();
+
+  for (let i = 1; i <= 12; i++) {
+    let my = dayjs(`${year}-${i}`).format("MM/YYYY");
+
+    filterMounthYear.push({
+      value: my,
+      name: my,
+      selected: false,
+    });
+  }
+
+  return filterMounthYear;
 };

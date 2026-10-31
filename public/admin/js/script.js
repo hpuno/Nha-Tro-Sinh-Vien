@@ -37,7 +37,7 @@ if (changeStatusRental) {
 
       switch (status) {
         case "confirm":
-          status = "active";
+          status = "confirm";
           break;
         case "active":
           status = "inactive";
@@ -70,6 +70,32 @@ if (buttonDelete) {
         const id = item.getAttribute("id");
         let path = formDelete.getAttribute("path");
         path += `/${id}?_method=DELETE`;
+
+        formDelete.action = path;
+        formDelete.submit();
+      }
+    });
+  });
+}
+
+// button-delete-use-service
+const buttonDeleteUseService = document.querySelectorAll(
+  "[button-delete-use-service]",
+);
+if (buttonDeleteUseService) {
+  const formDelete = document.querySelector("#form-delete-use-service");
+
+  buttonDeleteUseService.forEach((item) => {
+    item.addEventListener("click", () => {
+      const isconfirm = confirm("Bạn có chắc muốn xóa không");
+
+      if (isconfirm) {
+        const idRoom = item.getAttribute("idRoom");
+        const idService = item.getAttribute("idService");
+        const mouthYear = item.getAttribute("mouth-year");
+
+        let path = formDelete.getAttribute("path");
+        path += `/${idRoom}/${idService}/${encodeURIComponent(mouthYear)}?_method=DELETE`;
 
         formDelete.action = path;
         formDelete.submit();
@@ -227,5 +253,18 @@ if (select_TP_NGAY_KETTHUC) {
       ngayKT.setMonth(ngayKT.getMonth() + value);
       inp_TP_NGAY_KETTHUC.value = `${ngayKT.getFullYear()}-${String(ngayKT.getMonth() + 1).padStart(2, "0")}-${String(ngayKT.getDate()).padStart(2, "0")}`;
     } else inp_TP_NGAY_KETTHUC.value = null;
+  });
+}
+
+// #use_service_create
+const useServiceCreate = document.querySelector("#use_service_create");
+if (useServiceCreate) {
+  let url = new URL(window.location.href);
+  useServiceCreate.addEventListener("change", () => {
+    const value = useServiceCreate.value;
+    if (value) url.searchParams.set("idRoom", value);
+    else url.searchParams.delete("idRoom");
+
+    window.location.href = url.href;
   });
 }

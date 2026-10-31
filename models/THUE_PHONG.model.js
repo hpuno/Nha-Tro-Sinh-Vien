@@ -1,4 +1,5 @@
 const db = require("../config/database");
+const { SELECT } = require("./SDDV.model");
 
 module.exports.THUE_PHONG = async () => {
   let q = `
@@ -64,10 +65,39 @@ module.exports.findByID = async (key, value) => {
   }
 };
 
-module.exports.SELECT_RENTAL = async (key) => {
+module.exports.SELECT_ID_RENTAL = async (key) => {
   let q = `SELECT ${key} FROM THUE_PHONG`;
   try {
     const [data] = await db.query(q);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports.SELECT_RENTAL = async (key, id) => {
+  let q = `
+  SELECT * FROM THUE_PHONG
+  INNER JOIN PHONG ON THUE_PHONG.P_ID = PHONG.P_ID
+  INNER JOIN NHA_TRO ON PHONG.NT_ID = NHA_TRO.NT_ID
+  WHERE ${key} = ? `;
+
+  try {
+    const [data] = await db.query(q, [id]);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports.SELECT_ACTIVE = async (role) => {
+  let q = `
+  SELECT PHONG.*, NT_TEN FROM THUE_PHONG
+  INNER JOIN PHONG ON THUE_PHONG.P_ID = PHONG.P_ID
+  INNER JOIN NHA_TRO ON PHONG.NT_ID = NHA_TRO.NT_ID
+  WHERE TP_TRANGTHAI = 'active' AND PHONG.NT_ID IN (?)`;
+  try {
+    const [data] = await db.query(q, [role]);
     return data;
   } catch (error) {
     throw error;
@@ -149,6 +179,31 @@ module.exports.CHANGE_STATUS = async (id, status) => {
 
   try {
     await db.query(q, [status, id]);
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports.CHANGE_STATUS = async (id, status, NV_ID) => {
+  let q = `
+  UPDATE THUE_PHONG
+  SET TP_TRANGTHAI = ?, NV_ID = ?
+  WHERE TP_ID = ?`;
+
+  try {
+    await db.query(q, [status, NV_ID, id]);
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports.DELETE = async (id) => {
+  let q = `
+  DELETE FROM THUE_PHONG
+  WHERE TP_ID = ?`;
+
+  try {
+    await db.query(q, [id]);
   } catch (error) {
     throw error;
   }

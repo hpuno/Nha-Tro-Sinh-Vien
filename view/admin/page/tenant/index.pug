@@ -51,11 +51,8 @@ block main-content
                                 else    
                                     a(href="javascript:;" change-status id=item.KT_ID status=item.KT_TRANGTHAI class="px-2 py-1 font-inter text-xs bg-red-500 rounded-md text-p-50 hover:bg-red-700 ") inactive 
                             td 
-                                if(!rental.includes(item.KT_ID))
-                                    a(href=`/admin/tenant/rental/${item.KT_ID}` class="px-2 py-1 font-inter text-xs bg-amber-500 rounded-md text-amber-50 hover:bg-amber-700 ") Thuê phòng 
-                                else 
-                                    a(href="javascript:;" class="px-2 py-1 font-inter text-xs bg-gray-500 rounded-md text-gray-50") Thuê phòng 
-                                    
+                                a(href=`/admin/tenant/rental/${item.KT_ID}` class="px-2 py-1 font-inter text-xs bg-amber-500 rounded-md text-amber-50 hover:bg-amber-700 ") Thuê phòng 
+                               
                             td
                                 div(class="flex gap-4 text-lg ")
                                     // chi tiet

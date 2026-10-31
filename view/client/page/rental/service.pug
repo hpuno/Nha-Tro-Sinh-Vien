@@ -1,0 +1,51 @@
+extends ../../layout/defaultUser.pug
+include ../../mixin/alert.pug
+include ../../mixin/search.pug
+include ../../mixin/filter-service.pug 
+include ../../mixin/pagination.pug
+
+block main
+    +errorAlert(3000)
+    +successAlert(3000)
+
+    .mb-4
+        h3(class="font-inter text-n-800 font-semibold text-2xl mb-2") Đăng ký dịch vụ
+        p(class="text-n-500 text-sm") Theo dõi các dịch vụ đang được cung cấp tại nhà trọ của chúng tôi.
+    
+        
+    div(class="grid grid-cols-2 gap-6 justify-center")
+        
+        div(class="w-fit col-span-2 flex item-center gap-2")
+            +searchBox(search)
+            +filterService(filterService)
+
+        each item in dich_vu
+            div(class="flex flex-col gap-5 justify-center px-4 py-5 border border-n-200 w-sm rounded-2xl")
+                
+                if(!sddv.includes(item.DV_ID))
+                    div(class="self-end bg-red-100 text-red-950 px-2 rounded-2xl ")
+                        p.text-xs Chưa đăng ký
+                else 
+                    div(class="self-end bg-p-100 text-p-950 px-2 rounded-2xl ")
+                        p.text-xs Đã đăng ký
+
+                div
+                    h3(class="font-inter text-n-800 text-base font-bold") #{item.DV_TEN}
+                    span(class="font-inter text-n-500 text-xs ") #{item.DV_MOTA}
+                
+                div(class="border border-n-200 w-full")
+
+                div(class="flex items-center justify-between")
+                    div(class="flex gap-2 items-center font-inter text-p-700 text-base font-semibold") 
+                        .format-price #{item.DV_GIA}
+                        sub 
+                            span ₫ / #{item.DV_DVT}
+                    if(!sddv.includes(item.DV_ID))
+                        button(service-signup id=item.DV_ID class="px-2 py-1 font-inter text-sm text-n-800 border border-n-500 rounded-xl bg-n-100 hover:bg-n-200") Đăng ký
+                        
+        div(class="flex items-center justify-center col-span-2")
+            +pagination(pagination)
+
+    //- Đăng ký dịch vụ
+    form(action=`/rental/service-signup/${idRoom}/` id="form-service-signup" method="post") 
+        

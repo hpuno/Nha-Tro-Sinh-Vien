@@ -58,14 +58,29 @@ module.exports.index = async (req, res) => {
 module.exports.changeStatus = async (req, res) => {
   try {
     const { status, id } = req.params;
-
-    await THUE_PHONG.CHANGE_STATUS(id, status);
+    if (status == "confirm") {
+      const NV_ID = res.locals.user.NV_ID;
+      await THUE_PHONG.CHANGE_STATUS(id, "active", NV_ID);
+    } else return;
 
     req.flash("success", "Cập nhật thành công");
     res.redirect("/admin/rental");
   } catch (error) {
     console.log(error);
     req.flash("error", "Cập nhật thất bại");
+    res.redirect("/admin/rental");
+  }
+};
+
+module.exports.delete = async (req, res) => {
+  try {
+    const id = req.params.id;
+    await THUE_PHONG.DELETE(id);
+
+    req.flash("sucess", "Xóa thành công");
+    res.redirect("/admin/rental");
+  } catch (error) {
+    req.flash("error", "Xóa thất bại");
     res.redirect("/admin/rental");
   }
 };

@@ -1,0 +1,118 @@
+extends ../../layout/defaultUser.pug
+include ../../mixin/alert.pug
+
+block main
+    +errorAlert(3000)
+    +successAlert(3000)
+
+    div(class="bg-n-50 px-4 py-6 rounded-2xl shadow-n-500 shadow-xs")
+      
+        div(class="relative grid grid-cols-2 gap-10")
+
+            if(thue_phong.TP_TRANGTHAI == "active")
+                div(class="absolute top-3 right-5") 
+                    div(class="flex items-center justify-center gap-2 font-inter text-p-500")
+                        div(class="relative flex size-3")
+                            span(class="absolute inline-flex h-full w-full animate-ping rounded-full bg-p-500 opacity-75")
+                            span(class="relative inline-flex size-3 rounded-full bg-p-500")
+                        p Hoạt động 
+
+            else if(thue_phong.TP_TRANGTHAI == "inactive")
+                div(class="absolute top-3 right-5") 
+                    div(class="flex items-center justify-center gap-2 font-inter text-red-500")
+                        div(class="relative flex size-3")
+                            span(class="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-75")
+                            span(class="relative inline-flex size-3 rounded-full bg-red-500")
+                        p Dừng hợp đồng 
+
+            else 
+                div(class="absolute top-3 right-5") 
+                    div(class="flex items-center justify-center gap-2 font-inter text-yellow-500")
+                        div(class="relative flex size-3")
+                            span(class="absolute inline-flex h-full w-full animate-ping rounded-full bg-yellow-500 opacity-75")
+                            span(class="relative inline-flex size-3 rounded-full bg-yellow-500")
+                        p Chờ xét duyệt
+
+            .form-group.gap-2
+
+                //- Nhà trọ
+                div(class="flex items-center gap-2 my-2 font-inter text-lg")
+                    i(class="fa-solid fa-house").text-p-500
+                    p Thông tin nhà trọ
+
+                if(thue_phong.NT_ANH)
+                    img(src=thue_phong.NT_ANH alt=thue_phong.NT_TEN class="h-25 w-25 object-cover rounded-md") 
+                
+                div(class="px-4 flex items-center gap-2")                    
+                    span(class="text-n-500 text-xs") - Nhà trọ:
+                    span(class="text-n-800 text-sm font-semibold") #{thue_phong.NT_TEN}
+
+                div(class="px-4 flex items-center gap-2")                    
+                    span(class="text-n-500 text-xs") - Địa chỉ:
+                    span(class="text-n-800 text-sm font-semibold") #{thue_phong.NT_DIACHI}
+
+                div(class="px-4 flex items-center gap-2")                    
+                    span(class="text-n-500 text-xs") - Mô tả:
+                    span(class="text-n-800 text-sm font-semibold") #{thue_phong.NT_MOTA?thue_phong.NT_MOTA:"_"}
+
+                //- Dich vu
+
+                div(class="flex items-center gap-2 my-2 font-inter text-lg")
+                    i(class="fa-solid fa-book-open-reader").text-p-500
+                    p Dịch vụ sử dụng  
+                
+                if(dich_vu.length > 0) 
+                    each item in dich_vu
+                        div(class="px-4 flex items-center gap-2")                    
+                            span(class="text-n-500 text-xs") - #{item.DV_TEN}:
+                            span(class="text-n-800 text-sm font-semibold format-price") #{item.DV_GIA}
+
+
+            div(class="absolute right-1/2 left-1/2 top-1 bottom-1 border border-n-200")
+
+            .form-group
+
+                //- Phòng trọ
+                div(class="flex items-center gap-2 my-2 font-inter text-lg")
+                    i(class="fa-solid fa-building-user").text-p-500
+                    p Thông tin phòng trọ
+
+                if(thue_phong.P_ANH)
+                    img(src=thue_phong.P_ANH alt=thue_phong.P_TEN class="h-25 w-25 object-cover rounded-md")
+
+                div(class="px-4 flex items-center gap-2")                    
+                    span(class="text-n-500 text-xs") - Phòng trọ:
+                    span(class="text-n-800 text-sm font-semibold") #{thue_phong.P_TEN}
+
+                div(class="px-4 flex items-center gap-2")                    
+                    span(class="text-n-500 text-xs") - Giá phòng (VND):
+                    span(class="text-n-800 text-sm font-semibold format-price") #{thue_phong.TP_GIA}
+                
+                div(class="px-4 flex items-center gap-2")                    
+                    span(class="text-n-500 text-xs") - Giá điện (kWh):
+                    span(class="text-n-800 text-sm font-semibold format-price") #{thue_phong.TP_GIADIEN}
+                
+                div(class="px-4 flex items-center gap-2")                    
+                    span(class="text-n-500 text-xs") - Giá nước (m #[sup 3]):
+                    span(class="text-n-800 text-sm font-semibold format-price") #{thue_phong.TP_GIANUOC}
+
+                div(class="px-4 flex items-center gap-2")                    
+                    span(class="text-n-500 text-xs") - Tiền thu rác (VND):
+                    span(class="text-n-800 text-sm font-semibold format-price") #{thue_phong.TP_GIARAC}
+
+                div(class="px-4 flex items-center gap-2")                    
+                    span(class="text-n-500 text-xs") - Diện tích (m #[sup 2]):
+                    span(class="text-n-800 text-sm font-semibold ") #{thue_phong.P_DIENTICH}
+
+                div(class="px-4 flex items-center gap-2")                    
+                    span(class="text-n-500 text-xs") - Số lượng người ở:
+                    span(class="text-n-800 text-sm font-semibold ") #{thue_phong.P_SL}
+
+                div(class="px-4 flex items-center gap-2")                    
+                    span(class="text-n-500 text-xs") - Mô tả:
+                    span(class="text-n-800 text-sm font-semibold ") #{thue_phong.P_MOTA?thue_phong.P_MOTA:"_"}
+
+    
+        
+
+

@@ -8,6 +8,7 @@ const uploadCloud = require("../../middleware/uploadCloud.middlaware");
 const removeCloud = require("../../middleware/removeUpload.middleware");
 const infoValidation = require("../../validation/info.validation");
 const tenantValidation = require("../../validation/tenant.validation");
+const rentalValidation = require("../../validation/rental.validation");
 
 router.get("/", controller.index);
 router.patch("/change-status/:status/:id", controller.changStatus);
@@ -35,6 +36,7 @@ router.post(
 );
 
 router.get("/rental/:id", controller.rental);
+router.post("/rental/:id", rentalValidation.tenant, controller.rentalPost);
 
 router.get("/export-file", controller.exportFile);
 

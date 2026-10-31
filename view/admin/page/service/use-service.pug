@@ -1,0 +1,45 @@
+extends ../../layout/default.pug
+include ../../mixin/search.pug
+include ../../mixin/filter-status.pug
+include ../../mixin/alert.pug
+
+block main-content
+    +successAlert(3000)
+    +errorAlert(3000)
+
+    div(class="container mt-10 w-[700px]")
+    
+        div(class="relative flex flex-col gap-4 px-6 shadow-n-800 shadow-xs px-4 py-8 rounded-md ") 
+            
+            form(action="/admin/service/create-use-service" method="post")  
+
+                div(class="grid grid-cols-2 gap-4 px-6")
+
+                    div(class="flex items-center col-span-2 gap-2 font-inter text-lg ") 
+                        i(class="fa-regular fa-clipboard")
+                        span.text-n-800.font-semibold Thông tin đăng ký
+
+                    .form-group
+                        .form-control_info          
+                            label(for="P_ID") #[span.text-red-500 * ]Phòng
+                            select#use_service_create(name="P_ID" required)
+                                option(value="") Chọn phòng
+                                each item in thue_phong
+                                    option(value=item.P_ID selected=(item.P_ID==idRoom)) #{item.P_TEN} - #{item.NT_TEN}
+
+                    .form-group
+
+                        .form-control_info 
+                            label(for="DV_ID") #[span.text-red-500 * ]Dịch vụ
+                            if(sddv.length > 0)
+                                each item in sddv
+                                    div(class="flex item-center gap-2 px-8")
+                                        input(type="checkbox" id=item.DV_ID name="DV_ID" value=item.DV_ID)
+                                        label(for=item.DV_ID).text-n-800.font-semibold #{item.DV_TEN}
+                            else 
+                                p Không tìm thấy dịch vụ
+                div(class="flex items-center justify-end mt-10 gap-4") 
+                    a(href="/admin/service" class="btn-2 py-1 text-base bg-gray-500") Hủy
+                    button(type="submit" class="btn-2 py-1 text-base") Thêm mới
+                
+        

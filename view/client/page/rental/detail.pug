@@ -1,0 +1,67 @@
+extends ../../layout/defaultUser.pug
+include ../../mixin/alert.pug
+
+block main
+    +errorAlert(3000)
+    +successAlert(3000)
+
+    .mb-4 
+        h3(class="font-inter text-n-800 font-semibold text-2xl mb-2") Danh sách phòng thuê
+        p(class="text-n-500 text-sm") Không gian sống lý tưởng, giá thuê hợp lý và tiện nghi dành riêng cho bạn.
+    
+    div(class="flex flex-col gap-5")
+        
+        if(thue_phong.length > 0)
+            each item in thue_phong
+                a(href=`/rental/detail/${item.TP_ID}`) 
+                    div(class="relative grid grid-cols-[200px_1fr] gap-2 px-2 py-4 bg-n-100 shadow-n-500 shadow-xs rounded-tl-2xl rounded-br-xl hover:shadow-md duration-300") 
+                        
+                        img(src=item.P_ANH class="h-50 w-50 object-cover rounded-md")
+                        
+                        div(class="flex flex-col gap-1 justify-center px-4 py-2")
+                            h3(class="font-inter text-n-800 text-xl font-bold") #{item.P_TEN}
+                            
+                            div(class="flex items-center gap-2 text-n-500") 
+                                i(class="fa-solid fa-house")
+                                span #{item.NT_TEN}
+                        
+                            div(class="flex items-center gap-2 text-n-500") 
+                                i(class="fa-solid fa-location-dot") 
+                                span #{item.NT_DIACHI}
+                            
+                            div(class="flex items-center gap-2")  
+                                p(class="font-inter text-p-700 text-lg font-bold format-price") #{item.P_GIA}
+                                span(class="font-inter text-p-700 text-lg font-bold") VND/tháng
+                            
+                            div(class="flex items-center gap-2 text-n-500") 
+                                i(class="fa-solid fa-audio-description")
+                                span #{item.P_MOTA?item.P_MOTA:"Phòng trọ thoáng mát, sạch sẽ, an toàn."}
+                            
+                            if(item.TP_TRANGTHAI == "active")
+                                div(class="flex items-center font-inter mt-4")
+                                    a(href=`/rental/service/${item.P_ID}` class="bg-p-500 text-p-50 px-2 py-1 hover:bg-p-700 rounded-md font-semibold") Đăng ký dịch vụ
+                                
+                            if(item.TP_TRANGTHAI == "active")
+                                div(class="absolute top-3 right-5") 
+                                    div(class="flex items-center justify-center gap-2 font-inter text-p-500")
+                                        div(class="relative flex size-3")
+                                            span(class="absolute inline-flex h-full w-full animate-ping rounded-full bg-p-500 opacity-75")
+                                            span(class="relative inline-flex size-3 rounded-full bg-p-500")
+                                        p Hoạt động 
+                            else if(item.TP_TRANGTHAI == "inactive")
+                                div(class="absolute top-3 right-5") 
+                                    div(class="flex items-center justify-center gap-2 font-inter text-red-500")
+                                        div(class="relative flex size-3")
+                                            span(class="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-75")
+                                            span(class="relative inline-flex size-3 rounded-full bg-red-500")
+                                        p Dừng hợp đồng 
+                            else 
+                                div(class="absolute top-3 right-5") 
+                                    div(class="flex items-center justify-center gap-2 font-inter text-yellow-500")
+                                        div(class="relative flex size-3")
+                                            span(class="absolute inline-flex h-full w-full animate-ping rounded-full bg-yellow-500 opacity-75")
+                                            span(class="relative inline-flex size-3 rounded-full bg-yellow-500")
+                                        p Chờ xét duyệt
+
+        else 
+            div(class="h-screen font-inter text-n-800 font-semibold text-base") Hiện tại bạn chưa thuê phòng 

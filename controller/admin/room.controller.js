@@ -43,7 +43,7 @@ module.exports.index = async (req, res) => {
     }
 
     const phong = await PHONG.SELECT(find, pagination, role);
-    const thue_phong = await THUE_PHONG.SELECT_RENTAL("P_ID");
+    const thue_phong = await THUE_PHONG.SELECT_ID_RENTAL("P_ID");
 
     const rental = thue_phong.map((item) => item.P_ID);
 

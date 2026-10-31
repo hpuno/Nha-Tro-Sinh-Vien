@@ -123,3 +123,30 @@ if (select_TP_NGAY_KETTHUC) {
     } else inp_TP_NGAY_KETTHUC.value = null;
   });
 }
+
+// filter-stautus
+const filterStatus = document.querySelector("#filter-status");
+if (filterStatus) {
+  let url = new URL(window.location.href);
+  filterStatus.addEventListener("change", () => {
+    const value = filterStatus.value;
+    if (value) url.searchParams.set("status", value);
+    else url.searchParams.delete("status");
+    window.location.href = url.href;
+  });
+}
+
+// form-service-signup
+const serviceSignup = document.querySelectorAll("[service-signup ]");
+if (serviceSignup.length > 0) {
+  serviceSignup.forEach((item) => {
+    item.addEventListener("click", () => {
+      const formServiceSignup = document.querySelector("#form-service-signup");
+
+      const id = item.id;
+      formServiceSignup.action += id;
+
+      formServiceSignup.submit();
+    });
+  });
+}

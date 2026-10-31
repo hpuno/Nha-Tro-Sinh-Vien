@@ -47,7 +47,7 @@ module.exports.index = async (req, res) => {
     const role = roleHelper.getRole(res.locals);
 
     const khach_thue = await KHACH_THUE.SELECT(find, pagination, role);
-    const thue_phong = await THUE_PHONG.SELECT_RENTAL("KT_ID");
+    const thue_phong = await THUE_PHONG.SELECT_ID_RENTAL("KT_ID");
 
     let rental = thue_phong.map((item) => item.KT_ID);
     res.render("admin/page/tenant/index", {
@@ -362,6 +362,63 @@ module.exports.rental = async (req, res) => {
   } catch (error) {
     console.log(error);
     req.flash("error", "Thuê phòng thất bại");
+    res.redirect("/admin/tenant");
+  }
+};
+
+module.exports.rentalPost = async (req, res) => {
+  try {
+    const { KT_TEN, KT_CCCD, KT_SDT, P_ID } = req.body;
+    const KT_ID = req.params.id;
+
+    if (KT_CCCD) {
+      const cccd = await KHACH_THUE.findDuplicationUpdate("KT_CCCD", KT_CCCD);
+
+      if (cccd.length != 0) {
+        req.flash("error", "Căn cước đã tồn tại");
+        res.redirect(req.get("Referer"));
+        return;
+      } else await KHACH_THUE.UPDATE_ONE(KT_ID, "KT_CCCD", KT_CCCD);
+    }
+    if (KT_SDT) {
+      const sdt = await KHACH_THUE.findDuplicationUpdate("KT_SDT", KT_SDT);
+
+      if (sdt.length != 0) {
+        req.flash("error", "Số điện thoại đã tồn tại");
+        res.redirect(req.get("Referer"));
+        return;
+      } else await KHACH_THUE.UPDATE_ONE(KT_ID, "KT_SDT", KT_SDT);
+    }
+
+    if (KT_TEN) await KHACH_THUE.UPDATE_ONE(KT_ID, "KT_TEN", KT_TEN);
+
+    // giá dịch vụ
+    const dich_vu = await DICH_VU.SELECT();
+    req.body.TP_GIANUOC = dich_vu.find(
+      (item) => item.DV_TEN === "Nước",
+    )?.DV_GIA;
+    req.body.TP_GIADIEN = dich_vu.find(
+      (item) => item.DV_TEN === "Điện",
+    )?.DV_GIA;
+    req.body.TP_GIARAC = dich_vu.find(
+      (item) => item.DV_TEN === "Lấy rác",
+    )?.DV_GIA;
+
+    // giá phòng
+    const [phong] = await PHONG.findByID(P_ID);
+    console.log(phong);
+    req.body.TP_GIA = phong.P_GIA;
+
+    //
+    req.body.TP_TRANGTHAI = "active";
+
+    await THUE_PHONG.INSERT(req.body, KT_ID, P_ID);
+
+    req.flash("success", "Cập nhật thành công");
+    res.redirect("/admin/tenant");
+  } catch (error) {
+    console.log(error);
+    req.flash("error", "Cập nhật thất bại");
     res.redirect("/admin/tenant");
   }
 };

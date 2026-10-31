@@ -14,8 +14,6 @@ module.exports.index = async (req, res) => {
     let find = {};
     const filterStatus = filterStatusHelper.filter();
 
-    if (req.query.search) find.search = req.query.search;
-
     if (req.query.status) {
       find.status = req.query.status;
       filterStatus.forEach((item) => {
@@ -26,6 +24,7 @@ module.exports.index = async (req, res) => {
       });
     }
 
+    if (req.query.search) find.search = req.query.search;
     const pagination = {
       limit: 4,
       current: 1,
